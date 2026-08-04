@@ -72,7 +72,9 @@
 
   const revealNavigation = () => {
     window.clearTimeout(revealFallback);
+    if (document.body.classList.contains('site-nav-ready')) return;
     document.body.classList.add('site-nav-ready');
+    window.dispatchEvent(new CustomEvent('site-nav-ready'));
   };
 
   const armHeroReveal = () => {

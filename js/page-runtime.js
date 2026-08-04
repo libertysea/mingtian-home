@@ -235,21 +235,24 @@ const loader = document.getElementById('loader');
       }
     };
 
-    const startHomeMusicWhenStageReady = () => {
+    const startHomeMusicWhenNavReady = () => {
       const run = () => {
-        homeMusicOrb?.classList.add('is-visible');
         startHomeMusicForHomeReveal();
       };
-      if (stage?.classList.contains('is-ready')) {
+      if (document.body.classList.contains('site-nav-ready')) {
         run();
         return;
       }
-      const navObserver = new MutationObserver(() => {
-        if (!stage?.classList.contains('is-ready')) return;
-        navObserver.disconnect();
+      const bodyObserver = new MutationObserver(() => {
+        if (!document.body.classList.contains('site-nav-ready')) return;
+        bodyObserver.disconnect();
         run();
       });
-      if (stage) navObserver.observe(stage, { attributes: true, attributeFilter: ['class'] });
+      bodyObserver.observe(document.body, { attributes: true, attributeFilter: ['class'] });
+      window.addEventListener('site-nav-ready', () => {
+        bodyObserver.disconnect();
+        run();
+      }, { once: true });
     };
 
     homeMusicAudio?.addEventListener('play', () => {
@@ -322,7 +325,7 @@ const loader = document.getElementById('loader');
       startHomeMusic();
     });
     primeHomeMusic();
-    startHomeMusicWhenStageReady();
+    startHomeMusicWhenNavReady();
 
     const clamp = (value, min = 0, max = 1) => Math.min(max, Math.max(min, value));
 
@@ -1206,7 +1209,6 @@ const loader = document.getElementById('loader');
       done = true;
 
       loader.classList.add('is-complete');
-      startHomeMusicForHomeReveal();
       window.setTimeout(() => {
         loaderFill.style.transform = 'translateX(0) scaleX(0)';
         loader.classList.add('is-leaving');
