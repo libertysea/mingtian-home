@@ -228,6 +228,19 @@ const loader = document.getElementById('loader');
       startHomeMusic();
     };
 
+    const clickHomeMusicPlayControl = () => {
+      const sync = window.HomeMusicSync;
+      if (!homeMusicToggle || !homeMusicAudio || !homeMusicAudio.paused || homeMusicUserPaused || sync?.userPaused) return false;
+      if (sync?.trackId) {
+        const tracks = getHomeMusicTracks();
+        const syncIndex = tracks.findIndex(track => track.id === sync.trackId);
+        if (syncIndex >= 0) homeMusicTrackIndex = syncIndex;
+        if (sync.currentTime && sync.trackId === getHomeMusicTrack().id) homeMusicAudio.currentTime = sync.currentTime;
+      }
+      homeMusicToggle.click();
+      return true;
+    };
+
     const setHomeMusicPanelOpen = (open) => {
       if (!homeMusicPanel || !homeMusicOrb) return;
       if (open && !homeMusicPanelRendered) renderHomeMusicPanel();
@@ -245,7 +258,9 @@ const loader = document.getElementById('loader');
       if (homeMusicRevealStartRequested) return;
       homeMusicRevealStartRequested = true;
       homeMusicOrb?.classList.add('is-visible');
-      window.setTimeout(startHomeMusic, 0);
+      window.setTimeout(() => {
+        if (!clickHomeMusicPlayControl()) startHomeMusic();
+      }, 0);
     };
 
     const primeHomeMusic = () => {
