@@ -51,6 +51,8 @@ const loader = document.getElementById('loader');
     let homeMusicRevealStartRequested = false;
     let homeMusicVolumeInitialized = false;
     let homeMusicUserPaused = false;
+    let homeMusicGestureUnlocked = false;
+    let homeMusicGestureUnlocking = false;
 
     const homeMusicFallbackTrack = {
       id: 'local-yoasobi-gunjou',
@@ -223,9 +225,35 @@ const loader = document.getElementById('loader');
       void playHomeMusicTrack(syncIndex >= 0 ? syncIndex : homeMusicTrackIndex, true, sync?.currentTime || 0);
     };
 
+    const unlockHomeMusicOnGesture = async () => {
+      if (!homeMusicAudio || homeMusicGestureUnlocked || homeMusicGestureUnlocking || homeMusicUserPaused || window.MusicComponent?.isOpen?.()) return;
+      if (homeMusicRevealStartRequested || homeMusicStartQueued) {
+        startHomeMusic();
+        return;
+      }
+      homeMusicGestureUnlocking = true;
+      const wasMuted = homeMusicAudio.muted;
+      try {
+        homeMusicAudio.muted = true;
+        await homeMusicAudio.play();
+        homeMusicGestureUnlocked = true;
+        homeMusicAudio.pause();
+        homeMusicAudio.muted = wasMuted;
+        updateHomeMusicSync();
+      } catch {
+        homeMusicAudio.muted = wasMuted;
+      } finally {
+        homeMusicGestureUnlocking = false;
+      }
+    };
+
     const retryHomeMusicOnGesture = () => {
-      if (!homeMusicStartQueued || window.MusicComponent?.isOpen?.()) return;
-      startHomeMusic();
+      if (window.MusicComponent?.isOpen?.() || homeMusicUserPaused || window.HomeMusicSync?.userPaused) return;
+      if (homeMusicStartQueued || homeMusicRevealStartRequested) {
+        startHomeMusic();
+        return;
+      }
+      void unlockHomeMusicOnGesture();
     };
 
     const clickHomeMusicPlayControl = () => {
