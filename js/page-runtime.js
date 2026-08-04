@@ -1029,6 +1029,8 @@ const loader = document.getElementById('loader');
     let aboutLanyardReplayTimer = 0;
     let aboutRuntimeLoading = false;
     let aboutRuntimeLoaded = Boolean(aboutSection?.querySelector('.bits-lanyard, .lanyard-wrapper, .badge-drop'));
+    let aboutRuntimeLoadId = 0;
+    let portfolioRuntimeLoaded = false;
 
     const getAboutLanyardElement = () => (
       aboutSection?.querySelector('.bits-lanyard, .badge-drop, .lanyard-wrapper')
@@ -1040,35 +1042,72 @@ const loader = document.getElementById('loader');
       requestAboutLanyardScrollCheck();
     };
 
+    const getVersionedScriptSrc = (src, version) => {
+      if (!version) return src;
+      const separator = src.includes('?') ? '&' : '?';
+      return `${src}${separator}drop=${version}`;
+    };
+
+    const loadRuntimeScript = (spec, loadId) => new Promise((resolve) => {
+      const script = document.createElement('script');
+      script.src = spec.src;
+      if (spec.type) script.type = spec.type;
+      if (spec.crossOrigin) script.crossOrigin = spec.crossOrigin;
+      script.onload = () => resolve(loadId === aboutRuntimeLoadId);
+      script.onerror = () => resolve(false);
+      document.body.appendChild(script);
+    });
+
+    const getAboutRuntimeScripts = (version) => {
+      const fileMode = location.protocol === 'file:';
+      const scripts = fileMode
+        ? [{ src: getVersionedScriptSrc('js/runtime/about-card-standalone.js', version) }]
+        : [{ src: getVersionedScriptSrc('js/runtime/about-card-module.js', version), type: 'module', crossOrigin: 'anonymous' }];
+
+      if (!portfolioRuntimeLoaded) {
+        scripts.push(fileMode
+          ? { src: 'js/runtime/portfolio-gallery-standalone.js' }
+          : { src: 'js/portfolio-gallery.js', type: 'module' });
+      }
+
+      return scripts;
+    };
+
     const loadAboutCardRuntime = () => {
       if (aboutRuntimeLoaded) return Promise.resolve(true);
       if (aboutRuntimeLoading) return Promise.resolve(false);
 
-      const config = document.getElementById('about-card-runtime-config');
-      let src = 'js/about-card-runtime.js';
-      if (config?.textContent) {
-        try {
-          src = JSON.parse(config.textContent).src || src;
-        } catch (_) {
-          src = config.dataset.src || src;
-        }
-      }
-
+      const loadId = aboutRuntimeLoadId + 1;
+      aboutRuntimeLoadId = loadId;
       aboutRuntimeLoading = true;
-      return new Promise((resolve) => {
-        const script = document.createElement('script');
-        script.src = src;
-        script.onload = () => {
+
+      return getAboutRuntimeScripts(loadId).reduce((chain, spec) => (
+        chain.then((ok) => {
+          if (!ok) return false;
+          return loadRuntimeScript(spec, loadId);
+        })
+      ), Promise.resolve(true)).then((ok) => {
+        if (loadId === aboutRuntimeLoadId) {
           aboutRuntimeLoading = false;
-          setAboutRuntimeLoaded();
-          resolve(true);
-        };
-        script.onerror = () => {
-          aboutRuntimeLoading = false;
-          resolve(false);
-        };
-        document.body.appendChild(script);
+          if (ok) {
+            portfolioRuntimeLoaded = true;
+            setAboutRuntimeLoaded();
+            if (typeof window.__rebuildAboutCardText === 'function') {
+              window.__rebuildAboutCardText();
+            }
+          }
+        }
+        return ok;
       });
+    };
+
+    const resetAboutCardRuntime = () => {
+      window.clearTimeout(aboutLanyardReplayTimer);
+      aboutRuntimeLoadId += 1;
+      aboutRuntimeLoading = false;
+      aboutRuntimeLoaded = false;
+      document.documentElement.classList.remove('about-card-runtime-loaded');
+      document.getElementById('identity-root')?.replaceChildren();
     };
 
     const replayAboutLanyardDom = () => {
@@ -1113,9 +1152,11 @@ const loader = document.getElementById('loader');
     const setAboutLanyardActive = (active) => {
       if (!aboutSection) return;
       if (!active) {
+        if (!aboutLanyardActive && !aboutRuntimeLoaded && !aboutRuntimeLoading && !getAboutLanyardElement()) return;
         aboutLanyardActive = false;
         aboutSection.classList.remove('lanyard-drop-active');
         getAboutLanyardElement()?.classList.remove('is-drop-active', 'is-replaying');
+        resetAboutCardRuntime();
         return;
       }
       if (aboutLanyardActive === active) {
@@ -1138,7 +1179,7 @@ const loader = document.getElementById('loader');
 
       if (shouldDrop) {
         setAboutLanyardActive(true);
-      } else if (beforeAbout) {
+      } else if (beforeAbout || aboutLanyardActive) {
         setAboutLanyardActive(false);
       }
     };

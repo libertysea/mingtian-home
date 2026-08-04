@@ -11,7 +11,6 @@
     roleStagger: 0.022
   };
 
-  let rebuilt = false;
   let stageReady = false;
   let stage = null;
   let hitarea = null;
@@ -219,8 +218,11 @@
 
   const rebuild = () => {
     const copy = about?.querySelector('.identity-copy');
-    if (!copy || rebuilt) return false;
+    if (!copy) return false;
+    if (copy.dataset.aboutRebuildReady === 'true') return true;
 
+    copy.dataset.aboutRebuildReady = 'true';
+    stageReady = false;
     restoreCopyText(copy);
     buildStage(copy);
 
@@ -229,18 +231,18 @@
       ...[...stage.querySelectorAll('.identity-role')].map((role) => splitScrollFloatText(role, scrollFloatDefaults.roleStagger))
     ].filter(Boolean);
 
-    rebuilt = true;
     mountFlipHint();
     bindScrollFloat(copy, items);
     bindStageTilt();
     return true;
   };
 
-  if (!rebuild()) {
-    const root = document.getElementById('identity-root');
-    const observer = new MutationObserver(() => {
-      if (rebuild()) observer.disconnect();
-    });
-    if (root) observer.observe(root, { childList: true, subtree: true });
-  }
+  window.__rebuildAboutCardText = rebuild;
+
+  const root = document.getElementById('identity-root');
+  const observer = new MutationObserver(() => {
+    rebuild();
+  });
+  if (root) observer.observe(root, { childList: true, subtree: true });
+  rebuild();
 })();
