@@ -1391,36 +1391,108 @@
       min-height: 720px;
       overflow: visible;
       --lanyard-base-transform: translate(-50%);
-      --lanyard-drop-offset: -62vh;
-      opacity: 0;
-      transform: var(--lanyard-base-transform) translateY(var(--lanyard-drop-offset));
+      opacity: 1;
+      transform: var(--lanyard-base-transform);
       filter: saturate(0.92);
+      perspective: 1500px;
       transform-origin: 50% 0;
       transition: opacity 260ms ease, filter 300ms ease;
       will-change: opacity, filter, transform;
     }
 
     .identity-section.lanyard-drop-active .identity-lanyard-pane {
-      --lanyard-drop-offset: 0px;
       opacity: 1;
       filter: blur(0) saturate(1);
-      animation: identity-lanyard-drop 1050ms cubic-bezier(0.18, 0.95, 0.24, 1) both;
     }
 
-    @keyframes identity-lanyard-drop {
+    .identity-lanyard-pane .bits-lanyard {
+      opacity: 0;
+      pointer-events: none;
+      transform: translate(-50%);
+      transform-origin: 50% -120px;
+      transform-style: preserve-3d;
+      will-change: opacity, transform;
+    }
+
+    .identity-section.lanyard-drop-active .identity-lanyard-pane .bits-lanyard.is-drop-active {
+      opacity: 1;
+      pointer-events: auto;
+    }
+
+    .identity-lanyard-pane .bits-lanyard.is-replaying .bits-band-svg {
+      transform-origin: 50% 0;
+      animation: identity-band-physics-replay 1260ms cubic-bezier(0.16, 0.96, 0.18, 1) both;
+    }
+
+    .identity-lanyard-pane .bits-lanyard.is-replaying .bits-clip {
+      animation: identity-clip-physics-replay 1320ms cubic-bezier(0.16, 0.96, 0.18, 1) both;
+    }
+
+    .identity-lanyard-pane .bits-lanyard.is-replaying .bits-card {
+      animation: identity-card-physics-replay 1480ms cubic-bezier(0.16, 0.96, 0.18, 1) both;
+    }
+
+    @keyframes identity-band-physics-replay {
       0% {
-        opacity: 0;
-        transform: var(--lanyard-base-transform) translateY(-62vh);
+        opacity: 0.18;
+        transform: translate(-50%) scaleY(0.34) rotateZ(-7deg);
       }
-      30% {
+      38% {
+        opacity: 0.84;
+        transform: translate(-50%) scaleY(0.78) rotateZ(3.5deg);
+      }
+      66% {
         opacity: 1;
+        transform: translate(-50%) scaleY(1.035) rotateZ(-1.8deg);
       }
-      78% {
-        transform: var(--lanyard-base-transform) translateY(18px);
+      84% {
+        transform: translate(-50%) scaleY(0.985) rotateZ(0.8deg);
       }
       100% {
         opacity: 1;
-        transform: var(--lanyard-base-transform) translateY(0);
+        transform: translate(-50%) scaleY(1) rotateZ(0deg);
+      }
+    }
+
+    @keyframes identity-clip-physics-replay {
+      0% {
+        opacity: 0;
+        transform: translate(calc(-50% + var(--clip-x)), -64vh) rotate(calc(var(--clip-rotate) - 16deg));
+      }
+      58% {
+        opacity: 1;
+        transform: translate(calc(-50% + var(--clip-x)), 22px) rotate(calc(var(--clip-rotate) + 7deg));
+      }
+      76% {
+        transform: translate(calc(-50% + var(--clip-x)), -13px) rotate(calc(var(--clip-rotate) - 4deg));
+      }
+      91% {
+        transform: translate(calc(-50% + var(--clip-x)), 5px) rotate(calc(var(--clip-rotate) + 1.4deg));
+      }
+      100% {
+        opacity: 1;
+        transform: translate(calc(-50% + var(--clip-x)), -8px) rotate(var(--clip-rotate));
+      }
+    }
+
+    @keyframes identity-card-physics-replay {
+      0% {
+        opacity: 0;
+        transform: translate(calc(-50% + var(--card-x)), -72vh) rotate(calc(var(--card-rotate) - 18deg));
+      }
+      52% {
+        opacity: 1;
+        transform: translate(calc(-50% + var(--card-x)), 34px) rotate(calc(var(--card-rotate) + 6deg));
+      }
+      72% {
+        transform: translate(calc(-50% + var(--card-x)), -16px) rotate(calc(var(--card-rotate) - 4deg));
+      }
+      90% {
+        transform: translate(calc(-50% + var(--card-x)), 6px) rotate(calc(var(--card-rotate) + 1.2deg));
+      }
+      100% {
+        opacity: 1;
+        transform: translate(calc(-50% + var(--card-x))) rotate(var(--card-rotate));
       }
     }
 

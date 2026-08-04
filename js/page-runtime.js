@@ -48,7 +48,7 @@ const loader = document.getElementById('loader');
     let homeMusicResumeAfterMusic = false;
     let homeMusicTrackIndex = 0;
     let homeMusicPanelRendered = false;
-    let homeMusicStageReadyArmed = false;
+    let homeMusicRevealStartRequested = false;
     let homeMusicVolumeInitialized = false;
 
     const homeMusicFallbackTrack = {
@@ -206,12 +206,26 @@ const loader = document.getElementById('loader');
       }
     };
 
+    const startHomeMusicForHomeReveal = () => {
+      if (homeMusicRevealStartRequested) return;
+      homeMusicRevealStartRequested = true;
+      homeMusicOrb?.classList.add('is-visible');
+      window.setTimeout(startHomeMusic, 0);
+    };
+
+    const primeHomeMusic = () => {
+      if (!homeMusicAudio) return;
+      try {
+        homeMusicAudio.load();
+      } catch {
+        // Some browsers ignore explicit preload calls until media is visible.
+      }
+    };
+
     const startHomeMusicWhenStageReady = () => {
-      if (homeMusicStageReadyArmed) return;
-      homeMusicStageReadyArmed = true;
       const run = () => {
         homeMusicOrb?.classList.add('is-visible');
-        window.setTimeout(startHomeMusic, 0);
+        startHomeMusicForHomeReveal();
       };
       if (stage?.classList.contains('is-ready')) {
         run();
@@ -279,6 +293,7 @@ const loader = document.getElementById('loader');
       homeMusicResumeAfterMusic = false;
       startHomeMusic();
     });
+    primeHomeMusic();
     startHomeMusicWhenStageReady();
 
     const clamp = (value, min = 0, max = 1) => Math.min(max, Math.max(min, value));
@@ -983,12 +998,54 @@ const loader = document.getElementById('loader');
       return true;
     };
 
+    let aboutLanyardReplayTimer = 0;
+
+    const replayAboutLanyardDom = () => {
+      const lanyard = aboutSection?.querySelector('.bits-lanyard');
+      if (!lanyard) return false;
+
+      window.clearTimeout(aboutLanyardReplayTimer);
+      lanyard.classList.add('is-drop-active');
+
+      if (reduceMotionQuery.matches) {
+        lanyard.classList.remove('is-replaying');
+        return true;
+      }
+
+      lanyard.classList.remove('is-replaying');
+      void lanyard.offsetWidth;
+      lanyard.classList.add('is-replaying');
+      aboutLanyardReplayTimer = window.setTimeout(() => {
+        lanyard.classList.remove('is-replaying');
+      }, 1650);
+      return true;
+    };
+
+    if (typeof window.__replayAboutLanyard !== 'function') {
+      window.__replayAboutLanyard = replayAboutLanyardDom;
+    }
+
+    const replayAboutLanyardWhenReady = () => {
+      let attempts = 0;
+      const run = () => {
+        const replay = typeof window.__replayAboutLanyard === 'function'
+          ? window.__replayAboutLanyard
+          : replayAboutLanyardDom;
+
+        if (replay()) return;
+        attempts += 1;
+        if (attempts < 36) requestAnimationFrame(run);
+      };
+      run();
+    };
+
     const setAboutLanyardActive = (active) => {
       if (!aboutSection) return;
       if (!active) return;
       if (aboutLanyardActive === active) return;
       aboutLanyardActive = active;
       aboutSection.classList.add('lanyard-drop-active');
+      replayAboutLanyardWhenReady();
     };
 
     const fillProgress = () => {
@@ -1004,6 +1061,7 @@ const loader = document.getElementById('loader');
       done = true;
 
       loader.classList.add('is-complete');
+      startHomeMusicForHomeReveal();
       window.setTimeout(() => {
         loaderFill.style.transform = 'translateX(0) scaleX(0)';
         loader.classList.add('is-leaving');
