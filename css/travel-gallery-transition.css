@@ -1,0 +1,64 @@
+.travel-flight-transition {
+  position: relative;
+  z-index: 30;
+  height: 0;
+  pointer-events: none;
+}
+
+.travel-flight-transition__stage {
+  position: fixed;
+  inset: 0;
+  z-index: 30;
+  overflow: hidden;
+  opacity: 0;
+  visibility: hidden;
+  pointer-events: none;
+  will-change: opacity;
+}
+
+.travel-flight-transition__plane {
+  position: absolute;
+  pointer-events: none;
+  will-change: transform, opacity;
+}
+
+.travel-flight-transition__plane--large {
+  left: -100px;
+  bottom: 20vh;
+  width: 975px;
+  aspect-ratio: 975 / 468;
+}
+
+.travel-flight-transition__plane--small {
+  right: 0;
+  top: 50%;
+  width: 800px;
+  aspect-ratio: 1;
+}
+
+.travel-flight-transition__plane > svg,
+.travel-flight-transition__plane > canvas {
+  display: block;
+  width: 100% !important;
+  height: 100% !important;
+}
+
+@media (max-width: 760px) {
+  .travel-flight-transition__plane--large {
+    left: -18vw;
+    bottom: -12vh;
+    width: 110vw;
+  }
+
+  .travel-flight-transition__plane--small {
+    top: 62%;
+    right: -8vw;
+    width: 75vw;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .travel-flight-transition {
+    display: none;
+  }
+}

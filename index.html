@@ -1,0 +1,429 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Per Aspera Ad Astra</title>
+  <link rel="icon" type="image/png" href="images/about/profile-avatar.png" />
+  <link rel="stylesheet" href="css/about-card-runtime.css" />
+  <link rel="stylesheet" href="css/page-layout.css">
+  <link rel="stylesheet" href="css/about.css">
+  <link rel="stylesheet" href="css/interests-player.css">
+  <link rel="stylesheet" href="css/interests-room.css">
+  <link rel="stylesheet" href="css/blog-travel.css">
+  <link rel="stylesheet" href="css/travel-gallery-transition.css">
+  <link rel="stylesheet" href="css/navigation.css">
+  <link rel="stylesheet" href="css/music-orb.css">
+  <link rel="stylesheet" href="css/music-player.css">
+</head>
+<body>
+  <div class="loader" id="loader" aria-hidden="true">
+    <div class="loader__track">
+      <div class="loader__fill" id="loaderFill"></div>
+    </div>
+  </div>
+
+  <nav class="site-nav" aria-label="页面导航" data-compact="false">
+    <a class="site-nav__brand" href="#stage" data-nav-target="stage" aria-label="返回首页">
+      <img src="images/about/profile-avatar.png" alt="" draggable="false">
+    </a>
+    <div class="site-nav__links" id="site-nav-links">
+      <a class="site-nav__link" href="#about" data-nav-target="about">关于</a>
+      <a class="site-nav__link" href="#community" data-nav-target="community">兴趣</a>
+      <a class="site-nav__link" href="#blog" data-nav-target="blog">博客</a>
+      <a class="site-nav__link" href="#travel" data-nav-target="travel">旅行</a>
+      <a class="site-nav__link" href="#projects" data-nav-target="projects">作品</a>
+      <a class="site-nav__link" href="#daily" data-nav-target="daily">日常</a>
+    </div>
+    <button class="site-nav__menu" type="button" aria-expanded="false" aria-controls="site-nav-links">菜单</button>
+  </nav>
+
+  <button class="home-music-orb" id="homeMusicOrb" type="button" aria-expanded="false" aria-controls="homeMusicPanel" aria-label="展开音乐列表" title="展开音乐列表">
+    <span class="home-music-orb__disc" aria-hidden="true">
+      <img src="images/music/music-yoasobi-gunjou-cover.jpg" alt="" draggable="false" />
+      <span class="home-music-orb__bars"><i></i><i></i><i></i></span>
+    </span>
+    <span class="home-music-orb__meta">
+      <strong>群青</strong>
+      <small>YOASOBI</small>
+    </span>
+  </button>
+  <audio id="homeMusicAudio" src="music/local/yoasobi-gunjou.mp3" preload="auto"></audio>
+  <section class="home-music-panel" id="homeMusicPanel" aria-label="音乐播放列表" hidden>
+    <div class="home-music-panel__current">
+      <span class="home-music-panel__cover"><img id="homeMusicCover" src="images/music/music-yoasobi-gunjou-cover.jpg" alt="" draggable="false" /></span>
+      <span class="home-music-panel__meta">
+        <strong class="home-music-panel__title" id="homeMusicTitle">群青</strong>
+        <span class="home-music-panel__artist" id="homeMusicArtist">YOASOBI</span>
+      </span>
+      <span class="home-music-panel__controls">
+        <button class="home-music-panel__button" id="homeMusicPrev" type="button" aria-label="上一首">‹</button>
+        <button class="home-music-panel__button home-music-panel__button--play" id="homeMusicToggle" type="button" aria-label="暂停">Ⅱ</button>
+        <button class="home-music-panel__button" id="homeMusicNext" type="button" aria-label="下一首">›</button>
+        <button class="home-music-panel__button" id="homeMusicMinimize" type="button" aria-label="最小化音乐列表">↙</button>
+      </span>
+      <div class="home-music-panel__progress">
+        <span id="homeMusicProgressFill"></span>
+        <input id="homeMusicProgress" type="range" min="0" max="1000" value="0" aria-label="播放进度" />
+      </div>
+    </div>
+    <div class="home-music-panel__list" id="homeMusicList"></div>
+  </section>
+
+  <main class="stage" id="stage">
+    <div class="video-reveal" aria-hidden="true">
+      <video
+        class="video"
+        id="heroVideo"
+        src="videos/hero-intro-video.mp4"
+        autoplay
+        muted
+        loop
+        playsinline
+        preload="auto"
+      ></video>
+    </div>
+
+    <section class="copy" aria-label="Hero">
+      <div class="copy__inner">
+        <h1 class="title">
+          <span class="title__kicker">启程</span>
+          <span class="title__latin">Per Aspera Ad Astra.</span>
+          <span class="title__cn">循此苦旅 · 终抵繁星</span>
+        </h1>
+      </div>
+    </section>
+  </main>
+
+  <section class="identity-section" id="about" aria-label="React Bits Lanyard">
+    <div id="identity-root"></div>
+  </section>
+
+  <section class="community-section" id="community" aria-label="个人兴趣：音乐与游戏">
+    <button class="community-player" type="button" data-music-entry aria-label="Open music room and start listening" title="Open music room and start listening" aria-describedby="community-player-tooltip">
+      <span class="community-player__deck" aria-hidden="true">
+        <span class="community-player__record">
+          <span class="community-player__pulse">
+            <span class="community-player__pulse-outer"></span>
+            <span class="community-player__pulse-inner"></span>
+          </span>
+          <img class="community-player__vinyl" src="images/interests/interests-vinyl.png" alt="" draggable="false" />
+        </span>
+        <span class="community-player__tonearm-wrap">
+          <img class="community-player__tonearm" src="images/interests/interests-tonearm.svg" alt="" draggable="false" />
+        </span>
+      </span>
+      <span class="community-player__tooltip" id="community-player-tooltip" role="tooltip">Open music room - click to listen</span>
+    </button>
+    <div class="community-scene">
+      <img class="community-room" src="images/interests/interest-room-background.png" alt="" draggable="false" loading="lazy" decoding="async" />      <p class="community-enjoy-title">
+        <span class="community-enjoy-title__en">Enjoy every moment.</span>
+        <span class="community-enjoy-title__cn">享受每一个瞬间。</span>
+        <span class="community-enjoy-title__line" aria-hidden="true"></span>
+      </p>
+      <div class="community-tv-carousel" aria-label="电视影视轮播">
+        <button class="community-tv-screen" type="button" data-tv-carousel aria-label="切换电视节目，当前：无耻之徒">
+          <img class="community-tv-slide is-active" src="images/tv/tv-shameless-cast.jpg" alt="" data-tv-slide data-title="无耻之徒" aria-hidden="false" draggable="false" loading="lazy" decoding="async" />
+          <img class="community-tv-slide" src="images/tv/tv-the-walking-dead.png" alt="" data-tv-slide data-title="行尸走肉" aria-hidden="true" draggable="false" loading="lazy" decoding="async" />
+          <img class="community-tv-slide" src="images/tv/tv-love-letter.png" alt="" data-tv-slide data-title="情书" aria-hidden="true" draggable="false" loading="lazy" decoding="async" />
+          <img class="community-tv-slide" src="images/tv/tv-robot-dreams.jpg" alt="" data-tv-slide data-title="机器人之梦" aria-hidden="true" draggable="false" loading="lazy" decoding="async" />
+          <img class="community-tv-slide" src="images/tv/tv-we-made-a-beautiful-bouquet.jpg" alt="" data-tv-slide data-title="花束般的恋爱" aria-hidden="true" draggable="false" loading="lazy" decoding="async" />
+          <img class="community-tv-slide" src="images/tv/tv-heidi.png" alt="" data-tv-slide data-title="海蒂和爷爷" aria-hidden="true" draggable="false" loading="lazy" decoding="async" />
+        </button>
+      </div>
+      <img class="community-asset community-asset--tv" src="images/interests/retro-tv-trimmed.png" alt="" draggable="false" loading="lazy" decoding="async" />
+      <div class="community-game-group">
+      <img class="community-asset community-asset--gaming" src="images/interests/game-character-beanbag-trimmed.png" alt="" draggable="false" loading="lazy" decoding="async" />
+      <button class="community-game-hotspot" type="button" data-game-hotspot aria-expanded="false" aria-controls="game-showcase" aria-label="打开游戏收藏"></button>
+      <div id="game-showcase" class="community-game-bubble" data-game-showcase aria-label="我喜欢的游戏">
+        <span class="community-game-bubble__tail" aria-hidden="true"></span>
+        <div class="community-game-showcase">
+          <div class="community-game-showcase__head">
+            <span class="community-game-showcase__title">GAME</span>
+            <span class="community-game-showcase__count" aria-hidden="true"><span data-game-current>--</span> / 05</span>
+          </div>
+          <div class="community-game-showcase__panels" role="group" aria-label="游戏轮播">
+            <button class="community-game-panel" type="button" data-game-panel aria-label="原神" aria-pressed="false">
+              <img src="images/games/games-genshin-impact.png" alt="" draggable="false" loading="lazy" decoding="async" />
+              <span class="community-game-panel__label">原神</span>
+            </button>
+            <button class="community-game-panel" type="button" data-game-panel aria-label="崩坏：星穹铁道" aria-pressed="false">
+              <img src="images/games/games-honkai-star-rail.jpg" alt="" draggable="false" loading="lazy" decoding="async" />
+              <span class="community-game-panel__label">崩坏：星穹铁道</span>
+            </button>
+            <button class="community-game-panel" type="button" data-game-panel aria-label="双人成行" aria-pressed="false">
+              <img src="images/games/games-it-takes-two.png" alt="" draggable="false" loading="lazy" decoding="async" />
+              <span class="community-game-panel__label">双人成行</span>
+            </button>
+            <button class="community-game-panel" type="button" data-game-panel aria-label="饥荒" aria-pressed="false">
+              <img src="images/games/games-dont-starve.png" alt="" draggable="false" loading="lazy" decoding="async" />
+              <span class="community-game-panel__label">饥荒</span>
+            </button>
+            <button class="community-game-panel" type="button" data-game-panel aria-label="文明 VI" aria-pressed="false">
+              <img src="images/games/games-civilization-vi.png" alt="" draggable="false" loading="lazy" decoding="async" />
+              <span class="community-game-panel__label">文明 VI</span>
+            </button>
+          </div>
+        </div>
+      </div>
+      </div>
+      <img class="community-asset community-asset--music" src="images/interests/personal-music-cutout.png" alt="戴耳机听音乐的人物、小猫与音符" draggable="false" loading="lazy" decoding="async" />
+    </div>
+  </section>
+
+
+  <section class="story-section blog-section" id="blog" aria-label="Blog">
+    <div class="blog-hero-copy">
+      <p class="blog-kicker">Blog</p>
+      <h2 class="blog-title" aria-label="热爱可抵岁月漫长！"><span class="blog-title__core" aria-hidden="true"><span>热</span><span>爱</span><span>可</span><span>抵</span><span>岁</span><span>月</span><span>漫</span><span>长</span></span><span class="blog-title__punct" aria-hidden="true">！</span></h2>
+      <p class="blog-lede">文字的魅力在于，它能把我们无法表达的情绪呈现出来，引起灵魂的共鸣就是它存在的意义。</p>
+      <div class="blog-actions" aria-label="博客操作">
+        <a class="blog-button blog-button--primary" href="https://blog.wpixiu.cn/" target="_blank" rel="noopener noreferrer">访问博客</a>
+      </div>
+    </div>
+    <div class="blog-preview-frame" aria-hidden="true">
+      <img src="images/blog/blog-hero-preview.png" alt="" draggable="false" />
+    </div>
+  </section>
+  <div class="travel-flight-transition" data-travel-flight-transition aria-hidden="true">
+    <div class="travel-flight-transition__stage" data-travel-flight-stage>
+      <div class="travel-flight-transition__plane travel-flight-transition__plane--large" data-travel-flight-large></div>
+      <div class="travel-flight-transition__plane travel-flight-transition__plane--small" data-travel-flight-small></div>
+    </div>
+  </div>
+  <section class="story-section travel-section" id="travel" aria-label="Travel hero">
+    <video class="travel-video" src="https://d8j0ntlcm91z4.cloudfront.net/user_38xzZboKViGWJOttwIXH07lWA1P/hf_20260317_100335_dc625816-c3c1-4b00-b93e-4cb301cf5ea5.mp4" autoplay muted loop playsinline preload="auto"></video>
+    <div class="travel-content">
+      <h2 class="travel-title" aria-label="&#19990;&#30028;&#37027;&#20040;&#22823;&#65292;&#25105;&#24819;&#21435;&#30475;&#30475;&#65281;">
+        <span class="travel-title__line"><span class="travel-title__core">&#19990;&#30028;&#37027;&#20040;&#22823;</span><span class="travel-title__punct">&#65292;</span></span>
+        <span class="travel-title__line"><span class="travel-title__core">&#25105;&#24819;&#21435;&#30475;&#30475;</span><span class="travel-title__punct">&#65281;</span></span>
+      </h2>
+      <p class="travel-subtitle">
+        <span>&#24403;&#20320;&#37325;&#26032;&#36367;&#19978;&#26053;&#36884;&#20043;&#21518;&#65292;</span>
+        <span>&#19968;&#23450;&#35201;&#35760;&#24471;&#26053;&#36884;&#26412;&#36523;&#30340;&#24847;&#20041;&#12290;</span>
+      </p>
+      <button class="section-button travel-button liquid-glass" type="button" data-open-travel-gallery>&#27427;&#36175;&#32654;&#26223;</button>
+    </div>
+  </section>
+
+  <section class="travel-gallery" id="travel-gallery" aria-label="旅行美景相册" aria-hidden="true">
+    <div class="travel-gallery__topbar">
+      <p class="travel-gallery__title">环游世界</p>
+      <button class="travel-gallery__close" type="button" aria-label="关闭旅行相册" data-close-travel-gallery>&times;</button>
+    </div>
+    <div class="travel-gallery__stage" data-travel-dome>
+      <div class="travel-gallery__sphere" data-travel-sphere></div>
+      <div class="travel-gallery__overlay"></div>
+      <div class="travel-gallery__overlay travel-gallery__overlay--blur"></div>
+      <div class="travel-gallery__edge travel-gallery__edge--top"></div>
+      <div class="travel-gallery__edge travel-gallery__edge--bottom"></div>
+    </div>
+    <div class="travel-gallery__viewer" data-travel-viewer aria-hidden="true">
+      <button class="travel-gallery__scrim" type="button" aria-label="收起图片" data-close-travel-image></button>
+      <div class="travel-gallery__frame" data-travel-frame></div>
+    </div>
+  </section>
+
+  <section class="portfolio-section" id="projects" aria-label="Project portfolio">
+    <img
+      class="portfolio-photographer"
+      src="images/portfolio/portfolio-photographer.png"
+      alt=""
+      aria-hidden="true"
+      draggable="false"
+    />
+    <div class="portfolio-shell">
+      <div class="portfolio-heading">
+        <div>
+          <p class="portfolio-kicker">Selected Projects</p>
+          <h2 class="portfolio-title">作品集</h2>
+        </div>
+        <p class="portfolio-lede">作品，是思想留下的可见痕迹。</p>
+      </div>
+
+      <div class="portfolio-stage">
+        <div
+          class="circular-gallery"
+          id="portfolio-gallery"
+          tabIndex="0"
+          role="region"
+          aria-label="Circular project gallery. Use left and right arrow keys to navigate."
+        ></div>
+      </div>
+
+      <div class="portfolio-info" aria-live="polite">
+        <h3 class="portfolio-name" data-project-name></h3>
+        <p class="portfolio-intro" data-project-intro></p>
+        <div class="portfolio-controls">
+          <button class="portfolio-arrow" type="button" aria-label="上一个项目" data-project-prev>‹</button>
+          <a class="portfolio-visit" href="#about" data-project-visit>访问项目</a>
+          <button class="portfolio-arrow" type="button" aria-label="下一个项目" data-project-next>›</button>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="daily-section" id="daily" aria-label="Daily journal">
+    <div class="daily-shell">
+      <div class="daily-book" aria-label="打开的空白活页笔记本">
+        <div class="daily-left-page" aria-hidden="true">
+          <div class="daily-left-title">
+            <span class="daily-title-date">2026.09 · UCAS</span>
+            <span class="daily-title-main">校园日记</span>
+            <span class="daily-title-tags">STUDY · CODE · CAMPUS</span>
+          </div>
+          <div class="daily-left-note">欢迎来到离科学最近的地方！</div>
+          <img class="daily-left-seal-sticker" src="images/daily/daily-left-cas-seal-splash.png" alt="" draggable="false" />
+          <img class="daily-left-card-sticker" src="images/daily/daily-left-ucas-card-cutout.png" alt="" draggable="false" />
+          <img class="daily-left-coder-sticker" src="images/daily/daily-left-coder-sticker.png" alt="" draggable="false" />
+          <img class="daily-left-sticker" src="images/daily/daily-left-ucas-sticker-cutout.png" alt="" draggable="false" />
+          <div class="daily-left-vibe" aria-hidden="true">
+            <h3 class="daily-left-vibe__title">
+              VibeCoding is all you need!
+              <span>Quota, reset, comeback, repeat.</span>
+            </h3>
+            <img class="daily-left-vibe__comic" src="images/daily/daily-vibecoding-quota-comic.png" alt="" draggable="false" />
+            <img class="daily-left-vibe__cloud" src="images/daily/daily-vibecoding-dream-cloud.png" alt="" draggable="false" />
+            <p class="daily-left-vibe__caption">天才程序员已就绪！</p>
+          </div>
+          <div class="daily-left-stock-title" aria-hidden="true">
+            <h3 class="daily-left-stock-title__main">宇宙最强手游：同花顺</h3>
+            <span class="daily-left-stock-title__sub">A Real-Time Emotion Trading Game</span>
+          </div>
+          <img class="daily-left-stock-sticker daily-left-stock-sticker--learn" src="images/daily/daily-stock-learn-chain-sticker.png" alt="" draggable="false" />
+          <img class="daily-left-stock-sticker daily-left-stock-sticker--question" src="images/daily/daily-stock-question-sticker.png" alt="" draggable="false" />
+          <div class="daily-left-stock-fill" aria-hidden="true">
+            <div class="daily-left-stock-fill__ticket">
+              <span class="daily-left-stock-fill__eyebrow">这次不一样</span>
+              <strong>我感觉要涨，又感觉要跌</strong>
+              <span>早知道就不贪了，下次一定遵守纪律。</span>
+            </div>
+            <div class="daily-left-stock-fill__status">
+              老师怎么办
+              <span>要跑吗？还会跌的？</span>
+            </div>
+            <div class="daily-left-stock-fill__stamp">本局难度：地狱</div>
+          </div>
+          <div class="daily-left-stock-memes" aria-hidden="true">
+            <span>2亿玩家同时在线</span>
+            <span>4000+英雄任意选择</span>
+            <span>没有队友，没有退路</span>
+            <span>只属于你的巅峰荣耀</span>
+            <span>天才竞技场</span>
+            <span>有胆你就来</span>
+            <span>全世界最正规的知识付费平台</span>
+            <span>有防沉迷</span>
+          </div>
+        </div>
+        <div class="daily-right-page" aria-hidden="true">
+          <img class="daily-right-vibe-sticker" src="images/vibe/vibe-9f2ffeefda81a1841f40adb3f225958e.gif" alt="" draggable="false" />
+          <div class="daily-right-terminal" aria-hidden="true">
+            <div class="daily-right-terminal__bar">
+              <span class="daily-right-terminal__dot"></span>
+              <span class="daily-right-terminal__user">MINGTIAN@universe ~ %</span>
+            </div>
+            <div class="daily-right-terminal__body" data-daily-terminal-body></div>
+          </div>
+          <div class="daily-right-heading">
+            <span class="daily-right-kicker">Campus Log</span>
+            <span class="daily-right-title">今日拾光</span>
+          </div>
+          <div class="daily-right-date-tape">09 · 2026</div>
+          <img class="daily-right-light-film" src="images/daily/daily-right-light-film-strip.png" alt="" draggable="false" />
+          <img class="daily-floating-study" src="images/daily/daily-floating-study.png" alt="" draggable="false" />
+          <img class="daily-right-card daily-right-card--walk" src="images/daily/daily-right-walk-card.png" alt="" draggable="false" />
+          <img class="daily-right-card daily-right-card--arch" src="images/daily/daily-right-arch-card.png" alt="" draggable="false" />
+          <img class="daily-right-card daily-right-card--film" src="images/daily/daily-right-film-card.png" alt="" draggable="false" />
+          <div class="daily-right-note">日将月就，学有缉熙于光明。</div>
+          <div class="daily-right-tags">
+            <span>WALK</span>
+            <span>LIGHT</span>
+            <span>FIRST WEEK</span>
+          </div>
+          <img class="daily-right-stock-sticker daily-right-stock-sticker--capital" src="images/daily/daily-stock-capital-trap-sticker.png" alt="" draggable="false" />
+          <img class="daily-right-stock-sticker daily-right-stock-sticker--rider" src="images/daily/daily-stock-delivery-rider.png" alt="" draggable="false" />
+          <div class="daily-right-stock-copy" aria-hidden="true">
+            <strong class="daily-right-stock-copy__title">事到如今，最对不起的还是家人</strong>
+            <span class="daily-right-stock-copy__line"><span class="daily-right-stock-copy__emoji">&#129503;</span><span>我想起来了</span></span>
+            <span class="daily-right-stock-copy__line"><span class="daily-right-stock-copy__emoji">&#129503;</span><span>我都想起来了</span></span>
+            <span class="daily-right-stock-copy__line"><span class="daily-right-stock-copy__emoji">&#128557;</span><span>我不是什么华尔街之狼</span></span>
+            <span class="daily-right-stock-copy__line"><span class="daily-right-stock-copy__emoji">&#128557;</span><span>我也不是什么天才交易员</span></span>
+            <span class="daily-right-stock-copy__line"><span class="daily-right-stock-copy__emoji">&#128557;</span><span>我要申请未成年退款</span></span>
+          </div>
+          <div class="daily-right-stock-memes" aria-hidden="true">
+            <span>《这次不一样》</span>
+            <span>《早知道》</span>
+            <span>《贪了》</span>
+            <span>《没跑掉》</span>
+            <span>《差一分》</span>
+            <span>《要是》</span>
+            <span>《我就知道》</span>
+            <span>《我感觉要涨》</span>
+            <span>《还会跌的》</span>
+            <span>《又亏了》</span>
+            <span>《要跑吗》</span>
+            <span>《接回来》</span>
+            <span>《没钱了》</span>
+            <span>《忘记了》</span>
+            <span>《接不到》</span>
+            <span>《卧槽》</span>
+            <span>《真服了》</span>
+            <span>《一笔》</span>
+            <span>《背驰》</span>
+            <span>《大概率》</span>
+            <span>《完美防守》</span>
+            <span>《拼了》</span>
+            <span>《还好》</span>
+            <span>《还要拿吗》</span>
+            <span>《下次一定跟》</span>
+            <span>《救命》</span>
+            <span>《吓死我》</span>
+            <span>《大腿拍断》</span>
+            <span>《拉不住了》</span>
+            <span>《不管了》</span>
+            <span>《价值投资》</span>
+            <span>《回本了再也不玩了》</span>
+          </div>
+        </div>
+        <button class="daily-page-arrow daily-page-arrow--left" type="button" data-daily-flip="prev" aria-label="向前翻页">
+          <img src="images/daily/daily-arrow-right.png" alt="" draggable="false" />
+        </button>
+        <button class="daily-page-arrow daily-page-arrow--right" type="button" data-daily-flip="next" aria-label="向后翻页">
+          <img src="images/daily/daily-arrow-right.png" alt="" draggable="false" />
+        </button>
+      </div>
+    </div>
+  </section>
+
+  <section class="daily-continuation" aria-label="未完待續">
+    <div class="daily-continuation__copy">
+      <h2 class="daily-continuation__title">未完待續</h2>
+      <span class="daily-continuation__subtitle">TO BE CONTINUED</span>
+      <p class="daily-continuation__quote">我们的征途是星辰大海！</p>
+    </div>
+    <div class="daily-continuation__info">
+      <a class="daily-continuation__record" href="https://beian.miit.gov.cn/" target="_blank" rel="noopener noreferrer">鲁ICP备2023001803号</a>
+      <span class="daily-continuation__copyright">© 2026 明天</span>
+    </div>
+  </section>
+
+  <div class="music-component-root" id="music-component-root" aria-hidden="true" hidden></div>
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.13.0/gsap.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.13.0/ScrollTrigger.min.js"></script>
+  <script src="js/about-card-runtime.js"></script>
+
+  <script src="vendor/jquery-1.12.4.min.js"></script>
+  <script src="vendor/turn.js"></script>
+  <script src="js/music-tracks.js"></script>
+  <script src="js/page-runtime.js"></script>
+  <script src="js/navigation.js"></script>
+  <script src="js/music-orb.js"></script>
+  <script src="js/interests-player.js"></script>
+  <script src="js/about-card.js"></script>
+  <script src="vendor/lottie.min.js"></script>
+  <script src="js/travel-gallery-transition.js"></script>
+  <script src="js/data/travel-gallery-data.js"></script>
+  <script src="js/travel-world.js"></script>
+</body>
+</html>
