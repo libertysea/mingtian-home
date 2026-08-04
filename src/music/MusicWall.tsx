@@ -350,13 +350,13 @@ export default function MusicWall({
               } as CSSProperties}
               onClick={() => {
                 if (draggedRef.current) return;
-                onSelect(track);
+                if (!current) onSelect(track);
                 onOpen(track);
               }}
               onKeyDown={event => {
                 if (event.key !== 'Enter' && event.key !== ' ') return;
                 event.preventDefault();
-                onSelect(track);
+                if (!current) onSelect(track);
                 onOpen(track);
               }}
             >
