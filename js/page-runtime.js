@@ -53,6 +53,7 @@ const loader = document.getElementById('loader');
     let homeMusicUserPaused = false;
     let homeMusicGestureUnlocked = false;
     let homeMusicGestureUnlocking = false;
+    let homeMusicExternalTrack = null;
 
     const homeMusicFallbackTrack = {
       id: 'local-yoasobi-gunjou',
@@ -65,8 +66,16 @@ const loader = document.getElementById('loader');
 
     const getHomeMusicTracks = () => {
       const sharedTracks = Array.isArray(window.MUSIC_TRACKS) ? window.MUSIC_TRACKS : [];
-      const playableTracks = sharedTracks.filter(track => track?.audio && track?.cover && track?.title);
+      const baseTracks = sharedTracks.filter(track => track?.audio && track?.cover && track?.title);
+      const playableTracks = homeMusicExternalTrack?.audio && !baseTracks.some(track => track.id === homeMusicExternalTrack.id)
+        ? [homeMusicExternalTrack, ...baseTracks]
+        : baseTracks;
       return playableTracks.length ? playableTracks : [homeMusicFallbackTrack];
+    };
+
+    const applyHomeMusicExternalTrack = (track) => {
+      if (!track?.id || !track?.audio || !track?.cover || !track?.title) return;
+      homeMusicExternalTrack = track;
     };
 
     const getHomeMusicTrack = () => {
@@ -79,6 +88,7 @@ const loader = document.getElementById('loader');
       const track = getHomeMusicTrack();
       window.HomeMusicSync = {
         trackId: track.id,
+        track,
         currentTime: homeMusicAudio?.currentTime || 0,
         wasPlaying: !homeMusicUserPaused && (Boolean(homeMusicAudio && !homeMusicAudio.paused) || homeMusicStartQueued),
         userPaused: homeMusicUserPaused
@@ -374,6 +384,7 @@ const loader = document.getElementById('loader');
     window.addEventListener('keydown', retryHomeMusicOnGesture);
     window.addEventListener('music-component-closed', () => {
       const sync = window.HomeMusicSync;
+      if (sync?.track) applyHomeMusicExternalTrack(sync.track);
       if (sync?.trackId) {
         const tracks = getHomeMusicTracks();
         const nextIndex = tracks.findIndex(track => track.id === sync.trackId);

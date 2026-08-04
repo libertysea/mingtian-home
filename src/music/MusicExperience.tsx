@@ -368,6 +368,7 @@ export default function MusicExperience({ onExit }: MusicExperienceProps) {
       if (track) {
         window.HomeMusicSync = {
           trackId: track.id,
+          track,
           currentTime: audio.currentTime || 0,
           wasPlaying: !audio.paused,
           userPaused: audio.paused

@@ -68,6 +68,7 @@ declare global {
     };
     HomeMusicSync?: {
       trackId: string;
+      track?: Track;
       currentTime: number;
       wasPlaying: boolean;
       userPaused?: boolean;
