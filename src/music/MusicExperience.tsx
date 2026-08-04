@@ -243,7 +243,6 @@ export default function MusicExperience({ onExit }: MusicExperienceProps) {
 
     intendedToPlayRef.current = autoplay;
     sourceIndexRef.current = 0;
-    audio.pause();
     setCurrentTrack(track);
     currentRef.current = track;
     setCurrentTime(normalizedStartAt);
@@ -254,10 +253,17 @@ export default function MusicExperience({ onExit }: MusicExperienceProps) {
     setLyricsTrackId(null);
     addRecent(track.id);
 
-    audio.src = track.local ? track.audio : normalizeMetingSource(track.audio, 0);
-    audio.load();
+    const nextSrc = track.local ? track.audio : normalizeMetingSource(track.audio, 0);
+    const resolvedNextSrc = new URL(nextSrc, window.location.href).href;
+    const sameSource = audio.src === resolvedNextSrc;
+    if (!sameSource) {
+      audio.pause();
+      audio.src = nextSrc;
+      audio.load();
+    }
     if (normalizedStartAt > 0) {
       const applyStartTime = () => {
+        if (sameSource && !audio.paused && Math.abs((audio.currentTime || 0) - normalizedStartAt) < 1) return;
         const nextDuration = Number.isFinite(audio.duration) ? audio.duration : 0;
         audio.currentTime = nextDuration ? Math.min(normalizedStartAt, Math.max(0, nextDuration - 0.25)) : normalizedStartAt;
         setCurrentTime(audio.currentTime || normalizedStartAt);
@@ -266,9 +272,14 @@ export default function MusicExperience({ onExit }: MusicExperienceProps) {
       else audio.addEventListener('loadedmetadata', applyStartTime, { once: true });
     }
     if (!autoplay) return;
+    if (sameSource && !audio.paused) {
+      setIsPlaying(true);
+      return;
+    }
 
     try {
       await audio.play();
+      setIsPlaying(true);
     } catch {
       setIsPlaying(false);
       showToast('Playback was blocked or the source is unavailable.');
@@ -299,9 +310,11 @@ export default function MusicExperience({ onExit }: MusicExperienceProps) {
   }, [playNext]);
 
   useEffect(() => {
-    const audio = new Audio();
+    const audio = window.SharedMusicAudio || new Audio();
+    const sharedAudio = audio === window.SharedMusicAudio;
     audio.preload = 'metadata';
-    audio.volume = volume;
+    if (sharedAudio) setVolumeState(audio.volume);
+    else audio.volume = volume;
     audioRef.current = audio;
 
     const updateProgress = () => {
@@ -347,6 +360,8 @@ export default function MusicExperience({ onExit }: MusicExperienceProps) {
     audio.addEventListener('pause', onPause);
     audio.addEventListener('ended', onEnded);
     audio.addEventListener('error', onError);
+    updateProgress();
+    setIsPlaying(!audio.paused);
 
     return () => {
       const track = currentRef.current;
@@ -357,7 +372,7 @@ export default function MusicExperience({ onExit }: MusicExperienceProps) {
           wasPlaying: !audio.paused
         };
       }
-      audio.pause();
+      if (!sharedAudio) audio.pause();
       audio.removeEventListener('timeupdate', updateProgress);
       audio.removeEventListener('progress', updateProgress);
       audio.removeEventListener('loadedmetadata', updateProgress);
@@ -373,9 +388,9 @@ export default function MusicExperience({ onExit }: MusicExperienceProps) {
   useEffect(() => {
     if (!currentTrack && tracks.length && audioRef.current) {
       const sync = window.HomeMusicSync;
-      const firstTrack = tracks[0];
-      const syncMatches = sync?.trackId === firstTrack.id;
-      void loadTrack(firstTrack, syncMatches ? sync.wasPlaying : true, syncMatches ? sync.currentTime : 0);
+      const syncedTrack = sync?.trackId ? tracks.find(track => track.id === sync.trackId) : null;
+      const initialTrack = syncedTrack || tracks[0];
+      void loadTrack(initialTrack, syncedTrack ? sync?.wasPlaying : true, syncedTrack ? sync?.currentTime || 0 : 0);
     }
   }, [currentTrack, loadTrack, tracks]);
 

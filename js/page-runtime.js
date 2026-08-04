@@ -4,6 +4,7 @@ const loader = document.getElementById('loader');
     const video = document.getElementById('heroVideo');
     const homeMusicOrb = document.getElementById('homeMusicOrb');
     const homeMusicAudio = document.getElementById('homeMusicAudio');
+    if (homeMusicAudio) window.SharedMusicAudio = homeMusicAudio;
 
     const aboutSection = document.getElementById('about');
 
@@ -47,6 +48,8 @@ const loader = document.getElementById('loader');
     let homeMusicResumeAfterMusic = false;
     let homeMusicTrackIndex = 0;
     let homeMusicPanelRendered = false;
+    let homeMusicStageReadyArmed = false;
+    let homeMusicVolumeInitialized = false;
 
     const homeMusicFallbackTrack = {
       id: 'local-yoasobi-gunjou',
@@ -144,6 +147,7 @@ const loader = document.getElementById('loader');
       }
       const applyStart = () => {
         if (!startAt) return;
+        if (!shouldLoad && !homeMusicAudio.paused && Math.abs((homeMusicAudio.currentTime || 0) - startAt) < 1) return;
         const duration = Number.isFinite(homeMusicAudio.duration) ? homeMusicAudio.duration : 0;
         homeMusicAudio.currentTime = duration ? Math.min(startAt, Math.max(0, duration - 0.25)) : startAt;
       };
@@ -154,6 +158,12 @@ const loader = document.getElementById('loader');
       renderHomeMusicPanel();
       updateHomeMusicProgress();
       if (!autoplay) return;
+      if (!shouldLoad && !homeMusicAudio.paused) {
+        homeMusicStarted = true;
+        homeMusicStartQueued = false;
+        setHomeMusicPlaying(true);
+        return;
+      }
       try {
         await homeMusicAudio.play();
         homeMusicStarted = true;
@@ -168,7 +178,10 @@ const loader = document.getElementById('loader');
     const startHomeMusic = () => {
       if (!homeMusicAudio || !homeMusicOrb) return;
       homeMusicOrb.classList.add('is-visible');
-      homeMusicAudio.volume = 0.68;
+      if (!homeMusicVolumeInitialized && !window.HomeMusicSync) {
+        homeMusicAudio.volume = 0.68;
+        homeMusicVolumeInitialized = true;
+      }
       const sync = window.HomeMusicSync;
       const tracks = getHomeMusicTracks();
       const syncIndex = tracks.findIndex(track => track.id === sync?.trackId);
@@ -193,21 +206,23 @@ const loader = document.getElementById('loader');
       }
     };
 
-    const startHomeMusicAfterNavigation = () => {
+    const startHomeMusicWhenStageReady = () => {
+      if (homeMusicStageReadyArmed) return;
+      homeMusicStageReadyArmed = true;
       const run = () => {
         homeMusicOrb?.classList.add('is-visible');
         window.setTimeout(startHomeMusic, 0);
       };
-      if (document.body.classList.contains('site-nav-ready')) {
+      if (stage?.classList.contains('is-ready')) {
         run();
         return;
       }
       const navObserver = new MutationObserver(() => {
-        if (!document.body.classList.contains('site-nav-ready')) return;
+        if (!stage?.classList.contains('is-ready')) return;
         navObserver.disconnect();
         run();
       });
-      navObserver.observe(document.body, { attributes: true, attributeFilter: ['class'] });
+      if (stage) navObserver.observe(stage, { attributes: true, attributeFilter: ['class'] });
     };
 
     homeMusicAudio?.addEventListener('play', () => setHomeMusicPlaying(true));
@@ -244,7 +259,6 @@ const loader = document.getElementById('loader');
       homeMusicResumeAfterMusic = homeMusicStarted || Boolean(homeMusicAudio && !homeMusicAudio.paused) || homeMusicStartQueued;
       updateHomeMusicSync();
       if (window.HomeMusicSync) window.HomeMusicSync.wasPlaying = homeMusicResumeAfterMusic;
-      if (homeMusicAudio && !homeMusicAudio.paused) homeMusicAudio.pause();
       setHomeMusicPanelOpen(false);
     });
     window.addEventListener('pointerdown', retryHomeMusicOnGesture, { passive: true });
@@ -265,6 +279,7 @@ const loader = document.getElementById('loader');
       homeMusicResumeAfterMusic = false;
       startHomeMusic();
     });
+    startHomeMusicWhenStageReady();
 
     const clamp = (value, min = 0, max = 1) => Math.min(max, Math.max(min, value));
 
@@ -994,7 +1009,6 @@ const loader = document.getElementById('loader');
         loader.classList.add('is-leaving');
         stage.classList.add('is-ready');
         video.play().catch(() => {});
-        startHomeMusicAfterNavigation();
       }, loaderSettleMs + loaderHoldMs);
 
       window.setTimeout(() => {

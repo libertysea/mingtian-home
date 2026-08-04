@@ -1391,17 +1391,37 @@
       min-height: 720px;
       overflow: visible;
       --lanyard-base-transform: translate(-50%);
+      --lanyard-drop-offset: -62vh;
       opacity: 0;
-      transform: var(--lanyard-base-transform);
+      transform: var(--lanyard-base-transform) translateY(var(--lanyard-drop-offset));
       filter: saturate(0.92);
       transform-origin: 50% 0;
-      transition: opacity 220ms ease, filter 300ms ease;
-      will-change: opacity, filter;
+      transition: opacity 260ms ease, filter 300ms ease;
+      will-change: opacity, filter, transform;
     }
 
     .identity-section.lanyard-drop-active .identity-lanyard-pane {
+      --lanyard-drop-offset: 0px;
       opacity: 1;
       filter: blur(0) saturate(1);
+      animation: identity-lanyard-drop 1050ms cubic-bezier(0.18, 0.95, 0.24, 1) both;
+    }
+
+    @keyframes identity-lanyard-drop {
+      0% {
+        opacity: 0;
+        transform: var(--lanyard-base-transform) translateY(-62vh);
+      }
+      30% {
+        opacity: 1;
+      }
+      78% {
+        transform: var(--lanyard-base-transform) translateY(18px);
+      }
+      100% {
+        opacity: 1;
+        transform: var(--lanyard-base-transform) translateY(0);
+      }
     }
 
     .identity-lanyard-pane .lanyard-wrapper {

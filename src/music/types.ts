@@ -71,5 +71,6 @@ declare global {
       currentTime: number;
       wasPlaying: boolean;
     };
+    SharedMusicAudio?: HTMLAudioElement;
   }
 }

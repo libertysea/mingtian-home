@@ -195,7 +195,7 @@ function VolumeControl({ volume, hue, onVolume }: VolumeControlProps) {
     const updatePosition = () => {
       const rect = buttonRef.current?.getBoundingClientRect();
       if (!rect) return;
-      const left = Math.max(8, Math.min(rect.left + rect.width / 2 - 22, window.innerWidth - 52));
+      const left = Math.max(8, Math.min(rect.left + rect.width / 2 - 25, window.innerWidth - 58));
       setPosition({ bottom: window.innerHeight - rect.top + 10, left });
     };
     updatePosition();
@@ -260,7 +260,7 @@ function VolumeControl({ volume, hue, onVolume }: VolumeControlProps) {
                 }}
               >
                 <div className="music-volume-track" aria-hidden="true">
-                  <span className="music-volume-fill" style={{ height: `${volume * 96}px` }} />
+                  <span className="music-volume-fill" style={{ height: `${volume * 112}px` }} />
                 </div>
                 <input
                   className="music-volume-slider"
@@ -269,10 +269,11 @@ function VolumeControl({ volume, hue, onVolume }: VolumeControlProps) {
                   max="1"
                   step="0.01"
                   value={volume}
-                  onChange={event => onVolume(Number(event.target.value))}
+                  onInput={event => onVolume(Number(event.currentTarget.value))}
+                  onChange={event => onVolume(Number(event.currentTarget.value))}
                   aria-label="Volume"
                 />
-                <span className="music-volume-thumb" style={{ bottom: `${15 + volume * 96}px` }} aria-hidden="true" />
+                <span className="music-volume-thumb" style={{ bottom: `${15 + volume * 112}px` }} aria-hidden="true" />
               </motion.div>
             </motion.div>
           ) : null}
