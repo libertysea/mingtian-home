@@ -497,10 +497,10 @@
     }
 
     .home-music-panel__button--play {
-      width: 30px;
-      height: 30px;
+      width: 24px;
+      height: 24px;
       background: rgba(255, 255, 255, .18);
-      font-size: 13px;
+      font-size: 11px;
     }
 
     .home-music-panel__progress {
@@ -664,9 +664,9 @@
       }
 
       .home-music-panel__button--play {
-        width: 28px;
-        height: 28px;
-        font-size: 12px;
+        width: 22px;
+        height: 22px;
+        font-size: 10px;
       }
 
       .home-music-panel__progress {
