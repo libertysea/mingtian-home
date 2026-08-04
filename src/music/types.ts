@@ -70,6 +70,7 @@ declare global {
       trackId: string;
       currentTime: number;
       wasPlaying: boolean;
+      userPaused?: boolean;
     };
     SharedMusicAudio?: HTMLAudioElement;
   }

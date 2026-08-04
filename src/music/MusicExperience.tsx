@@ -369,7 +369,8 @@ export default function MusicExperience({ onExit }: MusicExperienceProps) {
         window.HomeMusicSync = {
           trackId: track.id,
           currentTime: audio.currentTime || 0,
-          wasPlaying: !audio.paused
+          wasPlaying: !audio.paused,
+          userPaused: audio.paused
         };
       }
       if (!sharedAudio) audio.pause();
@@ -390,7 +391,8 @@ export default function MusicExperience({ onExit }: MusicExperienceProps) {
       const sync = window.HomeMusicSync;
       const syncedTrack = sync?.trackId ? tracks.find(track => track.id === sync.trackId) : null;
       const initialTrack = syncedTrack || tracks[0];
-      void loadTrack(initialTrack, syncedTrack ? sync?.wasPlaying : true, syncedTrack ? sync?.currentTime || 0 : 0);
+      const shouldAutoplay = syncedTrack ? Boolean(sync?.wasPlaying && !sync?.userPaused) : false;
+      void loadTrack(initialTrack, shouldAutoplay, syncedTrack ? sync?.currentTime || 0 : 0);
     }
   }, [currentTrack, loadTrack, tracks]);
 

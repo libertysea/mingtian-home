@@ -50,6 +50,7 @@ const loader = document.getElementById('loader');
     let homeMusicPanelRendered = false;
     let homeMusicRevealStartRequested = false;
     let homeMusicVolumeInitialized = false;
+    let homeMusicUserPaused = false;
 
     const homeMusicFallbackTrack = {
       id: 'local-yoasobi-gunjou',
@@ -77,7 +78,8 @@ const loader = document.getElementById('loader');
       window.HomeMusicSync = {
         trackId: track.id,
         currentTime: homeMusicAudio?.currentTime || 0,
-        wasPlaying: Boolean(homeMusicAudio && !homeMusicAudio.paused) || homeMusicStartQueued
+        wasPlaying: !homeMusicUserPaused && (Boolean(homeMusicAudio && !homeMusicAudio.paused) || homeMusicStartQueued),
+        userPaused: homeMusicUserPaused
       };
     };
 
@@ -157,7 +159,12 @@ const loader = document.getElementById('loader');
       }
       renderHomeMusicPanel();
       updateHomeMusicProgress();
-      if (!autoplay) return;
+      if (!autoplay) {
+        homeMusicStartQueued = false;
+        setHomeMusicPlaying(false);
+        updateHomeMusicSync();
+        return;
+      }
       if (!shouldLoad && !homeMusicAudio.paused) {
         homeMusicStarted = true;
         homeMusicStartQueued = false;
@@ -167,6 +174,7 @@ const loader = document.getElementById('loader');
       try {
         await homeMusicAudio.play();
         homeMusicStarted = true;
+        homeMusicUserPaused = false;
         homeMusicStartQueued = false;
         setHomeMusicPlaying(true);
       } catch {
@@ -185,6 +193,11 @@ const loader = document.getElementById('loader');
       const sync = window.HomeMusicSync;
       const tracks = getHomeMusicTracks();
       const syncIndex = tracks.findIndex(track => track.id === sync?.trackId);
+      if (sync?.userPaused) {
+        homeMusicUserPaused = true;
+        void playHomeMusicTrack(syncIndex >= 0 ? syncIndex : homeMusicTrackIndex, false, sync?.currentTime || 0);
+        return;
+      }
       void playHomeMusicTrack(syncIndex >= 0 ? syncIndex : homeMusicTrackIndex, true, sync?.currentTime || 0);
     };
 
@@ -239,8 +252,15 @@ const loader = document.getElementById('loader');
       if (stage) navObserver.observe(stage, { attributes: true, attributeFilter: ['class'] });
     };
 
-    homeMusicAudio?.addEventListener('play', () => setHomeMusicPlaying(true));
-    homeMusicAudio?.addEventListener('pause', () => setHomeMusicPlaying(false));
+    homeMusicAudio?.addEventListener('play', () => {
+      homeMusicUserPaused = false;
+      setHomeMusicPlaying(true);
+      updateHomeMusicSync();
+    });
+    homeMusicAudio?.addEventListener('pause', () => {
+      setHomeMusicPlaying(false);
+      updateHomeMusicSync();
+    });
     homeMusicAudio?.addEventListener('timeupdate', updateHomeMusicProgress);
     homeMusicAudio?.addEventListener('loadedmetadata', updateHomeMusicProgress);
     homeMusicAudio?.addEventListener('durationchange', updateHomeMusicProgress);
@@ -254,8 +274,15 @@ const loader = document.getElementById('loader');
     homeMusicNext?.addEventListener('click', () => void playHomeMusicTrack(homeMusicTrackIndex + 1, true));
     homeMusicToggle?.addEventListener('click', () => {
       if (!homeMusicAudio) return;
-      if (homeMusicAudio.paused) void playHomeMusicTrack(homeMusicTrackIndex, true, homeMusicAudio.currentTime || 0);
-      else homeMusicAudio.pause();
+      if (homeMusicAudio.paused) {
+        homeMusicUserPaused = false;
+        void playHomeMusicTrack(homeMusicTrackIndex, true, homeMusicAudio.currentTime || 0);
+      } else {
+        homeMusicUserPaused = true;
+        homeMusicStartQueued = false;
+        homeMusicAudio.pause();
+        updateHomeMusicSync();
+      }
     });
     homeMusicMinimize?.addEventListener('click', () => setHomeMusicPanelOpen(false));
     homeMusicProgress?.addEventListener('input', () => {
@@ -270,7 +297,7 @@ const loader = document.getElementById('loader');
       setHomeMusicPanelOpen(false);
     });
     window.addEventListener('music-route-opening', () => {
-      homeMusicResumeAfterMusic = homeMusicStarted || Boolean(homeMusicAudio && !homeMusicAudio.paused) || homeMusicStartQueued;
+      homeMusicResumeAfterMusic = !homeMusicUserPaused && (homeMusicStarted || Boolean(homeMusicAudio && !homeMusicAudio.paused) || homeMusicStartQueued);
       updateHomeMusicSync();
       if (window.HomeMusicSync) window.HomeMusicSync.wasPlaying = homeMusicResumeAfterMusic;
       setHomeMusicPanelOpen(false);
@@ -286,7 +313,8 @@ const loader = document.getElementById('loader');
       }
       if (homeMusicAudio && sync?.trackId === getHomeMusicTrack().id) {
         homeMusicAudio.currentTime = sync.currentTime || 0;
-        homeMusicResumeAfterMusic = sync.wasPlaying;
+        homeMusicUserPaused = Boolean(sync.userPaused);
+        homeMusicResumeAfterMusic = !homeMusicUserPaused && Boolean(sync.wasPlaying);
       }
       renderHomeMusicPanel();
       if (!homeMusicResumeAfterMusic) return;
@@ -999,9 +1027,52 @@ const loader = document.getElementById('loader');
     };
 
     let aboutLanyardReplayTimer = 0;
+    let aboutRuntimeLoading = false;
+    let aboutRuntimeLoaded = Boolean(aboutSection?.querySelector('.bits-lanyard, .lanyard-wrapper, .badge-drop'));
+
+    const getAboutLanyardElement = () => (
+      aboutSection?.querySelector('.bits-lanyard, .badge-drop, .lanyard-wrapper')
+    );
+
+    const setAboutRuntimeLoaded = () => {
+      aboutRuntimeLoaded = true;
+      document.documentElement.classList.add('about-card-runtime-loaded');
+      requestAboutLanyardScrollCheck();
+    };
+
+    const loadAboutCardRuntime = () => {
+      if (aboutRuntimeLoaded) return Promise.resolve(true);
+      if (aboutRuntimeLoading) return Promise.resolve(false);
+
+      const config = document.getElementById('about-card-runtime-config');
+      let src = 'js/about-card-runtime.js';
+      if (config?.textContent) {
+        try {
+          src = JSON.parse(config.textContent).src || src;
+        } catch (_) {
+          src = config.dataset.src || src;
+        }
+      }
+
+      aboutRuntimeLoading = true;
+      return new Promise((resolve) => {
+        const script = document.createElement('script');
+        script.src = src;
+        script.onload = () => {
+          aboutRuntimeLoading = false;
+          setAboutRuntimeLoaded();
+          resolve(true);
+        };
+        script.onerror = () => {
+          aboutRuntimeLoading = false;
+          resolve(false);
+        };
+        document.body.appendChild(script);
+      });
+    };
 
     const replayAboutLanyardDom = () => {
-      const lanyard = aboutSection?.querySelector('.bits-lanyard');
+      const lanyard = getAboutLanyardElement();
       if (!lanyard) return false;
 
       window.clearTimeout(aboutLanyardReplayTimer);
@@ -1034,18 +1105,51 @@ const loader = document.getElementById('loader');
 
         if (replay()) return;
         attempts += 1;
-        if (attempts < 36) requestAnimationFrame(run);
+        if (attempts < 180) requestAnimationFrame(run);
       };
       run();
     };
 
     const setAboutLanyardActive = (active) => {
       if (!aboutSection) return;
-      if (!active) return;
-      if (aboutLanyardActive === active) return;
+      if (!active) {
+        aboutLanyardActive = false;
+        aboutSection.classList.remove('lanyard-drop-active');
+        getAboutLanyardElement()?.classList.remove('is-drop-active', 'is-replaying');
+        return;
+      }
+      if (aboutLanyardActive === active) {
+        loadAboutCardRuntime();
+        replayAboutLanyardWhenReady();
+        return;
+      }
       aboutLanyardActive = active;
       aboutSection.classList.add('lanyard-drop-active');
+      loadAboutCardRuntime();
       replayAboutLanyardWhenReady();
+    };
+
+    const updateAboutLanyardByScroll = () => {
+      if (!aboutSection) return;
+      const rect = aboutSection.getBoundingClientRect();
+      const viewport = window.innerHeight || document.documentElement.clientHeight || 1;
+      const shouldDrop = rect.top <= viewport * 0.72 && rect.bottom >= viewport * 0.34;
+      const beforeAbout = rect.top > viewport * 0.92;
+
+      if (shouldDrop) {
+        setAboutLanyardActive(true);
+      } else if (beforeAbout) {
+        setAboutLanyardActive(false);
+      }
+    };
+
+    let aboutLanyardScrollFrame = 0;
+    const requestAboutLanyardScrollCheck = () => {
+      if (aboutLanyardScrollFrame) return;
+      aboutLanyardScrollFrame = requestAnimationFrame(() => {
+        aboutLanyardScrollFrame = 0;
+        updateAboutLanyardByScroll();
+      });
     };
 
     const fillProgress = () => {
@@ -1100,7 +1204,7 @@ const loader = document.getElementById('loader');
       const observer = new IntersectionObserver((entries) => {
         entries.forEach((entry) => {
           if (entry.target !== aboutSection) return;
-          setAboutLanyardActive(entry.isIntersecting && entry.intersectionRatio >= 0.46);
+          requestAboutLanyardScrollCheck();
           if (!entry.isIntersecting) {
             resetIdentityTilt();
           }
@@ -1109,3 +1213,7 @@ const loader = document.getElementById('loader');
 
       observer.observe(aboutSection);
     }
+    window.addEventListener('scroll', requestAboutLanyardScrollCheck, { passive: true });
+    window.addEventListener('resize', requestAboutLanyardScrollCheck);
+    window.addEventListener('load', requestAboutLanyardScrollCheck, { once: true });
+    requestAboutLanyardScrollCheck();

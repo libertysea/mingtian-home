@@ -1,7 +1,7 @@
 import React from 'react';
 import { flushSync } from 'react-dom';
 import { createRoot } from 'react-dom/client';
-import musicBackground from '../../images/mos-background.webp';
+import musicBackground from '../../images/music/mos-background.webp';
 import MusicExperience from './MusicExperience';
 
 const host = document.getElementById('music-component-root');
