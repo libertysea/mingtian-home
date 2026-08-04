@@ -1,1 +1,22 @@
-window.TRAVEL_GALLERY = [{"src":"images/travel/travel-01.jpg","alt":"山谷湖边的旅行小屋"},{"src":"images/travel/travel-02.jpg","alt":"晴天下的高山公路"},{"src":"images/travel/travel-03.jpg","alt":"湖面与雪山风景"},{"src":"images/travel/travel-04.jpg","alt":"云雾中的山脊"},{"src":"images/travel/travel-05.jpg","alt":"海边日落与浪花"},{"src":"images/travel/travel-06.jpg","alt":"峡谷中的旅行道路"},{"src":"images/travel/travel-07.jpg","alt":"森林与湖边远山"},{"src":"images/travel/travel-08.jpg","alt":"星空下的山地夜景"},{"src":"images/travel/travel-09.jpg","alt":"阳光穿过山间树林"},{"src":"images/travel/travel-10.jpg","alt":"河谷与峭壁风景"}];
+window.TRAVEL_GALLERY = [
+  { src: "images/travel/travel-01.jpg", alt: "旅行照片 01" },
+  { src: "images/travel/travel-02.jpg", alt: "旅行照片 02" },
+  { src: "images/travel/travel-03.jpg", alt: "旅行照片 03" },
+  { src: "images/travel/travel-04.jpg", alt: "旅行照片 04" },
+  { src: "images/travel/travel-05.jpg", alt: "旅行照片 05" },
+  { src: "images/travel/travel-06.jpg", alt: "旅行照片 06" },
+  { src: "images/travel/travel-07.jpg", alt: "旅行照片 07" },
+  { src: "images/travel/travel-08.jpg", alt: "旅行照片 08" },
+  { src: "images/travel/travel-09.jpg", alt: "旅行照片 09" },
+  { src: "images/travel/travel-10.jpg", alt: "旅行照片 10" },
+  { src: "images/travel/travel-11.jpg", alt: "旅行照片 11" },
+  { src: "images/travel/travel-12.jpg", alt: "旅行照片 12" },
+  { src: "images/travel/travel-13.jpg", alt: "旅行照片 13" },
+  { src: "images/travel/travel-14.jpg", alt: "旅行照片 14" },
+  { src: "images/travel/travel-15.jpg", alt: "旅行照片 15" },
+  { src: "images/travel/travel-16.jpg", alt: "旅行照片 16" },
+  { src: "images/travel/travel-17.jpg", alt: "旅行照片 17" },
+  { src: "images/travel/travel-18.jpg", alt: "旅行照片 18" },
+  { src: "images/travel/travel-19.jpg", alt: "旅行照片 19" },
+  { src: "images/travel/travel-20.jpg", alt: "旅行照片 20" },
+];

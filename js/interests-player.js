@@ -1,5 +1,5 @@
 (() => {
-  const section = document.getElementById('community');
+  const section = document.getElementById('interests');
   if (!section) return;
 
   if (!('IntersectionObserver' in window)) {

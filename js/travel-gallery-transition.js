@@ -1,7 +1,7 @@
 (function () {
   const overlay = document.querySelector('[data-travel-flight-transition]');
   const stage = document.querySelector('[data-travel-flight-stage]');
-  const interestSection = document.getElementById('community');
+  const interestSection = document.getElementById('interests');
   const blogSection = document.getElementById('blog');
   const travelSection = document.getElementById('travel');
   const largePlane = document.querySelector('[data-travel-flight-large]');
