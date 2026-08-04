@@ -169,17 +169,39 @@ const loader = document.getElementById('loader');
         homeMusicStarted = true;
         homeMusicStartQueued = false;
         setHomeMusicPlaying(true);
+        updateHomeMusicSync();
         return;
       }
-      try {
-        await homeMusicAudio.play();
+      const finishHomeMusicStart = () => {
         homeMusicStarted = true;
         homeMusicUserPaused = false;
         homeMusicStartQueued = false;
         setHomeMusicPlaying(true);
-      } catch {
+        updateHomeMusicSync();
+      };
+      const queueHomeMusicStart = () => {
         setHomeMusicPlaying(false);
         homeMusicStartQueued = true;
+        updateHomeMusicSync();
+      };
+      try {
+        await homeMusicAudio.play();
+        finishHomeMusicStart();
+      } catch {
+        const wasMuted = homeMusicAudio.muted;
+        try {
+          homeMusicAudio.muted = true;
+          await homeMusicAudio.play();
+          if (!wasMuted) {
+            window.setTimeout(() => {
+              if (!homeMusicUserPaused && !homeMusicAudio.paused) homeMusicAudio.muted = false;
+            }, 80);
+          }
+          finishHomeMusicStart();
+        } catch {
+          homeMusicAudio.muted = wasMuted;
+          queueHomeMusicStart();
+        }
       }
     };
 
