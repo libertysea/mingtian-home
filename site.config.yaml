@@ -1,0 +1,301 @@
+# mingtian-home 内容配置草稿
+# 这份文件暂不参与页面运行，仅用于确认后续要抽取的内容结构。
+# 原则：只放“你以后会替换的文案、图片、视频、链接和少量展示参数”。
+# 不放 DOM id、aria、动画触发阈值、运行时模型、CSS 响应式补丁等实现细节。
+
+config:
+  version: 1
+  project: "mingtian-home"
+  language: "zh-CN"
+
+site:
+  name: "明天"
+  title: "明天"
+  description: "明天的个人主页，记录技术、兴趣、旅行、作品和日常。"
+  author: "明天"
+  url: "https://www.wpixiu.cn"
+
+seo:
+  title: "明天"
+  description: "明天的个人主页，记录技术、兴趣、旅行、作品和日常。"
+  keywords:
+    - "明天"
+    - "个人主页"
+    - "AI"
+    - "技术博客"
+    - "旅行"
+    - "作品集"
+  ogImage: "images/site-share-card.png"
+  robots:
+    # 允许正规搜索引擎收录；声明禁止未授权抓取、训练、聚合和商用复用。
+    allowIndexing: true
+    sitemap: "https://www.wpixiu.cn/sitemap.xml"
+    rules:
+      - userAgent: "*"
+        allow:
+          - "/"
+        disallow:
+          - "/scripts/"
+          - "/src/"
+          - "/site.config.yaml"
+    aiCrawlers:
+      disallow:
+        - "GPTBot"
+        - "ChatGPT-User"
+        - "CCBot"
+        - "ClaudeBot"
+        - "anthropic-ai"
+        - "Google-Extended"
+        - "PerplexityBot"
+        - "Bytespider"
+        - "Amazonbot"
+    notice:
+      text: "本站内容仅供搜索引擎索引和个人浏览，禁止未经授权的批量抓取、模型训练、内容聚合和商用复用。"
+  sitemap:
+    enabled: true
+    output: "sitemap.xml"
+    urls:
+      - loc: "https://www.wpixiu.cn/"
+        changefreq: "monthly"
+        priority: 1.0
+
+navigation:
+  items:
+    - label: "关于"
+      target: "about"
+    - label: "兴趣"
+      target: "interests"
+    - label: "博客"
+      target: "blog"
+    - label: "旅行"
+      target: "travel"
+    - label: "作品"
+      target: "projects"
+    - label: "日常"
+      target: "daily"
+
+hero:
+  kicker: "启程"
+  title: "Per Aspera Ad Astra."
+  subtitle: "循此苦旅 · 终抵繁星"
+  background:
+    video: "videos/hero-intro-video.mp4"
+    crop:
+      position: "center center"
+      scale: 1.0
+      responsive:
+        - when: "max-width: 1280px and min-height: 560px"
+          scale: 1.04
+        - when: "max-width: 720px"
+          scale: 1.06
+
+about:
+  copy:
+    kicker: "IDENTITY CARD"
+    title: "Hi, 我是明天~"
+    roles:
+      - "中科院 AI 硕士 📖"
+      - "CV 工程师 👨‍💻 & 天才交易员 📈"
+    tags:
+      - "LLM Engineer"
+      - "AI Research"
+      - "Genius Trader"
+    note: "保持好奇，持续创造。"
+    flipHint: "👆点击翻转"
+  badge:
+    front: "images/about/about-card-front.png"
+    back: "images/about/about-card-back.png"
+
+interests:
+  scene:
+    background: "images/interests/interest-room-background.png"
+    title:
+      en: "Enjoy every moment."
+      cn: "享受每一个瞬间。"
+  music:
+    entryTooltip: "Open music room - click to listen"
+    vinyl: "images/interests/interests-vinyl.png"
+    tonearm: "images/interests/interests-tonearm.svg"
+    character: "images/interests/personal-music-cutout.png"
+  tv:
+    frame: "images/interests/retro-tv-trimmed.png"
+    slides:
+      - title: "无耻之徒"
+        image: "images/tv/tv-shameless-cast.jpg"
+      - title: "行尸走肉"
+        image: "images/tv/tv-the-walking-dead.png"
+      - title: "情书"
+        image: "images/tv/tv-love-letter.png"
+      - title: "机器人之梦"
+        image: "images/tv/tv-robot-dreams.jpg"
+      - title: "花束般的恋爱"
+        image: "images/tv/tv-we-made-a-beautiful-bouquet.jpg"
+      - title: "海蒂和爷爷"
+        image: "images/tv/tv-heidi.png"
+  games:
+    character: "images/interests/game-character-beanbag-trimmed.png"
+    items:
+      - title: "原神"
+        image: "images/games/games-genshin-impact.png"
+      - title: "崩坏：星穹铁道"
+        image: "images/games/games-honkai-star-rail.jpg"
+      - title: "双人成行"
+        image: "images/games/games-it-takes-two.png"
+      - title: "饥荒"
+        image: "images/games/games-dont-starve.png"
+      - title: "文明 VI"
+        image: "images/games/games-civilization-vi.png"
+
+blog:
+  kicker: "Blog"
+  title: "热爱可抵岁月漫长！"
+  lede: "文字的魅力在于，它能把我们无法表达的情绪呈现出来，引起灵魂的共鸣就是它存在的意义。"
+  previewImage: "images/blog/blog-hero-preview.png"
+  link:
+    label: "访问博客"
+    url: "https://blog.wpixiu.cn/"
+
+travel:
+  hero:
+    titleLines:
+      - "世界那么大，"
+      - "我想去看看！"
+    subtitle:
+      - "当你重新踏上旅途之后，"
+      - "一定要记得旅途本身的意义。"
+    button: "欣赏美景"
+    video: "videos/travel-train.mp4"
+  gallery:
+    title: "环游世界"
+    folder: "images/travel"
+
+portfolio:
+  kicker: "Selected Projects"
+  title: "作品集"
+  lede: "作品，是思想留下的可见痕迹。"
+  photographerImage: "images/portfolio/portfolio-photographer.png"
+  projects:
+    - name: "MixIndex"
+      intro: "以连续动效串联身份、兴趣、博客与旅行的混合风格个人主页。"
+      image: "images/portfolio/project-mixindex.png"
+      href: "#stage"
+    - name: "WBlog"
+      intro: "记录大模型架构、训练方法与学习过程的个人技术博客。"
+      image: "images/blog/blog-preview.png"
+      href: "https://blog.wpixiu.cn/"
+    - name: "Asri-w"
+      intro: "为思源笔记补充导出封面、标题图标与 macOS 风格代码块。"
+      image: "images/portfolio/project-asri-w.png"
+      href: "https://github.com/libertysea/Asri-w"
+    - name: "炒股日记"
+      intro: "记录缅 A 学习、交易思考与盘后复盘的长期投资笔记。"
+      image: "images/portfolio/project-stock-diary.png"
+      href: "https://ocn4kgze50cn.feishu.cn/wiki/OJ7ZwA47zi57OJkt2ghc9KDan2d"
+    - name: "Stanford CS336"
+      intro: "从零实现 Stanford CS336 语言模型训练的核心环节。"
+      image: "images/portfolio/project-cs336.png"
+      href: "https://github.com/libertysea/Stanford-CS336"
+
+daily:
+  book:
+    binder: "images/daily/daily-binder.png"
+    arrow: "images/daily/daily-arrow-right.png"
+  campus:
+    date: "2026.09 · UCAS"
+    title: "校园日记"
+    tags: "STUDY · CODE · CAMPUS"
+    note: "欢迎来到离科学最近的地方！"
+    background:
+      left: "images/daily/daily-left-paper-bg.png"
+      right: "images/daily/daily-right-page-bg.png"
+    images:
+      seal: "images/daily/daily-left-cas-seal-splash.png"
+      card: "images/daily/daily-left-ucas-card-cutout.png"
+      coder: "images/daily/daily-left-coder-sticker.png"
+      sticker: "images/daily/daily-left-ucas-sticker-cutout.png"
+  vibeCoding:
+    caption: "天才程序员已就绪！"
+    background:
+      left: "images/daily/daily-left-computer-skills-bg.png"
+      right: "images/daily/daily-right-computer-page-bg.png"
+    images:
+      quotaComic: "images/daily/daily-vibecoding-quota-comic.png"
+      dreamCloud: "images/daily/daily-vibecoding-dream-cloud.png"
+      gif: "images/vibe/vibe-9f2ffeefda81a1841f40adb3f225958e.gif"
+  stock:
+    title: "宇宙最强手游：同花顺"
+    subtitle: "A Real-Time Emotion Trading Game"
+    difficulty: "本局难度：地狱"
+    apologyTitle: "事到如今，最对不起的还是家人"
+    apologyLines:
+      - "我想起来了"
+      - "我都想起来了"
+      - "我不是什么华尔街之狼"
+      - "我也不是什么天才交易员"
+      - "我要申请未成年退款"
+    background:
+      left: "images/daily/daily-left-stock-line-bg.png"
+      right: "images/daily/daily-right-cloud-dashboard-bg.png"
+    images:
+      learn: "images/daily/daily-stock-learn-chain-sticker.png"
+      question: "images/daily/daily-stock-question-sticker.png"
+      capitalTrap: "images/daily/daily-stock-capital-trap-sticker.png"
+      deliveryRider: "images/daily/daily-stock-delivery-rider.png"
+  log:
+    terminalUser: "MINGTIAN@universe ~ %"
+    kicker: "Campus Log"
+    title: "今日拾光"
+    dateTape: "09 · 2026"
+    note: "日将月就，学有缉熙于光明。"
+    images:
+      filmStrip: "images/daily/daily-right-light-film-strip.png"
+      study: "images/daily/daily-floating-study.png"
+      walkCard: "images/daily/daily-right-walk-card.png"
+      archCard: "images/daily/daily-right-arch-card.png"
+      filmCard: "images/daily/daily-right-film-card.png"
+
+continuation:
+  title: "未完待續"
+  subtitle: "TO BE CONTINUED"
+  quote: "我们的征途是星辰大海！"
+
+footer:
+  record:
+    text: "鲁ICP备2023001803号"
+    url: "https://beian.miit.gov.cn/"
+  copyright: "© 2026 明天"
+
+music:
+  localTracks:
+    # 随项目发布的本地音乐文件，上传项目后其他浏览器也能加载。
+    enabled: true
+    folder: "music/local"
+    tracks:
+      - id: "local-yoasobi-gunjou"
+        title: "群青"
+        artist: "YOASOBI"
+        startup: true
+        position: "top"
+        cover: "images/music/music-yoasobi-gunjou-cover.jpg"
+        audio: "music/local/yoasobi-gunjou.mp3"
+        lyrics:
+          source: "meting"
+          provider: "netease"
+          songId: "1472480890"
+
+  networkMusic:
+    enabled: true
+    meting:
+      servers:
+        - "https://api.injahow.cn/meting/"
+        - "https://api.qijieya.cn/meting/"
+    playlists:
+      - id: "main"
+        title: "默认歌单"
+        provider: "netease"
+        type: "playlist"
+        sourceId: "14035449837"
+        enabled: true
+    tracks:
+      # 60 首网络音乐元数据，封面已下载到本地，播放时用 meting 参数拼接 API。
+      source: "music/network-music-tracks.json"
