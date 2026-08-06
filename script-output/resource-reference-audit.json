@@ -1,15 +1,9 @@
 {
-  "scannedFiles": 38,
-  "referencedAssetCount": 145,
-  "existingCount": 145,
+  "scannedFiles": 39,
+  "referencedAssetCount": 149,
   "missingCount": 0,
   "missing": [],
-  "unreferencedCount": 5,
-  "unreferencedPreview": [
-    "images/about/about-puzzle-bg.svg",
-    "images/about/lanyard.png",
-    "images/interests/game-bubble.png",
-    "models/about-card.glb",
-    "music/local/yoasobi-gunjou-cover.jpg"
-  ]
+  "unreferencedCount": 0,
+  "unreferenced": [],
+  "reviewNotes": {}
 }
