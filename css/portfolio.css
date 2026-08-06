@@ -1,0 +1,535 @@
+/* Portfolio section */
+.portfolio-section {
+      --spot-x: 50%;
+      --spot-y: 42%;
+      position: relative;
+      height: 100dvh;
+      min-height: 720px;
+      overflow: hidden;
+      isolation: isolate;
+      display: grid;
+      align-items: center;
+      padding: clamp(38px, 5vw, 62px) 0 clamp(28px, 4vw, 46px);
+      background:
+        linear-gradient(90deg, #050202 0 86px, transparent 86px calc(100% - 86px), #050202 calc(100% - 86px) 100%),
+        linear-gradient(0deg, #050202 0 34px, transparent 34px calc(100% - 34px), #050202 calc(100% - 34px) 100%),
+        radial-gradient(circle at var(--spot-x) var(--spot-y), rgba(255, 210, 168, 0.22), rgba(136, 32, 23, 0.2) 18%, transparent 42%),
+        radial-gradient(ellipse at 50% 42%, rgba(122, 25, 20, 0.48), rgba(42, 8, 9, 0.34) 38%, transparent 70%),
+        linear-gradient(112deg, #050202 0%, #160304 34%, #2b0909 52%, #100203 78%, #030202 100%);
+    }
+
+    .portfolio-section::before {
+      content: "";
+      position: absolute;
+      inset: 0;
+      z-index: -2;
+      opacity: 0.9;
+      background:
+        radial-gradient(ellipse 14px 20px at 43px 36px, rgba(255, 218, 176, 0.3) 0 43%, rgba(0, 0, 0, 0.96) 46% 68%, transparent 70%) left top / 86px 72px repeat-y,
+        radial-gradient(ellipse 14px 20px at calc(100% - 43px) 36px, rgba(255, 218, 176, 0.3) 0 43%, rgba(0, 0, 0, 0.96) 46% 68%, transparent 70%) right top / 86px 72px repeat-y,
+        radial-gradient(ellipse 20px 9px at 48px 17px, rgba(255, 218, 176, 0.22) 0 42%, rgba(0, 0, 0, 0.96) 45% 68%, transparent 70%) left top / 96px 34px repeat-x,
+        radial-gradient(ellipse 20px 9px at 48px calc(100% - 17px), rgba(255, 218, 176, 0.22) 0 42%, rgba(0, 0, 0, 0.96) 45% 68%, transparent 70%) left bottom / 96px 34px repeat-x,
+        radial-gradient(circle at 14% 78%, transparent 0 48px, rgba(225, 94, 54, 0.18) 49px 53px, transparent 54px 92px, rgba(225, 94, 54, 0.12) 93px 97px, transparent 98px),
+        radial-gradient(circle at 84% 24%, transparent 0 40px, rgba(225, 94, 54, 0.16) 41px 45px, transparent 46px 80px, rgba(225, 94, 54, 0.1) 81px 85px, transparent 86px),
+        repeating-linear-gradient(90deg, rgba(255, 210, 180, 0.055) 0 1px, transparent 1px 8px),
+        repeating-linear-gradient(0deg, rgba(255, 210, 180, 0.028) 0 1px, transparent 1px 4px);
+      mix-blend-mode: screen;
+      pointer-events: none;
+    }
+
+    .portfolio-section::after {
+      content: "";
+      position: absolute;
+      inset: 0;
+      z-index: -1;
+      background:
+        linear-gradient(110deg, transparent 0 38%, rgba(255, 184, 127, 0.06) 45%, transparent 56%),
+        linear-gradient(70deg, transparent 0 42%, rgba(255, 184, 127, 0.05) 50%, transparent 62%),
+        linear-gradient(180deg, rgba(255, 210, 180, 0.18), rgba(0, 0, 0, 0.22) 7%, transparent 17%, transparent 83%, rgba(0, 0, 0, 0.24) 93%, rgba(255, 210, 180, 0.14)),
+        linear-gradient(90deg, rgba(0, 0, 0, 0.72), transparent 22%, transparent 78%, rgba(0, 0, 0, 0.74)),
+        radial-gradient(circle at var(--spot-x) var(--spot-y), transparent 0 28%, rgba(48, 6, 7, 0.28) 58%, rgba(0, 0, 0, 0.76) 100%);
+      box-shadow:
+        inset 0 0 0 1px rgba(255, 210, 180, 0.14),
+        inset 0 34px 0 rgba(0, 0, 0, 0.62),
+        inset 0 -34px 0 rgba(0, 0, 0, 0.64),
+        inset 86px 0 0 rgba(0, 0, 0, 0.64),
+        inset -86px 0 0 rgba(0, 0, 0, 0.64),
+        inset 96px 0 0 rgba(255, 210, 180, 0.035),
+        inset -96px 0 0 rgba(255, 210, 180, 0.035);
+      pointer-events: none;
+    }
+
+    .portfolio-shell {
+      position: relative;
+      width: min(1220px, calc(100% - 36px));
+      height: 100%;
+      margin: 0 auto;
+      display: grid;
+      grid-template-rows: auto minmax(250px, 1fr) auto;
+      align-items: center;
+    }
+
+    .portfolio-shell::before,
+    .portfolio-shell::after {
+      content: "";
+      position: absolute;
+      z-index: -1;
+      pointer-events: none;
+    }
+
+    .portfolio-shell::before {
+      left: -34px;
+      bottom: 104px;
+      width: 210px;
+      height: 210px;
+      border: 2px solid rgba(255, 138, 88, 0.18);
+      border-radius: 50%;
+      background:
+        radial-gradient(circle, transparent 0 22px, rgba(255, 138, 88, 0.12) 23px 25px, transparent 26px 62px, rgba(255, 138, 88, 0.1) 63px 66px, transparent 67px),
+        repeating-conic-gradient(from 12deg, rgba(255, 138, 88, 0.14) 0 8deg, transparent 8deg 28deg);
+      filter: blur(0.2px);
+      opacity: 0.62;
+    }
+
+    .portfolio-shell::after {
+      right: -18px;
+      top: 102px;
+      width: 170px;
+      height: 170px;
+      border: 1px solid rgba(255, 138, 88, 0.14);
+      border-radius: 50%;
+      background:
+        radial-gradient(circle, transparent 0 20px, rgba(255, 138, 88, 0.12) 21px 23px, transparent 24px 52px, rgba(255, 138, 88, 0.08) 53px 56px, transparent 57px);
+      opacity: 0.54;
+    }
+
+    .portfolio-heading {
+      display: grid;
+      grid-template-columns: minmax(0, 0.82fr) minmax(260px, 0.48fr);
+      gap: clamp(20px, 4vw, 64px);
+      align-items: end;
+      margin-bottom: clamp(8px, 1.4vw, 18px);
+    }
+
+    .portfolio-kicker {
+      margin: 0 0 14px;
+      color: rgba(255, 255, 255, 0.56);
+      font-size: 12px;
+      font-weight: 700;
+      letter-spacing: 0.18em;
+      text-transform: uppercase;
+    }
+
+    .portfolio-title {
+      max-width: 720px;
+      margin: 0;
+      font-size: clamp(42px, 8vw, 112px);
+      font-weight: 900;
+      line-height: 0.9;
+      letter-spacing: 0;
+    }
+
+
+    .portfolio-lede {
+      margin: 0 0 8px;
+      color: rgba(255, 255, 255, 0.66);
+      font-size: clamp(14px, 1.4vw, 17px);
+      line-height: 1.8;
+    }
+
+    .portfolio-stage {
+      position: relative;
+      height: 100%;
+      min-height: 0;
+      margin-inline: calc((100vw - min(1220px, calc(100vw - 36px))) / -2);
+    }
+
+    .circular-gallery {
+      width: 100%;
+      height: 100%;
+      overflow: hidden;
+      cursor: grab;
+    }
+
+    .circular-gallery:active {
+      cursor: grabbing;
+    }
+
+    .circular-gallery:focus-visible {
+      outline: 2px solid rgba(255, 255, 255, 0.86);
+      outline-offset: 4px;
+    }
+
+    .portfolio-info {
+      width: min(720px, calc(100% - 28px));
+      margin: clamp(-18px, -1.4vw, -6px) auto 0;
+      text-align: center;
+    }
+
+    .portfolio-name {
+      margin: 0 0 10px;
+      color: #fff;
+      font-size: clamp(28px, 4vw, 54px);
+      font-weight: 900;
+      line-height: 1;
+      letter-spacing: 0;
+      text-shadow: 0 0 22px rgba(255, 212, 180, 0.18), 0 0 42px rgba(129, 30, 22, 0.28);
+    }
+
+    .portfolio-intro {
+      min-height: 58px;
+      margin: 0 auto 22px;
+      color: rgba(255, 255, 255, 0.66);
+      font-size: clamp(14px, 1.55vw, 18px);
+      line-height: 1.7;
+    }
+
+    .portfolio-controls {
+      display: inline-grid;
+      grid-template-columns: 48px minmax(150px, auto) 48px;
+      gap: 10px;
+      align-items: center;
+    }
+
+    .portfolio-arrow,
+    .portfolio-visit {
+      height: 48px;
+      border: 1px solid rgba(255, 255, 255, 0.28);
+      border-radius: 999px;
+      color: #fff;
+      background: rgba(55, 11, 10, 0.42);
+      backdrop-filter: blur(18px);
+      box-shadow: inset 0 1px 0 rgba(255, 220, 190, 0.16), 0 14px 42px rgba(0, 0, 0, 0.28), 0 0 22px rgba(104, 22, 18, 0.18);
+      transition: transform 180ms ease, border-color 180ms ease, background 180ms ease;
+    }
+
+    .portfolio-arrow {
+      width: 48px;
+      padding: 0;
+      font-size: 22px;
+      line-height: 1;
+      cursor: pointer;
+    }
+
+    .portfolio-visit {
+      display: inline-grid;
+      place-items: center;
+      padding: 0 24px;
+      color: #fff;
+      font-size: 14px;
+      font-weight: 800;
+      text-decoration: none;
+      white-space: nowrap;
+    }
+
+    .portfolio-arrow:hover,
+    .portfolio-visit:hover {
+      transform: translateY(-2px);
+      border-color: rgba(255, 213, 174, 0.62);
+      background: rgba(105, 24, 18, 0.5);
+    }
+
+    .portfolio-arrow:active,
+    .portfolio-visit:active {
+      transform: translateY(0);
+    }
+
+    @media (max-width: 760px) {
+      .portfolio-section {
+        min-height: 100dvh;
+        padding: 38px 0 26px;
+        background:
+          linear-gradient(90deg, #050202 0 34px, transparent 34px calc(100% - 34px), #050202 calc(100% - 34px) 100%),
+          linear-gradient(0deg, #050202 0 24px, transparent 24px calc(100% - 24px), #050202 calc(100% - 24px) 100%),
+          radial-gradient(circle at var(--spot-x) var(--spot-y), rgba(255, 210, 168, 0.2), rgba(136, 32, 23, 0.18) 18%, transparent 42%),
+          radial-gradient(ellipse at 50% 42%, rgba(122, 25, 20, 0.46), rgba(42, 8, 9, 0.32) 38%, transparent 70%),
+          linear-gradient(112deg, #050202 0%, #160304 34%, #2b0909 52%, #100203 78%, #030202 100%);
+      }
+
+      .portfolio-section::before {
+        background:
+          radial-gradient(ellipse 6px 10px at 17px 24px, rgba(255, 228, 196, 0.2) 0 43%, rgba(0, 0, 0, 0.96) 46% 68%, transparent 70%) left top / 34px 48px repeat-y,
+          radial-gradient(ellipse 6px 10px at calc(100% - 17px) 24px, rgba(255, 228, 196, 0.2) 0 43%, rgba(0, 0, 0, 0.96) 46% 68%, transparent 70%) right top / 34px 48px repeat-y,
+          radial-gradient(ellipse 12px 5px at 28px 12px, rgba(255, 228, 196, 0.16) 0 42%, rgba(0, 0, 0, 0.96) 45% 68%, transparent 70%) left top / 56px 24px repeat-x,
+          radial-gradient(ellipse 12px 5px at 28px calc(100% - 12px), rgba(255, 228, 196, 0.16) 0 42%, rgba(0, 0, 0, 0.96) 45% 68%, transparent 70%) left bottom / 56px 24px repeat-x,
+          radial-gradient(circle at 9% 80%, transparent 0 24px, rgba(225, 94, 54, 0.1) 25px 27px, transparent 28px 48px),
+          radial-gradient(circle at 88% 20%, transparent 0 22px, rgba(225, 94, 54, 0.1) 23px 25px, transparent 26px 44px),
+          repeating-linear-gradient(90deg, rgba(255, 210, 180, 0.05) 0 1px, transparent 1px 7px),
+          repeating-linear-gradient(0deg, rgba(255, 210, 180, 0.028) 0 1px, transparent 1px 4px);
+      }
+
+      .portfolio-section::after {
+        box-shadow:
+          inset 0 0 0 1px rgba(255, 210, 180, 0.1),
+          inset 0 24px 0 rgba(0, 0, 0, 0.6),
+          inset 0 -24px 0 rgba(0, 0, 0, 0.62),
+          inset 34px 0 0 rgba(0, 0, 0, 0.64),
+          inset -34px 0 0 rgba(0, 0, 0, 0.64);
+      }
+
+      .portfolio-shell {
+        grid-template-rows: auto minmax(220px, 1fr) auto;
+      }
+
+      .portfolio-shell::before {
+        left: -30px;
+        bottom: 164px;
+        width: 120px;
+        height: 120px;
+        opacity: 0.46;
+      }
+
+      .portfolio-shell::after {
+        right: -22px;
+        top: 156px;
+        width: 96px;
+        height: 96px;
+        opacity: 0.42;
+      }
+
+      .portfolio-heading {
+        grid-template-columns: 1fr;
+        gap: 12px;
+      }
+
+      .portfolio-title {
+        max-width: 440px;
+        font-size: clamp(38px, 14vw, 64px);
+      }
+
+      .portfolio-stage {
+        margin-inline: -18px;
+      }
+
+      .portfolio-info {
+        margin-top: -12px;
+      }
+
+      .portfolio-controls {
+        grid-template-columns: 44px minmax(132px, auto) 44px;
+      }
+
+      .portfolio-arrow,
+      .portfolio-visit {
+        height: 44px;
+      }
+
+      .portfolio-arrow {
+        width: 44px;
+      }
+    }
+
+    /* Portfolio layout calibration */
+    .portfolio-section {
+      padding: 0;
+      background:
+        radial-gradient(circle at var(--spot-x) var(--spot-y), rgba(255, 222, 190, 0.4), rgba(178, 48, 34, 0.3) 22%, transparent 52%),
+        radial-gradient(ellipse at 50% 46%, rgba(166, 42, 32, 0.62), rgba(72, 15, 17, 0.46) 48%, transparent 82%),
+        linear-gradient(112deg, #0b0304 0%, #2b0809 32%, #48120f 52%, #210607 78%, #090303 100%);
+    }
+
+    .portfolio-section::before {
+      display: none;
+    }
+
+    .portfolio-section::after {
+      opacity: 0.46;
+      background:
+        linear-gradient(90deg, rgba(5, 1, 2, 0.46), transparent 16%, transparent 84%, rgba(5, 1, 2, 0.48)),
+        linear-gradient(180deg, rgba(5, 1, 2, 0.34), transparent 19%, transparent 82%, rgba(5, 1, 2, 0.36)),
+        repeating-linear-gradient(90deg, rgba(255, 210, 180, 0.028) 0 1px, transparent 1px 10px),
+        repeating-linear-gradient(0deg, rgba(255, 210, 180, 0.018) 0 1px, transparent 1px 6px),
+        radial-gradient(circle at var(--spot-x) var(--spot-y), transparent 0 30%, rgba(48, 6, 7, 0.2) 62%, rgba(0, 0, 0, 0.58) 100%);
+      box-shadow: none;
+    }
+
+    .portfolio-photographer {
+      position: absolute;
+      right: clamp(42px, 4vw, 76px);
+      bottom: clamp(28px, 4dvh, 42px);
+      z-index: 2;
+      width: clamp(236px, 16.8vw, 320px);
+      height: auto;
+      pointer-events: none;
+      user-select: none;
+      opacity: 0.94;
+      filter: drop-shadow(0 18px 22px rgba(18, 2, 3, 0.38));
+    }
+
+    .portfolio-shell {
+      width: min(1480px, calc(100% - 72px));
+      height: 100%;
+      box-sizing: border-box;
+      padding: clamp(190px, 22dvh, 220px) 0 clamp(28px, 3.5dvh, 40px);
+      grid-template-rows: minmax(300px, 1fr) auto;
+      align-items: stretch;
+    }
+
+    .portfolio-shell::before {
+      left: -50px;
+      top: 78%;
+      bottom: auto;
+      width: 190px;
+      height: 190px;
+      border-color: rgba(255, 148, 96, 0.3);
+      background:
+        radial-gradient(circle, transparent 0 22px, rgba(255, 148, 96, 0.24) 23px 25px, transparent 26px 62px, rgba(255, 148, 96, 0.18) 63px 66px, transparent 67px),
+        repeating-conic-gradient(from 12deg, rgba(255, 148, 96, 0.2) 0 8deg, transparent 8deg 28deg);
+      filter: none;
+      opacity: 0.52;
+      box-shadow: 0 0 44px rgba(205, 53, 35, 0.12);
+      transform: translateY(-50%);
+    }
+
+    .portfolio-shell::after {
+      right: -36px;
+      top: 21%;
+      width: 148px;
+      height: 148px;
+      border-color: rgba(255, 148, 96, 0.26);
+      background:
+        radial-gradient(circle, transparent 0 18px, rgba(255, 148, 96, 0.22) 19px 21px, transparent 22px 46px, rgba(255, 148, 96, 0.16) 47px 50px, transparent 51px);
+      opacity: 0.46;
+      box-shadow: 0 0 38px rgba(205, 53, 35, 0.1);
+      transform: translateY(-50%);
+    }
+
+    .portfolio-heading {
+      position: absolute;
+      top: clamp(36px, 4.4dvh, 50px);
+      left: clamp(0px, 1.5vw, 24px);
+      z-index: 3;
+      display: block;
+      max-width: 450px;
+      margin: 0;
+    }
+
+    .portfolio-title {
+      font-size: clamp(38px, 4.3vw, 62px);
+      line-height: 0.94;
+    }
+
+    .portfolio-lede {
+      max-width: 460px;
+      margin: 10px 0 0;
+      padding-left: 14px;
+      border-left: 1px solid rgba(255, 204, 174, 0.54);
+      color: rgba(255, 240, 230, 0.78);
+      font-size: clamp(12px, 1vw, 14px);
+      line-height: 1.5;
+      letter-spacing: 0.04em;
+    }
+
+    .portfolio-stage {
+      z-index: 1;
+      margin-inline: calc((100vw - min(1480px, calc(100vw - 72px))) / -2);
+      transform: translateY(-124px);
+    }
+
+    .portfolio-info {
+      position: relative;
+      z-index: 3;
+      width: min(820px, calc(100% - 300px));
+      margin: clamp(-154px, -9vw, -132px) auto 0;
+      transform: translateY(-64px);
+    }
+
+    .portfolio-name {
+      margin-bottom: clamp(18px, 1.2vw, 22px);
+    }
+
+    .portfolio-intro {
+      min-height: 24px;
+      margin: 0 auto 14px;
+      overflow: hidden;
+      color: rgba(255, 243, 236, 0.78);
+      font-size: clamp(11px, 0.85vw, 13px);
+      line-height: 1.45;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+    }
+
+    @media (max-width: 760px) {
+      .portfolio-section {
+        height: 75dvh;
+        min-height: 75dvh;
+        padding: 0;
+        background:
+          radial-gradient(circle at var(--spot-x) var(--spot-y), rgba(255, 222, 190, 0.36), rgba(178, 48, 34, 0.27) 22%, transparent 52%),
+          radial-gradient(ellipse at 50% 46%, rgba(166, 42, 32, 0.58), rgba(72, 15, 17, 0.42) 48%, transparent 82%),
+          linear-gradient(112deg, #0b0304 0%, #2b0809 32%, #48120f 52%, #210607 78%, #090303 100%);
+      }
+
+      .portfolio-section::after {
+        opacity: 0.4;
+        box-shadow: none;
+      }
+
+      .portfolio-shell {
+        width: calc(100% - 32px);
+        min-height: 100%;
+        padding: clamp(82px, 16dvh, 128px) 0 clamp(36px, 8dvh, 72px);
+        grid-template-rows: minmax(230px, 1fr) auto;
+      }
+
+      .portfolio-shell::before {
+        left: -38px;
+        top: 72%;
+        bottom: auto;
+        width: 112px;
+        height: 112px;
+        opacity: 0.38;
+      }
+
+      .portfolio-shell::after {
+        right: -28px;
+        top: 25%;
+        width: 88px;
+        height: 88px;
+        opacity: 0.34;
+      }
+
+      .portfolio-photographer {
+        right: 8px;
+        bottom: 14px;
+        width: clamp(96px, 22vw, 152px);
+        opacity: 0.8;
+        filter: drop-shadow(0 10px 14px rgba(18, 2, 3, 0.32));
+      }
+
+      .portfolio-heading {
+        top: 24px;
+        left: 0;
+        max-width: calc(100% - 18px);
+        padding-right: 0;
+      }
+
+      .portfolio-title {
+        font-size: clamp(30px, 8.8vw, 40px);
+      }
+
+      .portfolio-lede {
+        max-width: 320px;
+        margin-top: 9px;
+        font-size: 13px;
+      }
+
+      .portfolio-stage {
+        margin-inline: -16px;
+        transform: translateY(-72px);
+      }
+
+      .portfolio-info {
+        width: min(100% - 20px, 620px);
+        margin-top: -82px;
+        transform: translateY(-36px);
+      }
+
+      .portfolio-name {
+        margin-bottom: 14px;
+      }
+
+      .portfolio-intro {
+        font-size: 11px;
+      }
+    }

@@ -1,0 +1,1671 @@
+/* Daily section */
+.daily-section {
+      position: relative;
+      height: 100dvh;
+      min-height: 100dvh;
+      overflow: hidden;
+      display: grid;
+      place-items: center;
+      padding: 9px 0;
+      background: #f7f6ee;
+    }
+
+    .daily-shell {
+      position: relative;
+      width: 100%;
+      height: 100%;
+      min-height: 0;
+      max-height: 100%;
+      overflow: hidden;
+      display: grid;
+      place-items: center;
+    }
+
+    .daily-book {
+      position: relative;
+      width: min(119vw, calc((100dvh - 40px) * 1.906));
+      aspect-ratio: 3 / 2;
+      min-height: 0;
+      filter: drop-shadow(0 30px 34px rgba(43, 39, 31, 0.18));
+      transform: translateY(clamp(-32px, -2.25dvh, -18px));
+      perspective: 1800px;
+      transform-style: preserve-3d;
+    }
+
+    .daily-book::before {
+      content: "";
+      position: absolute;
+      left: 49.78%;
+      top: 14.2%;
+      z-index: 10;
+      width: 1.15%;
+      height: 71.3%;
+      pointer-events: none;
+      background: linear-gradient(
+        90deg,
+        rgba(77, 64, 45, 0.16),
+        rgba(248, 246, 238, 0.22) 42%,
+        rgba(86, 69, 48, 0.13)
+      );
+      box-shadow:
+        -2px 0 5px rgba(70, 55, 38, 0.08),
+        2px 0 5px rgba(70, 55, 38, 0.1);
+    }
+
+    .daily-book::after {
+      content: "";
+      position: absolute;
+      inset: 0;
+      z-index: 11;
+      pointer-events: none;
+      background: var(--daily-book-binder-image, url("../images/daily/daily-binder.png")) center / contain no-repeat;
+    }
+
+    .daily-page-arrow {
+      position: absolute;
+      top: 50%;
+      z-index: 12;
+      width: clamp(42px, 5.2vw, 86px);
+      aspect-ratio: 121 / 49;
+      padding: 0;
+      border: 0;
+      background: transparent;
+      cursor: pointer;
+      filter: drop-shadow(0 8px 7px rgba(100, 34, 27, 0.18));
+      transform: translateY(-50%);
+      transform-origin: center;
+      transition:
+        transform 180ms ease,
+        filter 180ms ease,
+        opacity 180ms ease;
+    }
+
+    .daily-page-arrow--left {
+      left: 5.3%;
+      transform: translateY(-50%) rotate(-6deg);
+    }
+
+    .daily-page-arrow--right {
+      right: 4.8%;
+      transform: translateY(-50%) rotate(4deg);
+    }
+
+    .daily-page-arrow img {
+      display: block;
+      width: 100%;
+      height: auto;
+      pointer-events: none;
+      user-select: none;
+    }
+
+    .daily-page-arrow--left img {
+      transform: scaleX(-1);
+    }
+
+    .daily-page-arrow:hover {
+      filter: drop-shadow(0 10px 8px rgba(100, 34, 27, 0.24));
+    }
+
+    .daily-page-arrow--left:hover {
+      transform: translateY(-50%) rotate(-3deg) scale(1.05);
+    }
+
+    .daily-page-arrow--right:hover {
+      transform: translateY(-50%) rotate(1deg) scale(1.05);
+    }
+
+    .daily-page-arrow:active {
+      opacity: 0.84;
+    }
+
+    .daily-page-arrow:disabled {
+      cursor: default;
+      opacity: 0.55;
+    }
+
+    .daily-turn-book {
+      position: absolute;
+      z-index: 8;
+      overflow: visible !important;
+      transform-style: preserve-3d;
+      pointer-events: auto;
+    }
+
+    .daily-book.is-turn-ready > .daily-left-page,
+    .daily-book.is-turn-ready > .daily-right-page {
+      opacity: 0;
+      visibility: hidden;
+    }
+
+    .daily-turn-page {
+      overflow: hidden;
+      background: rgba(249, 248, 242, 0.98);
+    }
+
+    .daily-turn-visual {
+      position: absolute;
+      inset: 0;
+      overflow: hidden;
+    }
+
+    .daily-turn-page-copy {
+      position: absolute !important;
+      left: 0 !important;
+      top: 0 !important;
+      width: 100% !important;
+      height: 100% !important;
+      aspect-ratio: auto !important;
+      transform: none !important;
+      filter: none !important;
+      pointer-events: auto !important;
+    }
+
+    .daily-page-flip-state-preview {
+      position: absolute !important;
+      inset: 0 !important;
+      width: 100% !important;
+      height: 100% !important;
+      min-height: 0 !important;
+      aspect-ratio: auto !important;
+      overflow: visible !important;
+      background: transparent !important;
+      filter: none !important;
+      transform: none !important;
+      perspective: none !important;
+      pointer-events: none !important;
+    }
+
+    .daily-page-flip-state-preview::before,
+    .daily-page-flip-state-preview::after {
+      display: none;
+    }
+
+    .daily-left-page,
+    .daily-right-page {
+      position: absolute;
+      z-index: 1;
+      pointer-events: none;
+      aspect-ratio: 3 / 4;
+      background-position: -20% 86%;
+      background-size: 95% 95%;
+      background-repeat: no-repeat;
+    }
+
+    .daily-left-page {
+      left: 14.45%;
+      top: 14.2%;
+      width: 36.8%;
+      height: 71.3%;
+      overflow: hidden;
+      background-image: var(--daily-campus-left-bg, url("../images/daily/daily-left-paper-bg.png"));
+      border-radius: 12px 5px 5px 12px;
+      clip-path: inset(0 round 12px 5px 5px 12px);
+    }
+
+    .daily-book.is-computer-page .daily-left-page {
+      background-image: var(--daily-vibe-left-bg, url("../images/daily/daily-left-computer-skills-bg.png"));
+      background-position: center;
+      background-size: cover;
+    }
+
+    .daily-book.is-stock-page .daily-left-page {
+      background-image: var(--daily-stock-left-bg, url("../images/daily/daily-left-stock-line-bg.png"));
+      background-position: center;
+      background-size: cover;
+    }
+
+    .daily-left-page::before {
+      content: "";
+      position: absolute;
+      left: 68.2%;
+      top: 6.3%;
+      z-index: 1;
+      width: 25.8%;
+      height: 21.8%;
+      pointer-events: none;
+      border-radius: 999px;
+      background:
+        linear-gradient(rgba(249, 248, 242, 0.92), rgba(249, 248, 242, 0.92)),
+        repeating-linear-gradient(0deg, transparent 0 22px, rgba(128, 170, 207, 0.16) 23px 24px),
+        repeating-linear-gradient(90deg, transparent 0 22px, rgba(128, 170, 207, 0.16) 23px 24px);
+      box-shadow: 0 0 22px 14px rgba(249, 248, 242, 0.86);
+      -webkit-mask-image: radial-gradient(ellipse at center, #000 54%, transparent 76%);
+      mask-image: radial-gradient(ellipse at center, #000 54%, transparent 76%);
+    }
+
+    .daily-book.is-computer-page .daily-left-page::before,
+    .daily-book.is-computer-page .daily-left-page::after,
+    .daily-book.is-computer-page .daily-left-page > *:not(.daily-left-vibe),
+    .daily-book.is-stock-page .daily-left-page::before,
+    .daily-book.is-stock-page .daily-left-page::after,
+    .daily-book.is-stock-page .daily-left-page > *:not(.daily-left-stock-title):not(.daily-left-stock-sticker):not(.daily-left-stock-memes):not(.daily-left-stock-fill) {
+      opacity: 0;
+      visibility: hidden;
+    }
+
+    .daily-left-stock-memes,
+    .daily-right-stock-memes {
+      position: absolute;
+      inset: 0;
+      z-index: 5;
+      opacity: 0;
+      visibility: hidden;
+      pointer-events: none;
+      user-select: none;
+      overflow: hidden;
+      mix-blend-mode: normal;
+    }
+
+    .daily-book.is-stock-page .daily-left-stock-memes,
+    .daily-book.is-stock-page .daily-right-stock-memes {
+      opacity: 1;
+      visibility: visible;
+    }
+
+    .daily-left-stock-fill {
+      position: absolute;
+      inset: 0;
+      z-index: 6;
+      opacity: 0;
+      visibility: hidden;
+      pointer-events: none;
+      user-select: none;
+      color: rgba(42, 58, 74, 0.88);
+    }
+
+    .daily-book.is-stock-page .daily-left-stock-fill {
+      opacity: 1;
+      visibility: visible;
+    }
+
+    .daily-left-stock-fill__ticket,
+    .daily-left-stock-fill__status,
+    .daily-left-stock-fill__stamp {
+      position: absolute;
+      box-sizing: border-box;
+      font-family: "Segoe Print", "STKaiti", "KaiTi", "YouYuan", "Microsoft YaHei UI", cursive;
+      filter: drop-shadow(0 8px 12px rgba(67, 84, 98, 0.1));
+    }
+
+    .daily-left-stock-fill__ticket {
+      left: 40.5%;
+      top: 30.2%;
+      width: 45%;
+      min-height: 104px;
+      padding: 20px 17px 19px;
+      border: 1.5px solid rgba(48, 100, 133, 0.22);
+      border-radius: 9px 13px 8px 12px;
+      background:
+        linear-gradient(180deg, rgba(255, 253, 244, 0.82), rgba(255, 241, 220, 0.56)),
+        rgba(255, 255, 255, 0.58);
+      transform: rotate(-3deg);
+    }
+
+    .daily-left-stock-fill__ticket::before {
+      content: "";
+      position: absolute;
+      left: 16px;
+      top: -8px;
+      width: 44px;
+      height: 14px;
+      border-radius: 3px;
+      background: rgba(255, 205, 121, 0.58);
+      transform: rotate(-4deg);
+    }
+
+    .daily-left-stock-fill__eyebrow {
+      display: block;
+      margin-bottom: 7px;
+      color: rgba(221, 86, 49, 0.82);
+      font-size: clamp(9px, 0.7vw, 14px);
+      font-weight: 900;
+      letter-spacing: 0.08em;
+      line-height: 1;
+    }
+
+    .daily-left-stock-fill__ticket strong {
+      display: block;
+      color: rgba(31, 75, 106, 0.86);
+      font-size: clamp(11px, 0.94vw, 18px);
+      font-weight: 900;
+      line-height: 1.18;
+      letter-spacing: 0.04em;
+      white-space: nowrap;
+    }
+
+    .daily-left-stock-fill__ticket span:not(.daily-left-stock-fill__eyebrow) {
+      display: block;
+      margin-top: 7px;
+      color: rgba(57, 102, 125, 0.72);
+      font-size: clamp(7.5px, 0.64vw, 12.5px);
+      font-weight: 800;
+      line-height: 1.35;
+      white-space: nowrap;
+    }
+
+    .daily-left-stock-fill__status {
+      left: 13%;
+      top: 51%;
+      width: 24%;
+      padding: 12px 14px 13px;
+      border: 1px dashed rgba(218, 96, 68, 0.38);
+      border-radius: 16px 10px 16px 8px;
+      background: rgba(255, 247, 234, 0.56);
+      color: rgba(202, 83, 57, 0.78);
+      font-size: clamp(9px, 0.78vw, 15px);
+      font-weight: 900;
+      line-height: 1.35;
+      white-space: nowrap;
+      letter-spacing: 0.04em;
+      transform: rotate(-2deg);
+    }
+
+    .daily-left-stock-fill__status span {
+      display: block;
+      color: rgba(42, 101, 121, 0.68);
+      font-size: 0.88em;
+      white-space: nowrap;
+    }
+
+    .daily-left-stock-fill__stamp {
+      left: 8%;
+      top: 73%;
+      display: grid;
+      place-items: center;
+      width: 26%;
+      min-height: 50px;
+      padding: 9px 12px;
+      border: 2px solid rgba(57, 128, 107, 0.28);
+      border-radius: 999px;
+      background: rgba(239, 250, 238, 0.48);
+      color: rgba(57, 128, 107, 0.76);
+      font-size: clamp(9px, 0.78vw, 15px);
+      font-weight: 900;
+      line-height: 1.12;
+      letter-spacing: 0.05em;
+      text-align: center;
+      transform: rotate(-8deg);
+    }    .daily-left-stock-memes span,
+    .daily-right-stock-memes span {
+      position: absolute;
+      display: inline-block;
+      padding: 0;
+      color: rgba(58, 102, 130, 0.26);
+      font-family: "Segoe Print", "Comic Sans MS", "STKaiti", "KaiTi", "Microsoft YaHei UI", "PingFang SC", cursive;
+      font-size: clamp(11px, 0.94vw, 18px);
+      font-weight: 600;
+      line-height: 1.08;
+      letter-spacing: 0.04em;
+      white-space: nowrap;
+      background: transparent;
+      border: 0;
+      box-shadow: none;
+      text-shadow: none;
+    }
+
+    .daily-left-stock-memes span:nth-child(1) {
+      left: 7%;
+      top: 27%;
+      color: rgba(205, 85, 54, 0.3);
+      font-family: "Segoe Print", "STKaiti", "KaiTi", cursive;
+      font-size: clamp(12px, 1vw, 20px);
+      transform: rotate(-11deg);
+    }
+
+    .daily-left-stock-memes span:nth-child(2) {
+      left: 43%;
+      top: 25%;
+      color: rgba(52, 112, 145, 0.27);
+      font-family: "STKaiti", "KaiTi", cursive;
+      transform: rotate(9deg);
+    }
+
+    .daily-left-stock-memes span:nth-child(3) {
+      left: 10%;
+      top: 47%;
+      color: rgba(205, 85, 54, 0.27);
+      font-family: "FZShuTi", "STKaiti", "KaiTi", cursive;
+      font-size: clamp(11px, 1vw, 19px);
+      transform: rotate(7deg);
+    }
+
+    .daily-left-stock-memes span:nth-child(4) {
+      left: 56%;
+      top: 40%;
+      color: rgba(58, 102, 130, 0.25);
+      font-family: "Segoe Print", "YouYuan", "Microsoft YaHei UI", cursive;
+      transform: rotate(-9deg);
+    }
+
+    .daily-left-stock-memes span:nth-child(5) {
+      left: 9%;
+      top: 63%;
+      color: rgba(52, 112, 145, 0.26);
+      font-family: "LiSu", "STKaiti", "KaiTi", cursive;
+      transform: rotate(-8deg);
+    }
+
+    .daily-left-stock-memes span:nth-child(6) {
+      left: 45%;
+      top: 60%;
+      color: rgba(205, 85, 54, 0.25);
+      font-family: "Segoe Print", "YouYuan", "Microsoft YaHei UI", cursive;
+      transform: rotate(10deg);
+    }
+
+    .daily-left-stock-memes span:nth-child(7) {
+      left: 14%;
+      top: 78%;
+      color: rgba(58, 102, 130, 0.24);
+      font-family: "STKaiti", "KaiTi", cursive;
+      transform: rotate(8deg);
+    }
+
+    .daily-left-stock-memes span:nth-child(8) {
+      left: 58%;
+      top: 76%;
+      color: rgba(205, 85, 54, 0.24);
+      font-family: "Segoe Print", "Microsoft YaHei UI", cursive;
+      transform: rotate(-8deg);
+    }
+
+    .daily-right-stock-memes span:nth-child(1) {
+      left: 7%;
+      top: 17%;
+      color: rgba(89, 158, 220, 0.34);
+      font-family: "STKaiti", "KaiTi", cursive;
+      font-size: clamp(11px, 0.9vw, 18px);
+      transform: rotate(-8deg);
+    }
+
+    .daily-right-stock-memes span:nth-child(2) {
+      left: 34%;
+      top: 19%;
+      color: rgba(238, 116, 102, 0.34);
+      font-family: "Segoe Print", "YouYuan", "Microsoft YaHei UI", cursive;
+      transform: rotate(7deg);
+    }
+
+    .daily-right-stock-memes span:nth-child(3) {
+      left: 63%;
+      top: 18%;
+      color: rgba(160, 126, 214, 0.32);
+      font-family: "Segoe Print", "Microsoft YaHei UI", cursive;
+      font-size: clamp(12px, 0.95vw, 19px);
+      transform: rotate(-5deg);
+    }
+
+    .daily-right-stock-memes span:nth-child(4) {
+      left: 16%;
+      top: 28%;
+      color: rgba(88, 172, 126, 0.32);
+      font-family: "FZShuTi", "STKaiti", "KaiTi", cursive;
+      transform: rotate(-11deg);
+    }
+
+    .daily-right-stock-memes span:nth-child(5) {
+      left: 45%;
+      top: 30%;
+      color: rgba(229, 154, 72, 0.33);
+      font-family: "LiSu", "STKaiti", "KaiTi", cursive;
+      font-size: clamp(10px, 0.8vw, 16px);
+      transform: rotate(9deg);
+    }
+
+    .daily-right-stock-memes span:nth-child(6) {
+      left: 70%;
+      top: 29%;
+      color: rgba(73, 174, 176, 0.31);
+      font-family: "STKaiti", "KaiTi", cursive;
+      transform: rotate(5deg);
+    }
+
+    .daily-right-stock-memes span:nth-child(7) {
+      left: 8%;
+      top: 40%;
+      color: rgba(218, 104, 154, 0.32);
+      font-family: "Segoe Print", "YouYuan", "Microsoft YaHei UI", cursive;
+      transform: rotate(-2deg);
+    }
+
+    .daily-right-stock-memes span:nth-child(8) {
+      left: 32%;
+      top: 41%;
+      color: rgba(181, 154, 65, 0.3);
+      font-family: "Segoe Print", "Microsoft YaHei UI", cursive;
+      font-size: clamp(11px, 0.92vw, 18px);
+      transform: rotate(-7deg);
+    }
+
+    .daily-right-stock-memes span:nth-child(9) {
+      left: 61%;
+      top: 40%;
+      color: rgba(160, 126, 214, 0.31);
+      font-family: "STKaiti", "KaiTi", cursive;
+      transform: rotate(10deg);
+    }
+
+    .daily-right-stock-memes span:nth-child(10) {
+      left: 17%;
+      top: 50%;
+      color: rgba(229, 154, 72, 0.32);
+      font-family: "Segoe Print", "YouYuan", "Microsoft YaHei UI", cursive;
+      transform: rotate(-6deg);
+    }
+
+    .daily-right-stock-memes span:nth-child(11) {
+      left: 45%;
+      top: 52%;
+      color: rgba(88, 172, 126, 0.31);
+      font-family: "FZShuTi", "STKaiti", "KaiTi", cursive;
+      font-size: clamp(12px, 0.95vw, 19px);
+      transform: rotate(-2deg);
+    }
+
+    .daily-right-stock-memes span:nth-child(12) {
+      left: 72%;
+      top: 51%;
+      color: rgba(238, 116, 102, 0.31);
+      font-family: "Segoe Print", "Microsoft YaHei UI", cursive;
+      transform: rotate(-10deg);
+    }
+
+    .daily-right-stock-memes span:nth-child(13) {
+      left: 8%;
+      top: 61%;
+      color: rgba(89, 158, 220, 0.3);
+      font-family: "STKaiti", "KaiTi", cursive;
+      transform: rotate(-8deg);
+    }
+
+    .daily-right-stock-memes span:nth-child(14) {
+      left: 31%;
+      top: 62%;
+      color: rgba(218, 104, 154, 0.31);
+      font-family: "LiSu", "STKaiti", "KaiTi", cursive;
+      transform: rotate(8deg);
+    }
+
+    .daily-right-stock-memes span:nth-child(15) {
+      left: 58%;
+      top: 63%;
+      color: rgba(73, 174, 176, 0.31);
+      font-family: "Segoe Print", "YouYuan", "Microsoft YaHei UI", cursive;
+      transform: rotate(-5deg);
+    }
+
+    .daily-right-stock-memes span:nth-child(16) {
+      left: 75%;
+      top: 65%;
+      color: rgba(181, 154, 65, 0.29);
+      font-family: "STKaiti", "KaiTi", cursive;
+      transform: rotate(9deg);
+    }
+
+    .daily-right-stock-memes span:nth-child(17) {
+      left: 12%;
+      top: 72%;
+      color: rgba(160, 126, 214, 0.3);
+      font-family: "Segoe Print", "Microsoft YaHei UI", cursive;
+      font-size: clamp(10px, 0.82vw, 16px);
+      transform: rotate(7deg);
+    }
+
+    .daily-right-stock-memes span:nth-child(18) {
+      left: 39%;
+      top: 73%;
+      color: rgba(89, 158, 220, 0.31);
+      font-family: "FZShuTi", "STKaiti", "KaiTi", cursive;
+      transform: rotate(-8deg);
+    }
+
+    .daily-right-stock-memes span:nth-child(19) {
+      left: 65%;
+      top: 75%;
+      color: rgba(238, 116, 102, 0.31);
+      font-family: "Segoe Print", "YouYuan", "Microsoft YaHei UI", cursive;
+      transform: rotate(-2deg);
+    }
+
+    .daily-right-stock-memes span:nth-child(20) {
+      left: 8%;
+      top: 83%;
+      color: rgba(88, 172, 126, 0.3);
+      font-family: "STKaiti", "KaiTi", cursive;
+      transform: rotate(-7deg);
+    }
+
+    .daily-right-stock-memes span:nth-child(21) {
+      left: 34%;
+      top: 84%;
+      color: rgba(229, 154, 72, 0.31);
+      font-family: "Segoe Print", "Microsoft YaHei UI", cursive;
+      transform: rotate(8deg);
+    }
+
+    .daily-right-stock-memes span:nth-child(22) {
+      left: 62%;
+      top: 85%;
+      color: rgba(73, 174, 176, 0.3);
+      font-family: "LiSu", "STKaiti", "KaiTi", cursive;
+      transform: rotate(-6deg);
+    }
+
+    .daily-right-stock-memes span:nth-child(23) {
+      left: 23%;
+      top: 23%;
+      color: rgba(88, 172, 126, 0.27);
+      font-family: "Segoe Print", "YouYuan", "Microsoft YaHei UI", cursive;
+      font-size: clamp(9px, 0.68vw, 14px);
+      transform: rotate(4deg);
+    }
+
+    .daily-right-stock-memes span:nth-child(24) {
+      left: 54%;
+      top: 23%;
+      color: rgba(229, 154, 72, 0.27);
+      font-family: "STKaiti", "KaiTi", cursive;
+      font-size: clamp(9px, 0.68vw, 14px);
+      transform: rotate(-8deg);
+    }
+
+    .daily-right-stock-memes span:nth-child(25) {
+      left: 26%;
+      top: 34%;
+      color: rgba(89, 158, 220, 0.27);
+      font-family: "Segoe Print", "Microsoft YaHei UI", cursive;
+      font-size: clamp(9px, 0.68vw, 14px);
+      transform: rotate(11deg);
+    }
+
+    .daily-right-stock-memes span:nth-child(26) {
+      left: 58%;
+      top: 34%;
+      color: rgba(238, 116, 102, 0.27);
+      font-family: "FZShuTi", "STKaiti", "KaiTi", cursive;
+      font-size: clamp(9px, 0.68vw, 14px);
+      transform: rotate(-4deg);
+    }
+
+    .daily-right-stock-memes span:nth-child(27) {
+      left: 23%;
+      top: 56%;
+      color: rgba(160, 126, 214, 0.27);
+      font-family: "STKaiti", "KaiTi", cursive;
+      font-size: clamp(9px, 0.68vw, 14px);
+      transform: rotate(5deg);
+    }
+
+    .daily-right-stock-memes span:nth-child(28) {
+      left: 53%;
+      top: 57%;
+      color: rgba(73, 174, 176, 0.27);
+      font-family: "Segoe Print", "YouYuan", "Microsoft YaHei UI", cursive;
+      font-size: clamp(9px, 0.68vw, 14px);
+      transform: rotate(-8deg);
+    }
+
+    .daily-right-stock-memes span:nth-child(29) {
+      left: 20%;
+      top: 67%;
+      color: rgba(218, 104, 154, 0.27);
+      font-family: "LiSu", "STKaiti", "KaiTi", cursive;
+      font-size: clamp(9px, 0.68vw, 14px);
+      transform: rotate(9deg);
+    }
+
+    .daily-right-stock-memes span:nth-child(30) {
+      left: 49%;
+      top: 69%;
+      color: rgba(88, 172, 126, 0.27);
+      font-family: "Segoe Print", "Microsoft YaHei UI", cursive;
+      font-size: clamp(9px, 0.68vw, 14px);
+      transform: rotate(-5deg);
+    }
+
+    .daily-right-stock-memes span:nth-child(31) {
+      left: 20%;
+      top: 89%;
+      color: rgba(160, 126, 214, 0.26);
+      font-family: "STKaiti", "KaiTi", cursive;
+      font-size: clamp(9px, 0.68vw, 14px);
+      transform: rotate(-9deg);
+    }
+
+    .daily-right-stock-memes span:nth-child(32) {
+      left: 49%;
+      top: 90%;
+      color: rgba(238, 116, 102, 0.26);
+      font-family: "Segoe Print", "YouYuan", "Microsoft YaHei UI", cursive;
+      font-size: clamp(9px, 0.68vw, 14px);
+      transform: rotate(7deg);
+    }
+
+    .daily-left-stock-title {
+      position: absolute;
+      left: 8.6%;
+      top: 10.2%;
+      z-index: 8;
+      width: 82%;
+      opacity: 0;
+      visibility: hidden;
+      pointer-events: none;
+      user-select: none;
+      text-align: left;
+      color: inherit;
+      text-shadow: none;
+    }
+
+    .daily-book.is-stock-page .daily-left-stock-title {
+      opacity: 1;
+      visibility: visible;
+    }
+
+    .daily-left-stock-title__main {
+      display: block;
+      margin: 0;
+      max-width: 10.5em;
+      color: #e12f2a;
+      background: linear-gradient(92deg, #ffb14a 0%, #ff7a45 48%, #ef5a52 100%);
+      -webkit-background-clip: text;
+      background-clip: text;
+      -webkit-text-fill-color: transparent;
+      font-family: "STXinwei", "华文新魏", "FZShuTi", "方正舒体", "STKaiti", "KaiTi", "Microsoft YaHei UI", "PingFang SC", serif;
+      font-size: clamp(20px, 2.08vw, 41px);
+      font-weight: 900;
+      letter-spacing: 0.04em;
+      line-height: 1.05;
+      text-align: left;
+      transform: none;
+      transform-origin: left center;
+      text-shadow:
+        0 1px 0 rgba(255, 238, 206, 0.24),
+        0 7px 14px rgba(199, 54, 35, 0.1);
+    }
+
+    .daily-left-stock-title__sub {
+      display: block;
+      margin-top: 14px;
+      margin-left: 1.1em;
+      color: rgba(20, 91, 136, 0.86);
+      font-family: "Arial Narrow", "Avenir Next Condensed", "Microsoft YaHei UI", "PingFang SC", sans-serif;
+      font-size: clamp(7px, 0.64vw, 12px);
+      font-weight: 900;
+      letter-spacing: 0.15em;
+      line-height: 1.2;
+      text-align: left;
+      text-transform: uppercase;
+      text-shadow: 0 1px 0 rgba(255, 255, 255, 0.9);
+    }
+
+    .daily-left-stock-sticker {
+      position: absolute;
+      z-index: 7;
+      opacity: 0;
+      visibility: hidden;
+      pointer-events: none;
+      user-select: none;
+      filter: drop-shadow(0 9px 14px rgba(55, 83, 103, 0.13));
+    }
+
+    .daily-book.is-stock-page .daily-left-stock-sticker {
+      opacity: 1;
+      visibility: visible;
+    }
+
+    .daily-left-stock-sticker--question {
+      left: 6.8%;
+      top: 24.2%;
+      width: 31%;
+      transform: rotate(-7deg);
+      filter: drop-shadow(0 10px 15px rgba(65, 54, 35, 0.15));
+    }
+    .daily-left-stock-sticker--learn {
+      right: 12.2%;
+      bottom: 8.2%;
+      width: 48%;
+      transform: rotate(3deg);
+    }
+
+    .daily-left-vibe {
+      position: absolute;
+      inset: 0;
+      z-index: 7;
+      opacity: 0;
+      visibility: hidden;
+      pointer-events: none;
+      user-select: none;
+      color: #234a73;
+      transition: opacity 260ms ease, visibility 0s linear 260ms;
+    }
+
+    .daily-book.is-computer-page .daily-left-vibe {
+      opacity: 1;
+      visibility: visible;
+      transition-delay: 160ms, 0s;
+    }
+
+    .daily-left-vibe__title {
+      position: absolute;
+      left: 6.8%;
+      top: 10.2%;
+      z-index: 4;
+      margin: 0;
+      width: 84%;
+      padding: 9px 13px 10px;
+      color: #123f69;
+      font-family: "Cooper Black", "Baloo 2", "Arial Rounded MT Bold", "Avenir Next Rounded", "Microsoft YaHei UI", "PingFang SC", sans-serif;
+      font-size: clamp(16px, 1.42vw, 28px);
+      font-weight: 900;
+      letter-spacing: -0.018em;
+      line-height: 0.98;
+      text-transform: none;
+      border-radius: 16px;
+      background:
+        linear-gradient(100deg, rgba(255, 255, 255, 0.76), rgba(255, 239, 168, 0.34) 50%, rgba(194, 231, 255, 0.28)),
+        rgba(255, 255, 255, 0.22);
+      box-shadow:
+        inset 0 0 0 1px rgba(255, 255, 255, 0.7),
+        0 10px 20px rgba(68, 118, 160, 0.12);
+      text-shadow:
+        0 1px 0 rgba(255, 255, 255, 0.9),
+        0 2px 0 rgba(255, 226, 116, 0.52),
+        0 9px 18px rgba(68, 118, 160, 0.16);
+      transform: rotate(-2.4deg);
+    }
+
+    .daily-left-vibe__title span {
+      display: block;
+      margin-top: 8px;
+      margin-left: 10px;
+      color: rgba(43, 94, 138, 0.68);
+      font-family: "Bradley Hand ITC", "Comic Sans MS", "Segoe Print", "Microsoft YaHei UI", "PingFang SC", cursive;
+      font-size: 0.58em;
+      font-weight: 800;
+      letter-spacing: 0.06em;
+      text-transform: none;
+    }
+
+    .daily-left-vibe__comic {
+      position: absolute;
+      left: 10.2%;
+      top: 23.8%;
+      z-index: 2;
+      width: 68%;
+      border-radius: 10px;
+      transform: rotate(-2deg);
+      box-shadow:
+        0 12px 18px rgba(52, 72, 86, 0.14),
+        0 0 0 1px rgba(84, 141, 185, 0.13);
+    }
+
+    .daily-left-vibe__cloud {
+      position: absolute;
+      right: 7.2%;
+      bottom: 7.2%;
+      z-index: 3;
+      width: 44%;
+      transform: rotate(4deg);
+      filter: drop-shadow(0 12px 13px rgba(53, 78, 92, 0.16));
+    }
+
+    .daily-left-vibe__caption {
+      position: absolute;
+      left: 18%;
+      bottom: 11.2%;
+      z-index: 4;
+      width: 52%;
+      margin: 0;
+      color: rgba(42, 87, 124, 0.82);
+      font-family: "Kaiti SC", "KaiTi", "Songti SC", "Microsoft YaHei UI", "PingFang SC", serif;
+      font-size: clamp(10px, 0.86vw, 18px);
+      font-weight: 700;
+      letter-spacing: 0.08em;
+      line-height: 1.5;
+      text-shadow: 0 1px 0 rgba(255, 255, 255, 0.74);
+      transform: rotate(-1deg);
+    }
+
+    .daily-left-page::after {
+      content: "";
+      position: absolute;
+      inset: 0;
+      z-index: 2;
+      pointer-events: none;
+      background-image: var(--daily-campus-left-bg, url("../images/daily/daily-left-paper-bg.png"));
+      background-position: -20% 86%;
+      background-size: 95% 95%;
+      background-repeat: no-repeat;
+      clip-path: inset(6.1% 6.1% 73.9% 68.5% round 4px);
+      transform: translateX(-9.25%);
+      transform-origin: center;
+    }
+
+    .daily-left-sticker {
+      position: absolute;
+      left: 13%;
+      bottom: 7.8%;
+      z-index: 3;
+      width: 74%;
+      height: auto;
+      display: block;
+      pointer-events: none;
+      user-select: none;
+      mix-blend-mode: normal;
+      opacity: 1;
+      filter: drop-shadow(0 8px 8px rgba(68, 61, 48, 0.16));
+    }
+
+    .daily-left-title {
+      position: absolute;
+      left: 7.4%;
+      top: 13.4%;
+      z-index: 4;
+      width: 43.5%;
+      padding: 2.3% 2.8% 2.6%;
+      pointer-events: none;
+      user-select: none;
+      text-align: center;
+      color: #345f88;
+      mix-blend-mode: normal;
+      transform: rotate(-1deg);
+      border-radius: 14px 10px 16px 9px;
+      background:
+        linear-gradient(135deg, rgba(255, 255, 255, 0.28), rgba(214, 235, 249, 0.12)),
+        radial-gradient(ellipse at 24% 38%, rgba(138, 190, 225, 0.16), transparent 58%);
+      box-shadow:
+        inset 0 0 0 1px rgba(116, 169, 207, 0.08),
+        0 1px 0 rgba(255, 255, 255, 0.66);
+    }
+
+    .daily-left-title::before {
+      content: "";
+      position: absolute;
+      left: 7%;
+      top: 18%;
+      width: 18%;
+      height: 1px;
+      background: rgba(112, 168, 211, 0.34);
+      transform: rotate(-2deg);
+    }
+
+    .daily-left-title::after {
+      content: "";
+      position: absolute;
+      left: 18%;
+      right: 17%;
+      bottom: 22%;
+      height: 7px;
+      border-radius: 999px;
+      background: rgba(145, 195, 226, 0.16);
+      transform: rotate(-1deg);
+    }
+
+    .daily-title-date {
+      display: block;
+      width: 100%;
+      margin-bottom: 3.4%;
+      padding-left: 13%;
+      color: rgba(91, 154, 203, 0.62);
+      font-family: "Arial Narrow", "Avenir Next Condensed", "PingFang SC", sans-serif;
+      font-size: clamp(6px, 0.45vw, 9px);
+      font-weight: 700;
+      letter-spacing: 0.16em;
+      line-height: 1;
+      text-align: left;
+    }
+
+    .daily-title-main {
+      display: block;
+      position: relative;
+      z-index: 1;
+      color: #2f5d86;
+      font-family: "Songti SC", "STZhongsong", "Noto Serif CJK SC", "Microsoft YaHei UI", "PingFang SC", serif;
+      font-size: clamp(23px, 2.22vw, 47px);
+      font-weight: 700;
+      letter-spacing: 0.16em;
+      line-height: 1;
+      text-shadow:
+        0 1px 0 rgba(255, 255, 255, 0.92),
+        0 5px 12px rgba(82, 132, 171, 0.1);
+      text-align: center;
+      white-space: nowrap;
+    }
+
+    .daily-title-tags {
+      display: block;
+      position: relative;
+      z-index: 1;
+      margin-top: 4.7%;
+      color: rgba(67, 124, 168, 0.6);
+      font-family: "Arial Narrow", "Avenir Next Condensed", "PingFang SC", sans-serif;
+      font-size: clamp(6px, 0.51vw, 10px);
+      font-weight: 800;
+      letter-spacing: 0.18em;
+      line-height: 1;
+      text-align: center;
+      white-space: nowrap;
+    }
+
+    .daily-left-note {
+      position: absolute;
+      left: 8.5%;
+      top: 64.3%;
+      z-index: 4;
+      width: 43%;
+      pointer-events: none;
+      user-select: none;
+      color: rgba(55, 96, 132, 0.72);
+      font-family: "Kaiti SC", "KaiTi", "Songti SC", "Microsoft YaHei UI", "PingFang SC", serif;
+      font-size: clamp(10px, 0.88vw, 18px);
+      font-weight: 600;
+      letter-spacing: 0.06em;
+      line-height: 1;
+      text-align: center;
+      white-space: nowrap;
+      mix-blend-mode: normal;
+      transform: rotate(-2.4deg);
+      text-shadow:
+        0 1px 0 rgba(255, 255, 255, 0.82),
+        0 4px 10px rgba(77, 124, 164, 0.08);
+    }
+
+    .daily-left-coder-sticker {
+      position: absolute;
+      left: 52%;
+      top: 37.8%;
+      z-index: 4;
+      width: 30%;
+      height: auto;
+      display: block;
+      pointer-events: none;
+      user-select: none;
+      mix-blend-mode: normal;
+      opacity: 1;
+      transform: rotate(2deg);
+      filter: drop-shadow(0 8px 10px rgba(46, 53, 67, 0.14));
+    }
+
+    .daily-left-card-sticker {
+      position: absolute;
+      left: 23.2%;
+      top: 28.8%;
+      z-index: 4;
+      width: 14%;
+      height: auto;
+      display: block;
+      pointer-events: none;
+      user-select: none;
+      mix-blend-mode: normal;
+      opacity: 1;
+      transform: rotate(-6deg);
+      filter: drop-shadow(0 8px 10px rgba(68, 61, 48, 0.13));
+    }
+
+    .daily-left-seal-sticker {
+      position: absolute;
+      left: 57.2%;
+      top: 18.2%;
+      z-index: 4;
+      width: 17%;
+      height: auto;
+      display: block;
+      pointer-events: none;
+      user-select: none;
+      mix-blend-mode: normal;
+      opacity: 1;
+      transform: rotate(4deg);
+      filter: drop-shadow(0 7px 9px rgba(46, 78, 112, 0.12));
+    }
+
+    .daily-right-page {
+      left: 51.05%;
+      top: 14.2%;
+      width: 36.8%;
+      height: 71.3%;
+      overflow: hidden;
+      background-image: var(--daily-campus-right-bg, url("../images/daily/daily-right-page-bg.png"));
+      background-position: center;
+      background-size: cover;
+      border-radius: 10px 22px 22px 10px;
+      clip-path: inset(0 round 10px 22px 22px 10px);
+    }
+
+    .daily-book.is-computer-page .daily-right-page {
+      background-image: var(--daily-vibe-right-bg, url("../images/daily/daily-right-computer-page-bg.png"));
+    }
+
+    .daily-book.is-stock-page .daily-right-page {
+      background-image: var(--daily-stock-right-bg, url("../images/daily/daily-right-cloud-dashboard-bg.png"));
+    }
+
+    .daily-book.is-computer-page .daily-right-page::before,
+    .daily-book.is-computer-page .daily-right-page::after,
+    .daily-book.is-stock-page .daily-right-page::before,
+    .daily-book.is-stock-page .daily-right-page::after {
+      content: none;
+    }
+
+    .daily-book.is-computer-page .daily-right-page > *,
+    .daily-book.is-stock-page .daily-right-page > *:not(.daily-right-stock-sticker):not(.daily-right-stock-copy):not(.daily-right-stock-memes) {
+      opacity: 0;
+      visibility: hidden;
+      pointer-events: none;
+    }
+
+    .daily-book.is-computer-page .daily-right-page > .daily-right-vibe-sticker {
+      opacity: 1;
+      visibility: visible;
+    }
+
+    .daily-book.is-computer-page .daily-right-page > .daily-right-terminal {
+      opacity: 1;
+      visibility: visible;
+      pointer-events: auto;
+    }
+
+    .daily-right-stock-sticker {
+      position: absolute;
+      z-index: 7;
+      opacity: 0;
+      visibility: hidden;
+      pointer-events: none;
+      user-select: none;
+      filter: drop-shadow(0 10px 16px rgba(55, 83, 103, 0.13));
+    }
+
+    .daily-book.is-stock-page .daily-right-stock-sticker {
+      opacity: 1;
+      visibility: visible;
+    }
+
+    .daily-right-stock-sticker--learn {
+      left: 14.5%;
+      top: 10.8%;
+      width: 68%;
+      transform: rotate(-1deg);
+    }
+
+    .daily-right-stock-sticker--question {
+      right: 7.2%;
+      bottom: 8.2%;
+      width: 23.5%;
+      transform: rotate(5deg);
+      filter: drop-shadow(0 8px 12px rgba(65, 54, 35, 0.13));
+    }
+
+    .daily-right-stock-sticker--capital {
+      right: 6.5%;
+      top: 17.2%;
+      width: 38%;
+      transform: rotate(4deg);
+      filter: drop-shadow(0 10px 16px rgba(74, 52, 42, 0.14));
+    }
+
+    .daily-right-stock-sticker--rider {
+      left: 29.5%;
+      top: 53.5%;
+      width: 43%;
+      transform: rotate(-1.5deg);
+      filter: drop-shadow(0 12px 14px rgba(55, 73, 88, 0.16));
+    }
+
+    .daily-right-stock-copy {
+      position: absolute;
+      left: 8.8%;
+      top: 12.8%;
+      z-index: 8;
+      width: 82%;
+      opacity: 0;
+      visibility: hidden;
+      pointer-events: none;
+      user-select: none;
+      color: rgba(42, 55, 72, 0.86);
+      font-family: "Kaiti SC", "KaiTi", "STKaiti", "Microsoft YaHei UI", "PingFang SC", serif;
+      transform: rotate(-2deg);
+    }
+
+    .daily-book.is-stock-page .daily-right-stock-copy {
+      opacity: 1;
+      visibility: visible;
+    }
+
+    .daily-right-stock-copy__title {
+      display: block;
+      margin: 0 0 14px;
+      color: rgba(35, 47, 68, 0.92);
+      font-size: clamp(15px, 1.35vw, 25px);
+      font-weight: 900;
+      letter-spacing: 0.03em;
+      line-height: 1.2;
+      white-space: nowrap;
+      text-shadow: 0 1px 0 rgba(255, 255, 255, 0.72);
+    }
+
+    .daily-right-stock-copy__line {
+      display: flex;
+      align-items: flex-start;
+      gap: 7px;
+      width: fit-content;
+      max-width: 92%;
+      margin: 7px 0;
+      padding: 6px 10px 7px;
+      color: rgba(38, 54, 74, 0.88);
+      font-size: clamp(9px, 0.84vw, 16px);
+      font-weight: 700;
+      line-height: 1.35;
+      letter-spacing: 0.03em;
+      border: 1px solid rgba(255, 255, 255, 0.64);
+      border-radius: 14px 14px 14px 5px;
+      background: rgba(255, 255, 255, 0.48);
+      box-shadow: 0 5px 12px rgba(87, 113, 138, 0.08);
+      backdrop-filter: blur(3px);
+    }
+
+    .daily-right-stock-copy__line:nth-of-type(2),
+    .daily-right-stock-copy__line:nth-of-type(4) {
+      margin-left: 17px;
+      border-radius: 14px 14px 5px 14px;
+      background: rgba(255, 247, 236, 0.52);
+    }
+
+    .daily-right-stock-copy__line:nth-of-type(3),
+    .daily-right-stock-copy__line:nth-of-type(5) {
+      margin-left: 7px;
+      background: rgba(238, 247, 255, 0.52);
+    }
+
+    .daily-right-stock-copy__emoji {
+      flex: 0 0 auto;
+      font-size: 1.08em;
+      transform: translateY(-0.04em);
+    }
+
+    .daily-right-vibe-sticker {
+      position: absolute;
+      right: 8.8%;
+      top: 11.8%;
+      z-index: 6;
+      width: 13.5%;
+      height: auto;
+      display: block;
+      opacity: 0;
+      visibility: hidden;
+      pointer-events: none;
+      user-select: none;
+      transform: rotate(2deg);
+      filter: drop-shadow(0 6px 7px rgba(89, 74, 58, 0.1));
+    }
+
+    .daily-right-terminal {
+      position: absolute;
+      left: 19.8%;
+      top: 31.8%;
+      z-index: 5;
+      width: 59%;
+      height: 31.2%;
+      overflow: hidden;
+      opacity: 0;
+      visibility: hidden;
+      border-radius: 7px;
+      background: rgba(255, 253, 248, 0.96);
+      box-shadow:
+        inset 0 0 0 1px rgba(132, 118, 103, 0.16),
+        0 8px 14px rgba(79, 63, 48, 0.08);
+      color: #3f4854;
+      font-family: "SFMono-Regular", "Cascadia Mono", "JetBrains Mono", "Consolas", "Microsoft YaHei UI", "PingFang SC", monospace;
+      font-size: clamp(6px, 0.56vw, 11px);
+      line-height: 1.5;
+      transform: rotate(-0.2deg);
+    }
+
+    .daily-right-terminal__bar {
+      position: relative;
+      display: flex;
+      align-items: center;
+      gap: 2.4%;
+      height: 16%;
+      padding: 0 5%;
+      background: rgba(236, 229, 218, 0.74);
+      border-bottom: 1px solid rgba(142, 126, 109, 0.16);
+      color: #8d8175;
+      font-size: 0.72em;
+      letter-spacing: 0.03em;
+    }
+
+    .daily-right-terminal__dot {
+      width: 5px;
+      height: 5px;
+      border-radius: 999px;
+      background: #ff625f;
+      box-shadow:
+        8px 0 0 #ffc247,
+        16px 0 0 #37d65f;
+      flex: 0 0 auto;
+    }
+
+    .daily-right-terminal__user {
+      position: absolute;
+      left: 50%;
+      top: 50%;
+      margin-left: 0;
+      color: #8d8175;
+      font-size: 1.36em;
+      font-weight: 700;
+      white-space: nowrap;
+      transform: translate(-50%, -50%);
+    }
+
+    .daily-right-terminal__body {
+      position: relative;
+      padding: 4.8% 5.5%;
+    }
+
+    .daily-right-terminal__body.is-waiting::after {
+      content: "按 Enter 发送";
+      display: block;
+      margin-top: 3.2%;
+      margin-left: 8.6%;
+      color: #9a8e82;
+      font-size: 0.86em;
+      animation: daily-terminal-cursor 1s steps(2, jump-none) infinite;
+    }
+
+    @keyframes daily-terminal-cursor {
+      50% {
+        opacity: 0.28;
+      }
+    }
+
+    .daily-right-terminal__cmd {
+      margin: 0 0 2.4%;
+      color: #6f7882;
+      white-space: nowrap;
+    }
+
+    .daily-right-terminal__prompt {
+      color: #3584c9;
+    }
+
+    .daily-right-terminal__line {
+      margin: 0 0 2.1%;
+      white-space: nowrap;
+    }
+
+    .daily-right-terminal__arrow {
+      color: #3584c9;
+      margin-right: 2.6%;
+    }
+
+    .daily-right-terminal__accent {
+      color: #2f4d68;
+      font-weight: 800;
+    }
+
+    .daily-right-terminal__soft {
+      color: #bd6b4c;
+      text-decoration: underline;
+      text-decoration-style: dotted;
+      text-underline-offset: 2px;
+    }
+
+    .daily-right-terminal__typed {
+      white-space: pre;
+    }
+
+    .daily-right-terminal__cursor {
+      display: inline-block;
+      width: 0.62em;
+      height: 1.18em;
+      margin-left: 0.18em;
+      vertical-align: -0.18em;
+      border-radius: 1px;
+      background: #3584c9;
+      animation: daily-terminal-caret-hop 820ms ease-in-out infinite;
+    }
+
+    @keyframes daily-terminal-caret-hop {
+      0%,
+      100% {
+        opacity: 1;
+        transform: translateY(0);
+      }
+
+      50% {
+        opacity: 0.54;
+        transform: translateY(-18%);
+      }
+    }
+
+    .daily-right-page::before {
+      content: "";
+      position: absolute;
+      left: 11.8%;
+      top: 13.4%;
+      z-index: 1;
+      width: 28%;
+      height: 1px;
+      border-top: 1px dashed rgba(82, 145, 190, 0.34);
+      transform: rotate(-3deg);
+    }
+
+    .daily-right-page::after {
+      content: "";
+      position: absolute;
+      right: 12.4%;
+      top: 17.8%;
+      z-index: 1;
+      width: 16%;
+      height: 13%;
+      border-top: 1px solid rgba(90, 149, 194, 0.28);
+      border-right: 1px solid rgba(90, 149, 194, 0.22);
+      border-radius: 0 12px 0 0;
+      transform: rotate(8deg);
+    }
+
+    .daily-right-heading {
+      position: absolute;
+      left: 11.6%;
+      top: 8.8%;
+      z-index: 5;
+      pointer-events: none;
+      user-select: none;
+      transform: rotate(-2.2deg);
+    }
+
+    .daily-right-kicker {
+      display: block;
+      margin-bottom: 3px;
+      color: rgba(75, 132, 177, 0.56);
+      font-family: "Arial Narrow", "Avenir Next Condensed", "PingFang SC", sans-serif;
+      font-size: clamp(6px, 0.46vw, 9px);
+      font-weight: 800;
+      letter-spacing: 0.18em;
+      line-height: 1;
+      text-transform: uppercase;
+    }
+
+    .daily-right-title {
+      display: block;
+      color: rgba(49, 94, 133, 0.78);
+      font-family: "Kaiti SC", "KaiTi", "Songti SC", "Microsoft YaHei UI", "PingFang SC", serif;
+      font-size: clamp(11px, 1.05vw, 21px);
+      font-weight: 700;
+      letter-spacing: 0.08em;
+      line-height: 1;
+      text-shadow: 0 1px 0 rgba(255, 255, 255, 0.74);
+      white-space: nowrap;
+    }
+
+    .daily-right-date-tape {
+      position: absolute;
+      right: 13.4%;
+      top: 8.8%;
+      z-index: 5;
+      padding: 1.4% 3.6% 1.2%;
+      pointer-events: none;
+      user-select: none;
+      color: rgba(51, 105, 148, 0.62);
+      font-family: "Arial Narrow", "Avenir Next Condensed", "PingFang SC", sans-serif;
+      font-size: clamp(6px, 0.44vw, 9px);
+      font-weight: 800;
+      letter-spacing: 0.14em;
+      line-height: 1;
+      border-radius: 3px;
+      background:
+        linear-gradient(90deg, rgba(197, 224, 242, 0.34), rgba(237, 246, 251, 0.6)),
+        rgba(239, 247, 252, 0.52);
+      box-shadow:
+        inset 0 0 0 1px rgba(109, 166, 207, 0.11),
+        0 5px 10px rgba(73, 103, 128, 0.08);
+      transform: rotate(4deg);
+    }
+
+    .daily-floating-study {
+      position: absolute;
+      right: 14%;
+      top: 60%;
+      z-index: 6;
+      width: 24%;
+      height: auto;
+      display: block;
+      pointer-events: none;
+      user-select: none;
+      filter: drop-shadow(0 14px 13px rgba(45, 65, 82, 0.13));
+      transform-origin: center;
+      animation: daily-study-float 3.8s ease-in-out infinite;
+    }
+
+    @keyframes daily-study-float {
+      0%,
+      100% {
+        transform: translateY(0) rotate(2deg);
+      }
+
+      50% {
+        transform: translateY(-6%) rotate(1.2deg);
+      }
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      .daily-floating-study {
+        animation: none;
+        transform: rotate(2deg);
+      }
+    }
+
+    .daily-right-light-film {
+      position: absolute;
+      left: 8.8%;
+      top: 55%;
+      z-index: 2;
+      width: 43%;
+      height: auto;
+      display: block;
+      pointer-events: none;
+      user-select: none;
+      opacity: 0.92;
+      filter: drop-shadow(0 12px 12px rgba(62, 85, 104, 0.12));
+      transform: rotate(-3.8deg);
+      transform-origin: center;
+    }
+
+    .daily-right-card {
+      position: absolute;
+      display: block;
+      height: auto;
+      pointer-events: auto;
+      user-select: none;
+      filter: drop-shadow(0 10px 9px rgba(53, 59, 69, 0.1));
+      transform-origin: center;
+      transition:
+        transform 260ms ease,
+        filter 260ms ease,
+        opacity 260ms ease;
+    }
+
+    .daily-right-card--walk {
+      left: 59.6%;
+      top: 20.6%;
+      z-index: 2;
+      width: 19.5%;
+      transform: rotate(4.4deg);
+      opacity: 0.98;
+    }
+
+    .daily-right-card--arch {
+      left: 20.6%;
+      top: 20.4%;
+      z-index: 3;
+      width: 19.5%;
+      transform: rotate(-5deg);
+    }
+
+    .daily-right-card--film {
+      left: 39.4%;
+      top: 19%;
+      z-index: 4;
+      width: 20.5%;
+      transform: rotate(1.4deg) scale(1.04);
+      filter: drop-shadow(0 14px 13px rgba(53, 59, 69, 0.14));
+      opacity: 1;
+    }
+
+    .daily-right-card--arch:hover {
+      z-index: 6;
+      transform: rotate(-3.4deg) scale(1.08) translate(5%, -3%);
+      filter: drop-shadow(0 16px 14px rgba(53, 59, 69, 0.16));
+      opacity: 1;
+    }
+
+    .daily-right-card--film:hover {
+      z-index: 7;
+      transform: rotate(0.6deg) scale(1.11) translateY(-4%);
+      filter: drop-shadow(0 19px 16px rgba(53, 59, 69, 0.18));
+      opacity: 1;
+    }
+
+    .daily-right-card--walk:hover {
+      z-index: 6;
+      transform: rotate(3.2deg) scale(1.08) translate(-5%, -3%);
+      filter: drop-shadow(0 16px 14px rgba(53, 59, 69, 0.16));
+      opacity: 1;
+    }
+
+    .daily-right-note {
+      position: absolute;
+      left: 16.8%;
+      bottom: 12.6%;
+      z-index: 5;
+      width: 66%;
+      pointer-events: none;
+      user-select: none;
+      color: rgba(53, 95, 128, 0.64);
+      font-family: "Kaiti SC", "KaiTi", "Songti SC", "Microsoft YaHei UI", "PingFang SC", serif;
+      font-size: clamp(8px, 0.72vw, 15px);
+      font-weight: 600;
+      letter-spacing: 0.06em;
+      line-height: 1.25;
+      text-align: center;
+      text-shadow: 0 1px 0 rgba(255, 255, 255, 0.68);
+      transform: rotate(-1.4deg);
+    }
+
+    .daily-right-tags {
+      position: absolute;
+      left: 18.6%;
+      bottom: 7.3%;
+      z-index: 5;
+      display: flex;
+      gap: 4.6%;
+      pointer-events: none;
+      user-select: none;
+      color: rgba(65, 123, 168, 0.5);
+      font-family: "Arial Narrow", "Avenir Next Condensed", "PingFang SC", sans-serif;
+      font-size: clamp(5px, 0.42vw, 8px);
+      font-weight: 800;
+      letter-spacing: 0.16em;
+      line-height: 1;
+      white-space: nowrap;
+      transform: rotate(1deg);
+    }

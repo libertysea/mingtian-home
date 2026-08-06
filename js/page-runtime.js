@@ -1115,12 +1115,12 @@ const loader = document.getElementById('loader');
 
     let aboutLanyardReplayTimer = 0;
     let aboutRuntimeLoading = false;
-    let aboutRuntimeLoaded = Boolean(aboutSection?.querySelector('.bits-lanyard, .lanyard-wrapper, .badge-drop'));
+    let aboutRuntimeLoaded = Boolean(aboutSection?.querySelector('.bits-lanyard, .lanyard-wrapper'));
     let aboutRuntimeLoadId = 0;
     let portfolioRuntimeLoaded = false;
 
     const getAboutLanyardElement = () => (
-      aboutSection?.querySelector('.bits-lanyard, .badge-drop, .lanyard-wrapper')
+      aboutSection?.querySelector('.bits-lanyard, .lanyard-wrapper')
     );
 
     const setAboutRuntimeLoaded = () => {
