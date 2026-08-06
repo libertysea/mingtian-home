@@ -1,0 +1,10 @@
+/* Shared story section shell */
+.story-section {
+  position: relative;
+  width: 100%;
+  min-height: 100dvh;
+  overflow: hidden;
+  isolation: isolate;
+  scroll-snap-align: start;
+  color: #fff;
+}
