@@ -1,4 +1,4 @@
-/* about right typography rebuild v38: isolated 3D stage + ScrollFloat */
+/* About text stage and ScrollFloat interactions */
 (() => {
   const about = document.getElementById('about');
   const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)');
@@ -98,10 +98,10 @@
 
   const buildStage = (copy) => {
     copy.querySelectorAll('.identity-tilt-surface, .identity-3d-hitarea').forEach((node) => node.remove());
-    const oldStage = copy.querySelector('.identity-3d-stage');
-    if (oldStage) {
-      [...oldStage.childNodes].forEach((node) => copy.insertBefore(node, oldStage));
-      oldStage.remove();
+    const existingStage = copy.querySelector('.identity-3d-stage');
+    if (existingStage) {
+      [...existingStage.childNodes].forEach((node) => copy.insertBefore(node, existingStage));
+      existingStage.remove();
     }
 
     stage = document.createElement('div');
