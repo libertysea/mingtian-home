@@ -11,7 +11,8 @@
     "title": "明天",
     "description": "明天的个人主页，记录技术、兴趣、旅行、作品和日常。",
     "author": "明天",
-    "url": "https://www.wpixiu.cn"
+    "url": "https://www.wpixiu.cn",
+    "favicon": "images/about/profile-avatar.png"
   },
   "seo": {
     "title": "明天",
@@ -68,9 +69,26 @@
           "priority": 1
         }
       ]
+    },
+    "ogImageAlt": "明天的个人主页分享图",
+    "structuredData": {
+      "type": "Person",
+      "name": "明天",
+      "url": "https://www.wpixiu.cn",
+      "image": "images/site-share-card.png",
+      "description": "明天的个人主页，记录技术、兴趣、旅行、作品和日常。",
+      "sameAs": [
+        "https://blog.wpixiu.cn/",
+        "https://github.com/libertysea"
+      ]
     }
   },
   "navigation": {
+    "brand": {
+      "image": "images/about/profile-avatar.png",
+      "target": "stage",
+      "label": "明天"
+    },
     "items": [
       {
         "label": "关于",
@@ -401,7 +419,7 @@
       }
     }
   },
-  "generatedAt": "2026-08-05T23:43:08.205Z"
+  "generatedAt": "2026-08-06T15:10:47.261Z"
 };
 
   window.SITE_CONFIG = config;
@@ -420,18 +438,28 @@
   const description = "明天的个人主页，记录技术、兴趣、旅行、作品和日常。";
   const keywords = "明天,个人主页,AI,技术博客,旅行,作品集";
   const ogImage = "https://www.wpixiu.cn/images/site-share-card.png";
+  const ogImageAlt = "明天的个人主页分享图";
+  const favicon = "images/about/profile-avatar.png";
+  const structuredData = {"@context":"https://schema.org","@type":"Person","name":"明天","url":"https://www.wpixiu.cn","image":"https://www.wpixiu.cn/images/site-share-card.png","description":"明天的个人主页，记录技术、兴趣、旅行、作品和日常。","sameAs":["https://blog.wpixiu.cn/","https://github.com/libertysea"]};
 
   if (title) document.title = title;
   setContent('meta[name="description"]', description);
   setContent('meta[name="author"]', config.site?.author);
   setContent('meta[name="keywords"]', keywords);
   setAttr('link[rel="canonical"]', 'href', pageUrl);
+  setAttr('link[rel="icon"]', 'href', favicon);
   setContent('meta[property="og:site_name"]', config.site?.name);
   setContent('meta[property="og:title"]', title);
   setContent('meta[property="og:description"]', description);
   setContent('meta[property="og:url"]', pageUrl);
   setContent('meta[property="og:image"]', ogImage);
+  setContent('meta[property="og:image:alt"]', ogImageAlt);
   setContent('meta[name="twitter:title"]', title);
   setContent('meta[name="twitter:description"]', description);
   setContent('meta[name="twitter:image"]', ogImage);
+  setContent('meta[name="twitter:image:alt"]', ogImageAlt);
+  if (structuredData) {
+    const node = document.getElementById('site-structured-data');
+    if (node) node.textContent = JSON.stringify(structuredData);
+  }
 })();

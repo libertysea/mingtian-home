@@ -219,7 +219,21 @@ async function buildSiteConfig(config) {
   const description = seo.description || site.description || '';
   const keywords = Array.isArray(seo.keywords) ? seo.keywords.join(',') : '';
   const ogImage = absoluteUrl(siteUrl, seo.ogImage || '');
+  const ogImageAlt = seo.ogImageAlt || '';
+  const favicon = site.favicon || '';
   const language = config.config?.language || 'zh-CN';
+  const structuredDataConfig = seo.structuredData && typeof seo.structuredData === 'object'
+    ? seo.structuredData
+    : null;
+  const structuredData = structuredDataConfig ? {
+    '@context': 'https://schema.org',
+    '@type': structuredDataConfig.type || 'Person',
+    name: structuredDataConfig.name || site.name || title,
+    url: structuredDataConfig.url || siteUrl || undefined,
+    image: structuredDataConfig.image ? absoluteUrl(siteUrl, structuredDataConfig.image) : undefined,
+    description: structuredDataConfig.description || description || undefined,
+    sameAs: Array.isArray(structuredDataConfig.sameAs) ? structuredDataConfig.sameAs : undefined,
+  } : null;
 
   const runtimeConfig = { ...config, generatedAt: new Date().toISOString() };
   const source = [
@@ -243,20 +257,30 @@ async function buildSiteConfig(config) {
     '  const description = ' + JSON.stringify(description) + ';',
     '  const keywords = ' + JSON.stringify(keywords) + ';',
     '  const ogImage = ' + JSON.stringify(ogImage) + ';',
+    '  const ogImageAlt = ' + JSON.stringify(ogImageAlt) + ';',
+    '  const favicon = ' + JSON.stringify(favicon) + ';',
+    '  const structuredData = ' + JSON.stringify(structuredData) + ';',
     '',
     '  if (title) document.title = title;',
     "  setContent('meta[name=\"description\"]', description);",
     "  setContent('meta[name=\"author\"]', config.site?.author);",
     "  setContent('meta[name=\"keywords\"]', keywords);",
     "  setAttr('link[rel=\"canonical\"]', 'href', pageUrl);",
+    "  setAttr('link[rel=\"icon\"]', 'href', favicon);",
     "  setContent('meta[property=\"og:site_name\"]', config.site?.name);",
     "  setContent('meta[property=\"og:title\"]', title);",
     "  setContent('meta[property=\"og:description\"]', description);",
     "  setContent('meta[property=\"og:url\"]', pageUrl);",
     "  setContent('meta[property=\"og:image\"]', ogImage);",
+    "  setContent('meta[property=\"og:image:alt\"]', ogImageAlt);",
     "  setContent('meta[name=\"twitter:title\"]', title);",
     "  setContent('meta[name=\"twitter:description\"]', description);",
     "  setContent('meta[name=\"twitter:image\"]', ogImage);",
+    "  setContent('meta[name=\"twitter:image:alt\"]', ogImageAlt);",
+    "  if (structuredData) {",
+    "    const node = document.getElementById('site-structured-data');",
+    "    if (node) node.textContent = JSON.stringify(structuredData);",
+    "  }",
     '})();',
     '',
   ].join('\n');
@@ -269,6 +293,7 @@ async function buildSiteConfig(config) {
     title,
     description,
     ogImage,
+    ogImageAlt,
   };
 }
 

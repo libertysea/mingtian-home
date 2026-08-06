@@ -1,11 +1,12 @@
 {
-  "generatedAt": "2026-08-05T23:43:08.237Z",
+  "generatedAt": "2026-08-06T15:10:47.291Z",
   "configFile": "site.config.yaml",
   "siteConfig": {
     "file": "js/data/site-config.generated.js",
     "title": "明天",
     "description": "明天的个人主页，记录技术、兴趣、旅行、作品和日常。",
-    "ogImage": "https://www.wpixiu.cn/images/site-share-card.png"
+    "ogImage": "https://www.wpixiu.cn/images/site-share-card.png",
+    "ogImageAlt": "明天的个人主页分享图"
   },
   "musicTracks": {
     "file": "js/data/music-tracks.generated.js",

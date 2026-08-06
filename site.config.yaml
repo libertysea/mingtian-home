@@ -14,6 +14,7 @@ site:
   description: "明天的个人主页，记录技术、兴趣、旅行、作品和日常。"
   author: "明天"
   url: "https://www.wpixiu.cn"
+  favicon: "images/about/profile-avatar.png"
 
 seo:
   title: "明天"
@@ -58,8 +59,22 @@ seo:
       - loc: "https://www.wpixiu.cn/"
         changefreq: "monthly"
         priority: 1.0
+  ogImageAlt: "明天的个人主页分享图"
+  structuredData:
+    type: "Person"
+    name: "明天"
+    url: "https://www.wpixiu.cn"
+    image: "images/site-share-card.png"
+    description: "明天的个人主页，记录技术、兴趣、旅行、作品和日常。"
+    sameAs:
+      - "https://blog.wpixiu.cn/"
+      - "https://github.com/libertysea"
 
 navigation:
+  brand:
+    image: "images/about/profile-avatar.png"
+    target: "stage"
+    label: "明天"
   items:
     - label: "关于"
       target: "about"

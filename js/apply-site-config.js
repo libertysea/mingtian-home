@@ -50,6 +50,17 @@
     const items = config.navigation?.items;
     if (!nav || !links || !Array.isArray(items)) return;
 
+    const brand = config.navigation?.brand || {};
+    const brandLink = $('.site-nav__brand', nav);
+    if (brandLink) {
+      if (brand.target) {
+        brandLink.href = '#' + brand.target;
+        brandLink.dataset.navTarget = brand.target;
+      }
+      if (brand.label) brandLink.setAttribute('aria-label', brand.label);
+      setImage('img', brand.image, brandLink);
+    }
+
     links.replaceChildren(...items.map((item) => {
       const anchor = document.createElement('a');
       anchor.className = 'site-nav__link';
