@@ -1,0 +1,606 @@
+{
+  "generatedAt": "2026-08-06T15:30:30.757Z",
+  "configFile": "site.config.yaml",
+  "totalLeafPaths": 149,
+  "coveredCount": 149,
+  "uncoveredCount": 0,
+  "uncovered": [],
+  "covered": [
+    {
+      "path": "about.badge.back",
+      "reason": "runtime about badge back image"
+    },
+    {
+      "path": "about.badge.front",
+      "reason": "runtime about badge front image"
+    },
+    {
+      "path": "about.copy.flipHint",
+      "reason": "about card flip hint"
+    },
+    {
+      "path": "about.copy.kicker",
+      "reason": "about card runtime copy"
+    },
+    {
+      "path": "about.copy.note",
+      "reason": "about card runtime copy"
+    },
+    {
+      "path": "about.copy.roles[*]",
+      "reason": "about card runtime copy"
+    },
+    {
+      "path": "about.copy.tags[*]",
+      "reason": "about card runtime copy"
+    },
+    {
+      "path": "about.copy.title",
+      "reason": "about card runtime copy"
+    },
+    {
+      "path": "blog.kicker",
+      "reason": "runtime blog kicker"
+    },
+    {
+      "path": "blog.lede",
+      "reason": "runtime blog lede"
+    },
+    {
+      "path": "blog.link.label",
+      "reason": "runtime blog link label"
+    },
+    {
+      "path": "blog.link.url",
+      "reason": "runtime blog link target"
+    },
+    {
+      "path": "blog.previewImage",
+      "reason": "runtime blog preview image"
+    },
+    {
+      "path": "blog.title",
+      "reason": "runtime blog title"
+    },
+    {
+      "path": "config.language",
+      "reason": "generated JS sets document language"
+    },
+    {
+      "path": "config.project",
+      "reason": "manifest metadata"
+    },
+    {
+      "path": "config.version",
+      "reason": "manifest metadata"
+    },
+    {
+      "path": "continuation.quote",
+      "reason": "runtime continuation quote"
+    },
+    {
+      "path": "continuation.subtitle",
+      "reason": "runtime continuation subtitle"
+    },
+    {
+      "path": "continuation.title",
+      "reason": "runtime continuation title"
+    },
+    {
+      "path": "daily.book.arrow",
+      "reason": "runtime daily arrow image"
+    },
+    {
+      "path": "daily.book.binder",
+      "reason": "runtime daily binder image"
+    },
+    {
+      "path": "daily.campus.background.left",
+      "reason": "runtime daily campus left background"
+    },
+    {
+      "path": "daily.campus.background.right",
+      "reason": "runtime daily campus right background"
+    },
+    {
+      "path": "daily.campus.date",
+      "reason": "runtime daily campus copy"
+    },
+    {
+      "path": "daily.campus.images.card",
+      "reason": "runtime daily campus image"
+    },
+    {
+      "path": "daily.campus.images.coder",
+      "reason": "runtime daily campus image"
+    },
+    {
+      "path": "daily.campus.images.seal",
+      "reason": "runtime daily campus image"
+    },
+    {
+      "path": "daily.campus.images.sticker",
+      "reason": "runtime daily campus image"
+    },
+    {
+      "path": "daily.campus.note",
+      "reason": "runtime daily campus copy"
+    },
+    {
+      "path": "daily.campus.tags",
+      "reason": "runtime daily campus copy"
+    },
+    {
+      "path": "daily.campus.title",
+      "reason": "runtime daily campus copy"
+    },
+    {
+      "path": "daily.log.dateTape",
+      "reason": "runtime daily log copy"
+    },
+    {
+      "path": "daily.log.images.archCard",
+      "reason": "runtime daily log image"
+    },
+    {
+      "path": "daily.log.images.filmCard",
+      "reason": "runtime daily log image"
+    },
+    {
+      "path": "daily.log.images.filmStrip",
+      "reason": "runtime daily log image"
+    },
+    {
+      "path": "daily.log.images.study",
+      "reason": "runtime daily log image"
+    },
+    {
+      "path": "daily.log.images.walkCard",
+      "reason": "runtime daily log image"
+    },
+    {
+      "path": "daily.log.kicker",
+      "reason": "runtime daily log copy"
+    },
+    {
+      "path": "daily.log.note",
+      "reason": "runtime daily log copy"
+    },
+    {
+      "path": "daily.log.terminalUser",
+      "reason": "runtime daily log copy"
+    },
+    {
+      "path": "daily.log.title",
+      "reason": "runtime daily log copy"
+    },
+    {
+      "path": "daily.stock.apologyLines[*]",
+      "reason": "runtime daily stock apology lines"
+    },
+    {
+      "path": "daily.stock.apologyTitle",
+      "reason": "runtime daily stock copy"
+    },
+    {
+      "path": "daily.stock.background.left",
+      "reason": "runtime daily stock left background"
+    },
+    {
+      "path": "daily.stock.background.right",
+      "reason": "runtime daily stock right background"
+    },
+    {
+      "path": "daily.stock.difficulty",
+      "reason": "runtime daily stock copy"
+    },
+    {
+      "path": "daily.stock.images.capitalTrap",
+      "reason": "runtime daily stock image"
+    },
+    {
+      "path": "daily.stock.images.deliveryRider",
+      "reason": "runtime daily stock image"
+    },
+    {
+      "path": "daily.stock.images.learn",
+      "reason": "runtime daily stock image"
+    },
+    {
+      "path": "daily.stock.images.question",
+      "reason": "runtime daily stock image"
+    },
+    {
+      "path": "daily.stock.subtitle",
+      "reason": "runtime daily stock copy"
+    },
+    {
+      "path": "daily.stock.title",
+      "reason": "runtime daily stock copy"
+    },
+    {
+      "path": "daily.vibeCoding.background.left",
+      "reason": "runtime daily vibe coding left background"
+    },
+    {
+      "path": "daily.vibeCoding.background.right",
+      "reason": "runtime daily vibe coding right background"
+    },
+    {
+      "path": "daily.vibeCoding.caption",
+      "reason": "runtime daily vibe coding caption"
+    },
+    {
+      "path": "daily.vibeCoding.images.dreamCloud",
+      "reason": "runtime daily vibe coding image"
+    },
+    {
+      "path": "daily.vibeCoding.images.gif",
+      "reason": "runtime daily vibe coding image"
+    },
+    {
+      "path": "daily.vibeCoding.images.quotaComic",
+      "reason": "runtime daily vibe coding image"
+    },
+    {
+      "path": "footer.copyright",
+      "reason": "runtime footer copyright"
+    },
+    {
+      "path": "footer.record.text",
+      "reason": "runtime footer record text"
+    },
+    {
+      "path": "footer.record.url",
+      "reason": "runtime footer record link"
+    },
+    {
+      "path": "hero.background.crop.position",
+      "reason": "runtime hero object-position"
+    },
+    {
+      "path": "hero.background.crop.scale",
+      "reason": "runtime hero video scale variable"
+    },
+    {
+      "path": "hero.background.video",
+      "reason": "runtime hero video source"
+    },
+    {
+      "path": "hero.kicker",
+      "reason": "runtime hero kicker"
+    },
+    {
+      "path": "hero.subtitle",
+      "reason": "runtime hero subtitle"
+    },
+    {
+      "path": "hero.title",
+      "reason": "runtime hero title"
+    },
+    {
+      "path": "interests.games.character",
+      "reason": "runtime interests game character image"
+    },
+    {
+      "path": "interests.games.items[*].image",
+      "reason": "runtime interests game item image"
+    },
+    {
+      "path": "interests.games.items[*].title",
+      "reason": "runtime interests game item title"
+    },
+    {
+      "path": "interests.music.character",
+      "reason": "runtime interests music character image"
+    },
+    {
+      "path": "interests.music.entryTooltip",
+      "reason": "runtime interests music tooltip"
+    },
+    {
+      "path": "interests.music.tonearm",
+      "reason": "runtime interests tonearm image"
+    },
+    {
+      "path": "interests.music.vinyl",
+      "reason": "runtime interests vinyl image"
+    },
+    {
+      "path": "interests.scene.background",
+      "reason": "runtime interests scene background"
+    },
+    {
+      "path": "interests.scene.title.cn",
+      "reason": "runtime interests title and aria label"
+    },
+    {
+      "path": "interests.scene.title.en",
+      "reason": "runtime interests title"
+    },
+    {
+      "path": "interests.tv.frame",
+      "reason": "runtime interests TV frame"
+    },
+    {
+      "path": "interests.tv.slides[*].image",
+      "reason": "runtime interests TV slide image"
+    },
+    {
+      "path": "interests.tv.slides[*].title",
+      "reason": "runtime interests TV slide metadata"
+    },
+    {
+      "path": "music.meting.api.fallback[*]",
+      "reason": "generated music meting fallback APIs"
+    },
+    {
+      "path": "music.meting.api.primary",
+      "reason": "generated music meting primary API"
+    },
+    {
+      "path": "music.player.autoplay",
+      "reason": "home music autoplay policy"
+    },
+    {
+      "path": "music.player.featuredTrack",
+      "reason": "generated and runtime featured track"
+    },
+    {
+      "path": "music.sources.local.enabled",
+      "reason": "generated music local source toggle"
+    },
+    {
+      "path": "music.sources.local.tracks[*].artist",
+      "reason": "generated local music track artist"
+    },
+    {
+      "path": "music.sources.local.tracks[*].audio",
+      "reason": "generated local music track audio"
+    },
+    {
+      "path": "music.sources.local.tracks[*].cover",
+      "reason": "generated local music track cover"
+    },
+    {
+      "path": "music.sources.local.tracks[*].id",
+      "reason": "generated local music track id"
+    },
+    {
+      "path": "music.sources.local.tracks[*].lyrics.id",
+      "reason": "generated local music lyrics id"
+    },
+    {
+      "path": "music.sources.local.tracks[*].lyrics.server",
+      "reason": "generated local music lyrics server"
+    },
+    {
+      "path": "music.sources.local.tracks[*].lyrics.type",
+      "reason": "generated local music lyrics source"
+    },
+    {
+      "path": "music.sources.local.tracks[*].title",
+      "reason": "generated local music track title"
+    },
+    {
+      "path": "music.sources.network.default",
+      "reason": "generated music default network source"
+    },
+    {
+      "path": "music.sources.network.enabled",
+      "reason": "generated music network source toggle"
+    },
+    {
+      "path": "music.sources.network.playlists[*].enabled",
+      "reason": "generated network playlist toggle"
+    },
+    {
+      "path": "music.sources.network.playlists[*].id",
+      "reason": "generated network playlist id"
+    },
+    {
+      "path": "music.sources.network.playlists[*].server",
+      "reason": "generated network playlist meting server"
+    },
+    {
+      "path": "music.sources.network.playlists[*].source",
+      "reason": "generated network playlist source"
+    },
+    {
+      "path": "music.sources.network.playlists[*].type",
+      "reason": "generated network playlist type"
+    },
+    {
+      "path": "navigation.brand.image",
+      "reason": "runtime navigation brand image"
+    },
+    {
+      "path": "navigation.brand.label",
+      "reason": "runtime navigation brand label"
+    },
+    {
+      "path": "navigation.brand.target",
+      "reason": "runtime navigation brand target"
+    },
+    {
+      "path": "navigation.items[*].label",
+      "reason": "runtime navigation link label"
+    },
+    {
+      "path": "navigation.items[*].target",
+      "reason": "runtime navigation link target"
+    },
+    {
+      "path": "portfolio.kicker",
+      "reason": "runtime portfolio kicker"
+    },
+    {
+      "path": "portfolio.lede",
+      "reason": "runtime portfolio lede"
+    },
+    {
+      "path": "portfolio.photographerImage",
+      "reason": "runtime portfolio photographer image"
+    },
+    {
+      "path": "portfolio.projects[*].href",
+      "reason": "portfolio gallery runtime project link"
+    },
+    {
+      "path": "portfolio.projects[*].image",
+      "reason": "portfolio gallery runtime project image"
+    },
+    {
+      "path": "portfolio.projects[*].intro",
+      "reason": "portfolio gallery runtime project intro"
+    },
+    {
+      "path": "portfolio.projects[*].name",
+      "reason": "portfolio gallery runtime project name"
+    },
+    {
+      "path": "portfolio.title",
+      "reason": "runtime portfolio title"
+    },
+    {
+      "path": "seo.description",
+      "reason": "generated description, Open Graph, and Twitter descriptions"
+    },
+    {
+      "path": "seo.keywords[*]",
+      "reason": "generated keywords metadata"
+    },
+    {
+      "path": "seo.ogImage",
+      "reason": "generated Open Graph and Twitter image metadata"
+    },
+    {
+      "path": "seo.ogImageAlt",
+      "reason": "generated Open Graph and Twitter image alt metadata"
+    },
+    {
+      "path": "seo.robots.aiCrawlers.disallow[*]",
+      "reason": "generated robots.txt AI crawler blocks"
+    },
+    {
+      "path": "seo.robots.allowIndexing",
+      "reason": "generated robots.txt policy"
+    },
+    {
+      "path": "seo.robots.notice.text",
+      "reason": "generated robots.txt notice"
+    },
+    {
+      "path": "seo.robots.rules[*].allow[*]",
+      "reason": "generated robots.txt allow rules"
+    },
+    {
+      "path": "seo.robots.rules[*].disallow[*]",
+      "reason": "generated robots.txt disallow rules"
+    },
+    {
+      "path": "seo.robots.rules[*].userAgent",
+      "reason": "generated robots.txt user-agent rules"
+    },
+    {
+      "path": "seo.robots.sitemap",
+      "reason": "generated robots.txt sitemap line"
+    },
+    {
+      "path": "seo.sitemap.enabled",
+      "reason": "controls sitemap.xml generation"
+    },
+    {
+      "path": "seo.sitemap.output",
+      "reason": "controls sitemap.xml output file"
+    },
+    {
+      "path": "seo.sitemap.urls[*].changefreq",
+      "reason": "generated sitemap URL changefreq"
+    },
+    {
+      "path": "seo.sitemap.urls[*].loc",
+      "reason": "generated sitemap URL loc"
+    },
+    {
+      "path": "seo.sitemap.urls[*].priority",
+      "reason": "generated sitemap URL priority"
+    },
+    {
+      "path": "seo.structuredData.description",
+      "reason": "generated JSON-LD description"
+    },
+    {
+      "path": "seo.structuredData.image",
+      "reason": "generated JSON-LD image"
+    },
+    {
+      "path": "seo.structuredData.name",
+      "reason": "generated JSON-LD name"
+    },
+    {
+      "path": "seo.structuredData.sameAs[*]",
+      "reason": "generated JSON-LD sameAs links"
+    },
+    {
+      "path": "seo.structuredData.type",
+      "reason": "generated JSON-LD type"
+    },
+    {
+      "path": "seo.structuredData.url",
+      "reason": "generated JSON-LD URL"
+    },
+    {
+      "path": "seo.title",
+      "reason": "generated document, Open Graph, and Twitter titles"
+    },
+    {
+      "path": "site.author",
+      "reason": "generated author metadata"
+    },
+    {
+      "path": "site.description",
+      "reason": "generated SEO metadata fallback"
+    },
+    {
+      "path": "site.favicon",
+      "reason": "generated favicon link"
+    },
+    {
+      "path": "site.name",
+      "reason": "generated SEO metadata and structured data fallback"
+    },
+    {
+      "path": "site.title",
+      "reason": "generated document title fallback"
+    },
+    {
+      "path": "site.url",
+      "reason": "generated canonical, robots, sitemap, absolute URLs"
+    },
+    {
+      "path": "travel.gallery.folder",
+      "reason": "generator scans travel gallery folder"
+    },
+    {
+      "path": "travel.gallery.title",
+      "reason": "runtime travel gallery title"
+    },
+    {
+      "path": "travel.hero.button",
+      "reason": "runtime travel button label"
+    },
+    {
+      "path": "travel.hero.subtitle[*]",
+      "reason": "runtime travel subtitle lines"
+    },
+    {
+      "path": "travel.hero.titleLines[*]",
+      "reason": "runtime travel title lines"
+    },
+    {
+      "path": "travel.hero.video",
+      "reason": "runtime travel video source"
+    }
+  ]
+}

@@ -1,9 +1,65 @@
 {
-  "scannedFiles": 39,
-  "referencedAssetCount": 149,
+  "generatedAt": "2026-08-06T15:37:38.236Z",
+  "scannedSourceCount": 38,
+  "scannedAssetCount": 150,
+  "referencedAssetCount": 147,
   "missingCount": 0,
   "missing": [],
   "unreferencedCount": 0,
   "unreferenced": [],
-  "reviewNotes": {}
+  "retainedUnreferencedCount": 3,
+  "retainedUnreferenced": [
+    {
+      "path": "images/about/lanyard.png",
+      "reason": "about badge/lanyard related asset retained for badge effects"
+    },
+    {
+      "path": "models/about-card.glb",
+      "reason": "about badge 3D model retained for badge effects"
+    },
+    {
+      "path": "vendor/liquid1.min.js",
+      "reason": "book/page-flip related vendor asset retained for daily book effects"
+    }
+  ],
+  "scannedSourceFiles": [
+    "css/about-card-runtime.css",
+    "css/about.css",
+    "css/blog.css",
+    "css/daily.css",
+    "css/ending.css",
+    "css/hero.css",
+    "css/interests-player.css",
+    "css/interests-room.css",
+    "css/music-orb.css",
+    "css/music-player.css",
+    "css/navigation.css",
+    "css/page-layout.css",
+    "css/portfolio.css",
+    "css/story-section.css",
+    "css/travel-gallery-transition.css",
+    "css/travel.css",
+    "index.html",
+    "js/about-card-runtime.js",
+    "js/about-card.js",
+    "js/about-runtime.js",
+    "js/apply-site-config.js",
+    "js/blog-runtime.js",
+    "js/daily-runtime.js",
+    "js/data/music-tracks.generated.js",
+    "js/data/site-config.generated.js",
+    "js/data/travel-gallery-data.js",
+    "js/home-music-runtime.js",
+    "js/interests-player.js",
+    "js/loader-runtime.js",
+    "js/music-orb.js",
+    "js/navigation.js",
+    "js/portfolio-gallery.js",
+    "js/travel-gallery-transition.js",
+    "js/travel-world.js",
+    "music/network-music-tracks.json",
+    "robots.txt",
+    "site.config.yaml",
+    "sitemap.xml"
+  ]
 }
