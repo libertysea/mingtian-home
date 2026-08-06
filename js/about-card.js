@@ -28,15 +28,34 @@
     const hint = document.createElement('div');
     hint.className = 'identity-flip-hint';
     hint.setAttribute('aria-hidden', 'true');
-    hint.textContent = '👆点击翻转';
+    hint.textContent = window.SITE_CONFIG?.about?.copy?.flipHint || '👆点击翻转';
 
     host.appendChild(hint);
     return true;
   };
-  const copyText = {
-    title: 'Hi, 我是明天~',
-    roles: ['中科院 AI 硕士 📖', 'CV 工程师 👨‍💻 & 天才交易员 📈'],
-    note: '保持好奇，持续创造。'
+
+  const bindConfiguredBadgeFlip = () => {
+    if (!about || about.dataset.badgeFlipBound === 'true') return false;
+    about.dataset.badgeFlipBound = 'true';
+
+    about.addEventListener('click', (event) => {
+      const card = event.target instanceof Element ? event.target.closest('.bits-card') : null;
+      if (!card) return;
+      const lanyard = card.closest('.bits-lanyard');
+      if (lanyard?.classList.contains('is-dragging')) return;
+      lanyard?.classList.toggle('is-config-flipped');
+    });
+    return true;
+  };
+  const getCopyText = () => {
+    const copy = window.SITE_CONFIG?.about?.copy || {};
+    return {
+      title: copy.title || 'Hi, 我是明天~',
+      roles: Array.isArray(copy.roles) && copy.roles.length
+        ? copy.roles
+        : ['中科院 AI 硕士 📖', 'CV 工程师 👨‍💻 & 天才交易员 📈'],
+      note: copy.note || '保持好奇，持续创造。'
+    };
   };
 
   const splitGraphemes = (text) => {
@@ -47,6 +66,11 @@
   };
 
   const restoreCopyText = (copy) => {
+    const copyText = getCopyText();
+    const configCopy = window.SITE_CONFIG?.about?.copy || {};
+    const kicker = copy.querySelector('.identity-kicker');
+    if (kicker && configCopy.kicker) kicker.textContent = configCopy.kicker;
+
     const h2 = copy.querySelector('h2');
     if (h2) {
       h2.textContent = copyText.title;
@@ -61,6 +85,15 @@
 
     const note = copy.querySelector('.identity-note');
     if (note) note.textContent = copyText.note;
+
+    const tags = copy.querySelector('.identity-tags');
+    if (tags && Array.isArray(configCopy.tags)) {
+      tags.replaceChildren(...configCopy.tags.map((item) => {
+        const span = document.createElement('span');
+        span.textContent = item;
+        return span;
+      }));
+    }
   };
 
   const buildStage = (copy) => {
@@ -232,6 +265,7 @@
     ].filter(Boolean);
 
     mountFlipHint();
+    bindConfiguredBadgeFlip();
     bindScrollFloat(copy, items);
     bindStageTilt();
     return true;

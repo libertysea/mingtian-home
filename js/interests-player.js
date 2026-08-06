@@ -23,11 +23,13 @@
   const hotspot = document.querySelector('[data-game-hotspot]');
   let isOpen = false;
 
-  const panels = Array.from(showcase.querySelectorAll('[data-game-panel]'));
+  const getPanels = () => Array.from(showcase.querySelectorAll('[data-game-panel]'));
   const current = showcase.querySelector('[data-game-current]');
   let activeIndex = -1;
 
   const activate = (index) => {
+    const panels = getPanels();
+    if (panels.length === 0) return;
     activeIndex = (index + panels.length) % panels.length;
     panels.forEach((panel, panelIndex) => {
       const isActive = panelIndex === activeIndex;
@@ -39,7 +41,7 @@
 
   const clearActive = () => {
     activeIndex = -1;
-    panels.forEach((panel) => {
+    getPanels().forEach((panel) => {
       panel.classList.remove('is-active');
       panel.setAttribute('aria-pressed', 'false');
     });
@@ -53,15 +55,29 @@
     if (!open) clearActive();
   };
 
+  const activatePanel = (panel) => {
+    const panels = getPanels();
+    const index = panels.indexOf(panel);
+    if (index >= 0) activate(index);
+  };
+
   hotspot?.addEventListener('click', () => setOpen(!isOpen));
   document.addEventListener('keydown', (event) => {
     if (event.key === 'Escape' && isOpen) setOpen(false);
   });
 
-  panels.forEach((panel, index) => {
-    panel.addEventListener('click', () => activate(index));
-    panel.addEventListener('pointerenter', () => activate(index));
-    panel.addEventListener('focus', () => activate(index));
+  showcase.addEventListener('click', (event) => {
+    const panel = event.target.closest('[data-game-panel]');
+    if (panel && showcase.contains(panel)) activatePanel(panel);
+  });
+  showcase.addEventListener('pointerover', (event) => {
+    const panel = event.target.closest('[data-game-panel]');
+    if (!panel || !showcase.contains(panel) || panel.contains(event.relatedTarget)) return;
+    activatePanel(panel);
+  });
+  showcase.addEventListener('focusin', (event) => {
+    const panel = event.target.closest('[data-game-panel]');
+    if (panel && showcase.contains(panel)) activatePanel(panel);
   });
 
   showcase.addEventListener('pointerleave', clearActive);
@@ -74,12 +90,17 @@
     event.preventDefault();
     let nextIndex = activeIndex;
     if (event.key === 'Home') nextIndex = 0;
-    else if (event.key === 'End') nextIndex = panels.length - 1;
-    else if (activeIndex < 0) nextIndex = event.key === 'ArrowLeft' ? panels.length - 1 : 0;
+    else if (event.key === 'End') nextIndex = getPanels().length - 1;
+    else if (activeIndex < 0) nextIndex = event.key === 'ArrowLeft' ? getPanels().length - 1 : 0;
     else if (event.key === 'ArrowLeft') nextIndex -= 1;
     else nextIndex += 1;
     activate(nextIndex);
-    panels[activeIndex].focus();
+    getPanels()[activeIndex]?.focus();
+  });
+
+  window.addEventListener('site-config-applied', () => {
+    clearActive();
+    setOpen(true);
   });
 
   setOpen(true);
@@ -89,12 +110,14 @@
   const screen = document.querySelector('[data-tv-carousel]');
   if (!screen) return;
 
-  const slides = Array.from(screen.querySelectorAll('[data-tv-slide]'));
+  const getSlides = () => Array.from(screen.querySelectorAll('[data-tv-slide]'));
   const reducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-  let activeIndex = Math.max(0, slides.findIndex((slide) => slide.classList.contains('is-active')));
+  let activeIndex = 0;
   let timer = 0;
 
   const activate = (index) => {
+    const slides = getSlides();
+    if (slides.length === 0) return;
     activeIndex = (index + slides.length) % slides.length;
     slides.forEach((slide, slideIndex) => {
       const isActive = slideIndex === activeIndex;
@@ -112,7 +135,7 @@
 
   const start = () => {
     stop();
-    if (reducedMotion || document.hidden || slides.length < 2) return;
+    if (reducedMotion || document.hidden || getSlides().length < 2) return;
     timer = window.setInterval(() => activate(activeIndex + 1), 3500);
   };
 
@@ -130,13 +153,22 @@
     if (event.key === 'ArrowLeft') activate(activeIndex - 1);
     if (event.key === 'ArrowRight') activate(activeIndex + 1);
     if (event.key === 'Home') activate(0);
-    if (event.key === 'End') activate(slides.length - 1);
+    if (event.key === 'End') activate(getSlides().length - 1);
   });
   document.addEventListener('visibilitychange', () => {
     if (document.hidden) stop();
     else start();
   });
 
+  window.addEventListener('site-config-applied', () => {
+    const activeSlide = getSlides().findIndex((slide) => slide.classList.contains('is-active'));
+    activeIndex = Math.max(0, activeSlide);
+    activate(activeIndex);
+    start();
+  });
+
+  const activeSlide = getSlides().findIndex((slide) => slide.classList.contains('is-active'));
+  activeIndex = Math.max(0, activeSlide);
   activate(activeIndex);
   start();
 })();

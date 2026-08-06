@@ -28,8 +28,8 @@ import type {
 } from './types';
 import {
   clamp,
+  getMetingBases,
   loadLocalTracks,
-  metingBases,
   normalizeMetingSource,
   readAudioMetadata,
   readStored,
@@ -46,7 +46,13 @@ const storageKeys = {
   theme: 'music-theme-react-v1',
   lyrics: 'music-lyrics-react-v1'
 };
-const neteasePlaylistId = '14035449837';
+const fallbackPlaylist = {
+  id: 'netease-main',
+  type: 'meting-playlist',
+  server: 'netease',
+  source: 'https://music.163.com/#/playlist?id=14035449837',
+  enabled: true
+} as const;
 
 interface MetingPlaylistItem {
   name?: string;
@@ -55,10 +61,33 @@ interface MetingPlaylistItem {
   pic?: string;
 }
 
-async function loadNeteasePlaylist() {
-  for (const base of metingBases) {
+function getConfiguredMetingPlaylist() {
+  const network = window.SITE_CONFIG?.music?.sources?.network;
+  if (network?.enabled === false) return null;
+
+  const playlists = Array.isArray(network?.playlists)
+    ? network.playlists.filter(playlist => playlist?.enabled !== false)
+    : [];
+  const selected = playlists.find(playlist => playlist.id === network?.default) || playlists[0] || fallbackPlaylist;
+
+  if (selected.type !== 'meting-playlist') return null;
+  return selected;
+}
+
+function readPlaylistSourceId(source = '') {
+  const sourceId = source.match(/[?&]id=([0-9A-Za-z]+)/)?.[1];
+  return sourceId || (/^[0-9A-Za-z_-]+$/.test(source) ? source : '');
+}
+
+async function loadConfiguredPlaylist() {
+  const playlist = getConfiguredMetingPlaylist();
+  const playlistId = readPlaylistSourceId(playlist?.source);
+  if (!playlist || !playlistId) return [];
+
+  const server = playlist.server || 'netease';
+  for (const base of getMetingBases()) {
     try {
-      const response = await fetch(`${base}?server=netease&type=playlist&id=${neteasePlaylistId}`);
+      const response = await fetch(`${base}?server=${server}&type=playlist&id=${playlistId}`);
       if (!response.ok) continue;
 
       const items = await response.json() as MetingPlaylistItem[];
@@ -68,7 +97,7 @@ async function loadNeteasePlaylist() {
         const songId = item.url?.match(/[?&]id=([0-9A-Za-z]+)/)?.[1];
         if (!songId || !item.name || !item.url) return null;
         return {
-          id: `netease-${songId}`,
+          id: `${server}-${songId}`,
           title: item.name,
           artist: item.artist || 'Unknown artist',
           cover: item.pic || '',
@@ -192,10 +221,10 @@ export default function MusicExperience({ onExit }: MusicExperienceProps) {
         .then(loadedTracks => { if (!cancelled) setLocalTracks(loadedTracks); })
         .catch(() => { if (!cancelled) setLocalTracks([]); });
 
-      const playlistTracks = await loadNeteasePlaylist();
+      const playlistTracks = await loadConfiguredPlaylist();
       if (cancelled) return;
       if (playlistTracks.length) {
-        const playlistIds = new Set(playlistTracks.map(track => track.id.replace(/^netease-/, '')));
+        const playlistIds = new Set(playlistTracks.map(track => track.id.replace(/^[a-z]+-/, '')));
         const remainingTracks = fallbackTracks.filter(track => {
           if (track.local || track.featured) return true;
           const sourceId = track.audio.match(/[?&]id=([0-9A-Za-z]+)/)?.[1];
@@ -341,6 +370,7 @@ export default function MusicExperience({ onExit }: MusicExperienceProps) {
     };
     const onError = () => {
       const track = currentRef.current;
+      const metingBases = getMetingBases();
       if (track && !track.local && sourceIndexRef.current < metingBases.length - 1) {
         sourceIndexRef.current += 1;
         audio.src = normalizeMetingSource(track.audio, sourceIndexRef.current);
@@ -537,7 +567,7 @@ export default function MusicExperience({ onExit }: MusicExperienceProps) {
     }
 
     if (notify) showToast('Loading lyrics...');
-    for (const base of metingBases) {
+    for (const base of getMetingBases()) {
       try {
         const response = await fetch(`${base}?server=${lyricSource.server}&type=lrc&id=${lyricSource.id}`);
         if (!response.ok) continue;

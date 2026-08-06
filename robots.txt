@@ -1,0 +1,36 @@
+User-agent: *
+Allow: /
+Disallow: /scripts/
+Disallow: /src/
+Disallow: /site.config.yaml
+
+User-agent: GPTBot
+Disallow: /
+
+User-agent: ChatGPT-User
+Disallow: /
+
+User-agent: CCBot
+Disallow: /
+
+User-agent: ClaudeBot
+Disallow: /
+
+User-agent: anthropic-ai
+Disallow: /
+
+User-agent: Google-Extended
+Disallow: /
+
+User-agent: PerplexityBot
+Disallow: /
+
+User-agent: Bytespider
+Disallow: /
+
+User-agent: Amazonbot
+Disallow: /
+
+Sitemap: https://www.wpixiu.cn/sitemap.xml
+
+# 本站内容仅供搜索引擎索引和个人浏览，禁止未经授权的批量抓取、模型训练、内容聚合和商用复用。

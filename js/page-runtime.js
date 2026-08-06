@@ -64,6 +64,8 @@ const loader = document.getElementById('loader');
       local: true
     };
 
+    const isHomeMusicAutoplayEnabled = () => window.SITE_CONFIG?.music?.player?.autoplay !== false;
+
     const getHomeMusicTracks = () => {
       const sharedTracks = Array.isArray(window.MUSIC_TRACKS) ? window.MUSIC_TRACKS : [];
       const baseTracks = sharedTracks.filter(track => track?.audio && track?.cover && track?.title);
@@ -312,6 +314,12 @@ const loader = document.getElementById('loader');
 
     const startHomeMusicWhenNavReady = () => {
       const run = () => {
+        if (!isHomeMusicAutoplayEnabled()) {
+          homeMusicOrb?.classList.add('is-visible');
+          renderHomeMusicPanel();
+          updateHomeMusicSync();
+          return;
+        }
         startHomeMusicForHomeReveal();
       };
       if (document.body.classList.contains('site-nav-ready')) {

@@ -612,7 +612,7 @@ class CircularGalleryApp {
   }
 }
 
-const projects = [
+const fallbackProjects = [
   {
     name: 'MixIndex',
     intro: '以连续动效串联身份、兴趣、博客与旅行的混合风格个人主页。',
@@ -650,6 +650,10 @@ const projects = [
   }
 ];
 
+const projects = Array.isArray(window.SITE_CONFIG?.portfolio?.projects) && window.SITE_CONFIG.portfolio.projects.length
+  ? window.SITE_CONFIG.portfolio.projects.map((project) => ({ ...project, text: project.text || '' }))
+  : fallbackProjects;
+
 const section = document.getElementById('projects');
 const root = document.getElementById('portfolio-gallery');
 const nameEl = document.querySelector('[data-project-name]');
@@ -663,6 +667,8 @@ if (section && root && nameEl && introEl && visitEl) {
     nameEl.textContent = project.name;
     introEl.textContent = project.intro;
     visitEl.href = project.href;
+    visitEl.target = '_blank';
+    visitEl.rel = 'noopener noreferrer';
   };
 
   renderProject(projects[0]);

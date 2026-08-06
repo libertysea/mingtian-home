@@ -83,11 +83,6 @@ hero:
     crop:
       position: "center center"
       scale: 1.0
-      responsive:
-        - when: "max-width: 1280px and min-height: 560px"
-          scale: 1.04
-        - when: "max-width: 720px"
-          scale: 1.06
 
 about:
   copy:
@@ -265,37 +260,44 @@ footer:
     url: "https://beian.miit.gov.cn/"
   copyright: "© 2026 明天"
 
-music:
-  localTracks:
-    # 随项目发布的本地音乐文件，上传项目后其他浏览器也能加载。
-    enabled: true
-    folder: "music/local"
-    tracks:
-      - id: "local-yoasobi-gunjou"
-        title: "群青"
-        artist: "YOASOBI"
-        startup: true
-        position: "top"
-        cover: "images/music/music-yoasobi-gunjou-cover.jpg"
-        audio: "music/local/yoasobi-gunjou.mp3"
-        lyrics:
-          source: "meting"
-          provider: "netease"
-          songId: "1472480890"
 
-  networkMusic:
-    enabled: true
-    meting:
-      servers:
-        - "https://api.injahow.cn/meting/"
+music:
+  player:
+    autoplay: true
+    featuredTrack: "local-yoasobi-gunjou"
+
+  meting:
+    api:
+      primary: "https://api.injahow.cn/meting/"
+      fallback:
         - "https://api.qijieya.cn/meting/"
-    playlists:
-      - id: "main"
-        title: "默认歌单"
-        provider: "netease"
-        type: "playlist"
-        sourceId: "14035449837"
-        enabled: true
-    tracks:
-      # 60 首网络音乐元数据，封面已下载到本地，播放时用 meting 参数拼接 API。
-      source: "music/network-music-tracks.json"
+
+  sources:
+    local:
+      # 随项目发布的本地音乐文件，上传项目后其他浏览器也能加载。
+      enabled: true
+      tracks:
+        - id: "local-yoasobi-gunjou"
+          title: "群青"
+          artist: "YOASOBI"
+          cover: "images/music/music-yoasobi-gunjou-cover.jpg"
+          audio: "music/local/yoasobi-gunjou.mp3"
+          lyrics:
+            type: "meting"
+            server: "netease"
+            id: "1472480890"
+
+    network:
+      enabled: true
+      default: "cached-json"
+      playlists:
+        - id: "cached-json"
+          type: "json"
+          source: "music/network-music-tracks.json"
+          enabled: true
+
+        - id: "netease-main"
+          type: "meting-playlist"
+          server: "netease"
+          source: "https://music.163.com/#/playlist?id=14035449837"
+          enabled: false

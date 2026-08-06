@@ -54,6 +54,34 @@ export interface WallInstance {
 declare global {
   interface Window {
     MUSIC_TRACKS?: Track[];
+    SITE_CONFIG?: {
+      music?: {
+        player?: {
+          autoplay?: boolean;
+          featuredTrack?: string;
+        };
+        meting?: {
+          api?: {
+            primary?: string;
+            fallback?: string[];
+          };
+        };
+        sources?: {
+          network?: {
+            enabled?: boolean;
+            default?: string;
+            playlists?: {
+              id?: string;
+              title?: string;
+              type?: 'json' | 'meting-playlist';
+              source?: string;
+              server?: 'netease' | 'tencent';
+              enabled?: boolean;
+            }[];
+          };
+        };
+      };
+    };
     MusicAssets?: Record<string, string>;
     MusicRouteTransition?: {
       navigate: (url: string, cardName: string, direction: number) => void;

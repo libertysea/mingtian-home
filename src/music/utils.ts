@@ -1,9 +1,19 @@
 import type { StoredTrack, Track } from './types';
 
-export const metingBases = [
+export const defaultMetingBases = [
   'https://api.injahow.cn/meting/',
   'https://api.qijieya.cn/meting/'
 ];
+
+export function getMetingBases() {
+  const api = window.SITE_CONFIG?.music?.meting?.api;
+  const configured = [
+    api?.primary,
+    ...(Array.isArray(api?.fallback) ? api.fallback : [])
+  ].filter((base): base is string => Boolean(base));
+
+  return configured.length ? configured : defaultMetingBases;
+}
 
 export function resolveAsset(path: string) {
   const normalized = path.replace(/^\/+/, '');
@@ -29,7 +39,8 @@ export function normalizeMetingSource(url: string, baseIndex = 0) {
   try {
     const parsed = new URL(url, window.location.href);
     if (/injahow|qijieya/i.test(parsed.hostname)) {
-      return `${metingBases[baseIndex]}${parsed.search}`;
+      const bases = getMetingBases();
+      return `${bases[baseIndex] || bases[0]}${parsed.search}`;
     }
     return parsed.href;
   } catch {

@@ -2631,7 +2631,7 @@
       inset: 0;
       z-index: 11;
       pointer-events: none;
-      background: url("../images/daily/daily-binder.png") center / contain no-repeat;
+      background: var(--daily-book-binder-image, url("../images/daily/daily-binder.png")) center / contain no-repeat;
     }
 
     .daily-page-arrow {
@@ -2770,19 +2770,19 @@
       width: 36.8%;
       height: 71.3%;
       overflow: hidden;
-      background-image: url("../images/daily/daily-left-paper-bg.png");
+      background-image: var(--daily-campus-left-bg, url("../images/daily/daily-left-paper-bg.png"));
       border-radius: 12px 5px 5px 12px;
       clip-path: inset(0 round 12px 5px 5px 12px);
     }
 
     .daily-book.is-computer-page .daily-left-page {
-      background-image: url("../images/daily/daily-left-computer-skills-bg.png");
+      background-image: var(--daily-vibe-left-bg, url("../images/daily/daily-left-computer-skills-bg.png"));
       background-position: center;
       background-size: cover;
     }
 
     .daily-book.is-stock-page .daily-left-page {
-      background-image: url("../images/daily/daily-left-stock-line-bg.png");
+      background-image: var(--daily-stock-left-bg, url("../images/daily/daily-left-stock-line-bg.png"));
       background-position: center;
       background-size: cover;
     }
@@ -3505,7 +3505,7 @@
       inset: 0;
       z-index: 2;
       pointer-events: none;
-      background-image: url("../images/daily/daily-left-paper-bg.png");
+      background-image: var(--daily-campus-left-bg, url("../images/daily/daily-left-paper-bg.png"));
       background-position: -20% 86%;
       background-size: 95% 95%;
       background-repeat: no-repeat;
@@ -3697,7 +3697,7 @@
       width: 36.8%;
       height: 71.3%;
       overflow: hidden;
-      background-image: url("../images/daily/daily-right-page-bg.png");
+      background-image: var(--daily-campus-right-bg, url("../images/daily/daily-right-page-bg.png"));
       background-position: center;
       background-size: cover;
       border-radius: 10px 22px 22px 10px;
@@ -3705,11 +3705,11 @@
     }
 
     .daily-book.is-computer-page .daily-right-page {
-      background-image: url("../images/daily/daily-right-computer-page-bg.png");
+      background-image: var(--daily-vibe-right-bg, url("../images/daily/daily-right-computer-page-bg.png"));
     }
 
     .daily-book.is-stock-page .daily-right-page {
-      background-image: url("../images/daily/daily-right-cloud-dashboard-bg.png");
+      background-image: var(--daily-stock-right-bg, url("../images/daily/daily-right-cloud-dashboard-bg.png"));
     }
 
     .daily-book.is-computer-page .daily-right-page::before,

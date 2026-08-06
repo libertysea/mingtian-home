@@ -1,9 +1,9 @@
 (() => {
   const navigation = document.querySelector('.site-nav');
   const menuButton = navigation?.querySelector('.site-nav__menu');
-  const navItems = [...(navigation?.querySelectorAll('[data-nav-target]') || [])];
+  const getNavItems = () => [...(navigation?.querySelectorAll('[data-nav-target]') || [])];
   const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)');
-  const observedSections = navItems
+  const observedSections = getNavItems()
     .map((item) => document.getElementById(item.dataset.navTarget))
     .filter(Boolean);
 
@@ -14,12 +14,15 @@
     menuButton.setAttribute('aria-expanded', 'false');
   };
 
+  let currentSectionId = 'stage';
+
   const setCurrentSection = (sectionId) => {
+    currentSectionId = sectionId;
     const isPastHero = sectionId !== 'stage';
     navigation.dataset.compact = String(isPastHero);
     navigation.dataset.section = sectionId;
     if (isPastHero) closeMenu();
-    navItems.forEach((item) => {
+    getNavItems().forEach((item) => {
       if (item.dataset.navTarget === sectionId) {
         item.setAttribute('aria-current', 'location');
       } else {
@@ -33,23 +36,27 @@
     menuButton.setAttribute('aria-expanded', String(isOpen));
   });
 
-  navItems.forEach((item) => {
-    item.addEventListener('click', (event) => {
-      const target = document.getElementById(item.dataset.navTarget);
-      if (!target) return;
+  navigation.addEventListener('click', (event) => {
+    const item = event.target.closest('[data-nav-target]');
+    if (!item || !navigation.contains(item)) return;
+    const target = document.getElementById(item.dataset.navTarget);
+    if (!target) return;
 
-      event.preventDefault();
-      closeMenu();
-      target.scrollIntoView({
-        behavior: reduceMotion.matches ? 'auto' : 'smooth',
-        block: 'start'
-      });
-      history.replaceState(null, '', `#${target.id}`);
+    event.preventDefault();
+    closeMenu();
+    target.scrollIntoView({
+      behavior: reduceMotion.matches ? 'auto' : 'smooth',
+      block: 'start'
     });
+    history.replaceState(null, '', `#${target.id}`);
   });
 
   document.addEventListener('keydown', (event) => {
     if (event.key === 'Escape') closeMenu();
+  });
+
+  window.addEventListener('site-config-applied', () => {
+    setCurrentSection(currentSectionId);
   });
 
   const visibility = new Map();

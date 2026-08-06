@@ -1,0 +1,152 @@
+{
+  "generatedAt": "2026-08-05T23:43:08.237Z",
+  "configFile": "site.config.yaml",
+  "siteConfig": {
+    "file": "js/data/site-config.generated.js",
+    "title": "明天",
+    "description": "明天的个人主页，记录技术、兴趣、旅行、作品和日常。",
+    "ogImage": "https://www.wpixiu.cn/images/site-share-card.png"
+  },
+  "musicTracks": {
+    "file": "js/data/music-tracks.generated.js",
+    "count": 61,
+    "localCount": 1,
+    "networkCount": 60,
+    "metingServer": "https://api.injahow.cn/meting/",
+    "featuredTrack": "local-yoasobi-gunjou"
+  },
+  "robots": {
+    "file": "robots.txt",
+    "allowIndexing": true
+  },
+  "sitemap": {
+    "file": "sitemap.xml",
+    "count": 1
+  },
+  "travel": {
+    "folder": "images/travel",
+    "count": 20,
+    "files": [
+      {
+        "index": 1,
+        "from": "travel-01.jpg",
+        "to": "travel-01.jpg",
+        "src": "images/travel/travel-01.jpg"
+      },
+      {
+        "index": 2,
+        "from": "travel-02.jpg",
+        "to": "travel-02.jpg",
+        "src": "images/travel/travel-02.jpg"
+      },
+      {
+        "index": 3,
+        "from": "travel-03.jpg",
+        "to": "travel-03.jpg",
+        "src": "images/travel/travel-03.jpg"
+      },
+      {
+        "index": 4,
+        "from": "travel-04.jpg",
+        "to": "travel-04.jpg",
+        "src": "images/travel/travel-04.jpg"
+      },
+      {
+        "index": 5,
+        "from": "travel-05.jpg",
+        "to": "travel-05.jpg",
+        "src": "images/travel/travel-05.jpg"
+      },
+      {
+        "index": 6,
+        "from": "travel-06.jpg",
+        "to": "travel-06.jpg",
+        "src": "images/travel/travel-06.jpg"
+      },
+      {
+        "index": 7,
+        "from": "travel-07.jpg",
+        "to": "travel-07.jpg",
+        "src": "images/travel/travel-07.jpg"
+      },
+      {
+        "index": 8,
+        "from": "travel-08.jpg",
+        "to": "travel-08.jpg",
+        "src": "images/travel/travel-08.jpg"
+      },
+      {
+        "index": 9,
+        "from": "travel-09.jpg",
+        "to": "travel-09.jpg",
+        "src": "images/travel/travel-09.jpg"
+      },
+      {
+        "index": 10,
+        "from": "travel-10.jpg",
+        "to": "travel-10.jpg",
+        "src": "images/travel/travel-10.jpg"
+      },
+      {
+        "index": 11,
+        "from": "travel-11.jpg",
+        "to": "travel-11.jpg",
+        "src": "images/travel/travel-11.jpg"
+      },
+      {
+        "index": 12,
+        "from": "travel-12.jpg",
+        "to": "travel-12.jpg",
+        "src": "images/travel/travel-12.jpg"
+      },
+      {
+        "index": 13,
+        "from": "travel-13.jpg",
+        "to": "travel-13.jpg",
+        "src": "images/travel/travel-13.jpg"
+      },
+      {
+        "index": 14,
+        "from": "travel-14.jpg",
+        "to": "travel-14.jpg",
+        "src": "images/travel/travel-14.jpg"
+      },
+      {
+        "index": 15,
+        "from": "travel-15.jpg",
+        "to": "travel-15.jpg",
+        "src": "images/travel/travel-15.jpg"
+      },
+      {
+        "index": 16,
+        "from": "travel-16.jpg",
+        "to": "travel-16.jpg",
+        "src": "images/travel/travel-16.jpg"
+      },
+      {
+        "index": 17,
+        "from": "travel-17.jpg",
+        "to": "travel-17.jpg",
+        "src": "images/travel/travel-17.jpg"
+      },
+      {
+        "index": 18,
+        "from": "travel-18.jpg",
+        "to": "travel-18.jpg",
+        "src": "images/travel/travel-18.jpg"
+      },
+      {
+        "index": 19,
+        "from": "travel-19.jpg",
+        "to": "travel-19.jpg",
+        "src": "images/travel/travel-19.jpg"
+      },
+      {
+        "index": 20,
+        "from": "travel-20.jpg",
+        "to": "travel-20.jpg",
+        "src": "images/travel/travel-20.jpg"
+      }
+    ]
+  }
+}
