@@ -124,6 +124,7 @@
     const spreadCount = 3;
     const halfPageCount = spreadCount * 2;
     const mobileDailyQuery = window.matchMedia('(max-width: 760px)');
+    const reduceMotionQuery = window.matchMedia('(prefers-reduced-motion: reduce)');
     const pageForSpread = (spreadIndex) => 2 + spreadIndex * 2;
     const spreadForIndex = (pageIndex) => mobileDailyQuery.matches ? Math.floor(pageIndex / 2) : pageIndex;
     let dailyPageIndex = 0;
