@@ -1,4 +1,4 @@
-/* Hero and home shell */
+﻿/* Hero and home shell */
 :root {
       color-scheme: dark;
       --bg: #000;
@@ -729,8 +729,8 @@
     }
 
     .title__latin {
-      font-family: "Segoe Script", "Lucida Handwriting", "Brush Script MT", cursive;
-      font-size: clamp(38px, 5.4vw, 76px);
+      font-family: "Mingtian Hand Latin", "Segoe Script", "Lucida Handwriting", "Brush Script MT", cursive;
+      font-size: clamp(50px, 6.8vw, 98px);
       font-style: normal;
       letter-spacing: 0.015em;
       opacity: 0.94;
@@ -741,11 +741,11 @@
 
     .title__cn {
       margin-top: 24px;
-      font-family: "STXingkai", "KaiTi", "Kaiti SC", "Microsoft YaHei", sans-serif;
-      font-size: clamp(36px, 4.8vw, 68px);
+      font-family: "Mingtian Brush SC", "STXingkai", "KaiTi", "Kaiti SC", "Microsoft YaHei", sans-serif;
+      font-size: clamp(36px, 4.2vw, 58px);
       line-height: 1.18;
       font-weight: 700;
-      letter-spacing: 0.11em;
+      letter-spacing: 0.1em;
       color: rgba(255, 255, 255, 0.98);
       -webkit-text-stroke: 0.45px rgba(255, 255, 255, 0.72);
       text-shadow:
@@ -758,3 +758,64 @@
       filter: contrast(1.24);
       transform: none;
     }
+
+    @media (max-width: 760px) {
+      html {
+        scroll-snap-type: none;
+        overscroll-behavior-y: auto;
+      }
+
+      body {
+        overscroll-behavior-y: auto;
+      }
+
+      .stage {
+        height: 100svh;
+        min-height: 100svh;
+      }
+
+      .title {
+        width: calc(100vw - 56px);
+        max-width: calc(100vw - 56px);
+        line-height: 0.95;
+      }
+
+      .title__kicker {
+        width: 100%;
+        margin-bottom: 8px;
+        padding-left: 2px;
+        font-size: clamp(12px, 3.3vw, 14px);
+        letter-spacing: 0.04em;
+      }
+
+      .title__latin {
+        font-size: clamp(30px, 8.9vw, 35px);
+        letter-spacing: 0;
+        white-space: nowrap;
+      }
+
+      .title__cn {
+        margin-top: 18px;
+        font-size: clamp(28px, 8.2vw, 34px);
+        line-height: 1.12;
+        letter-spacing: 0.06em;
+      }
+    }
+
+    @media (max-width: 380px) {
+      .title {
+        width: calc(100vw - 46px);
+        max-width: calc(100vw - 46px);
+      }
+
+      .title__latin {
+        font-size: clamp(28px, 8.3vw, 32px);
+      }
+
+      .title__cn {
+        font-size: clamp(26px, 7.8vw, 30px);
+        letter-spacing: 0.04em;
+      }
+    }
+
+

@@ -354,6 +354,7 @@ export function PlayerBar({
                     key={track.id}
                     src={track.cover}
                     alt=""
+                    decoding="async"
                     draggable={false}
                     referrerPolicy="no-referrer"
                     initial={{ opacity: 0, scale: 0.94 }}
@@ -520,7 +521,7 @@ export function ExpandedPlayer({
               <motion.div className={`music-expanded__disc${isPlaying ? ' is-playing' : ''}`} layoutId="active-cover">
                 <AnimatePresence mode="wait" initial={false}>
                   {track.cover ? (
-                    <motion.img key={track.id} src={track.cover} alt={track.title} draggable={false} referrerPolicy="no-referrer" initial={{ opacity: 0, scale: 0.96 }} animate={{ opacity: 1, scale: 1 }} exit={{ opacity: 0, scale: 1.04 }} transition={{ duration: 0.24 }} />
+                    <motion.img key={track.id} src={track.cover} alt={track.title} decoding="async" draggable={false} referrerPolicy="no-referrer" initial={{ opacity: 0, scale: 0.96 }} animate={{ opacity: 1, scale: 1 }} exit={{ opacity: 0, scale: 1.04 }} transition={{ duration: 0.24 }} />
                   ) : null}
                 </AnimatePresence>
               </motion.div>

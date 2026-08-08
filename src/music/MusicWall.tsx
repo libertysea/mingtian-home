@@ -365,6 +365,8 @@ export default function MusicWall({
                   <img
                     src={track.cover}
                     alt={track.title}
+                    loading="lazy"
+                    decoding="async"
                     draggable={false}
                     referrerPolicy="no-referrer"
                   />

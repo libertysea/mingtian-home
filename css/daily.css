@@ -1,8 +1,12 @@
 /* Daily section */
 .daily-section {
+      --daily-stable-vh: 100svh;
+    }
+
+.daily-section {
       position: relative;
-      height: 100dvh;
-      min-height: 100dvh;
+      height: var(--daily-stable-vh);
+      min-height: var(--daily-stable-vh);
       overflow: hidden;
       display: grid;
       place-items: center;
@@ -23,11 +27,11 @@
 
     .daily-book {
       position: relative;
-      width: min(119vw, calc((100dvh - 40px) * 1.906));
+      width: min(119vw, calc((var(--daily-stable-vh) - 40px) * 1.906));
       aspect-ratio: 3 / 2;
       min-height: 0;
       filter: drop-shadow(0 30px 34px rgba(43, 39, 31, 0.18));
-      transform: translateY(clamp(-32px, -2.25dvh, -18px));
+      transform: translateY(clamp(-32px, calc(var(--daily-stable-vh) * -0.0225), -18px));
       perspective: 1800px;
       transform-style: preserve-3d;
     }
@@ -283,7 +287,7 @@
     .daily-left-stock-fill__stamp {
       position: absolute;
       box-sizing: border-box;
-      font-family: "Segoe Print", "STKaiti", "KaiTi", "YouYuan", "Microsoft YaHei UI", cursive;
+      font-family: "Mingtian Brush SC", "Segoe Print", "STKaiti", "KaiTi", "YouYuan", "Microsoft YaHei UI", cursive;
       filter: drop-shadow(0 8px 12px rgba(67, 84, 98, 0.1));
     }
 
@@ -770,7 +774,7 @@
       -webkit-background-clip: text;
       background-clip: text;
       -webkit-text-fill-color: transparent;
-      font-family: "STXinwei", "华文新魏", "FZShuTi", "方正舒体", "STKaiti", "KaiTi", "Microsoft YaHei UI", "PingFang SC", serif;
+      font-family: "Mingtian Brush SC", "STXinwei", "华文新魏", "FZShuTi", "方正舒体", "STKaiti", "KaiTi", "Microsoft YaHei UI", "PingFang SC", serif;
       font-size: clamp(20px, 2.08vw, 41px);
       font-weight: 900;
       letter-spacing: 0.04em;

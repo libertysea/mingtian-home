@@ -22,10 +22,14 @@
   <meta name="twitter:image" content="https://www.wpixiu.cn/images/site-share-card.png" />
   <meta name="twitter:image:alt" content="明天的个人主页分享图" />
   <link rel="icon" type="image/png" href="images/about/profile-avatar.png" />
+  <link rel="preload" as="video" href="videos/hero-intro-video.mp4" type="video/mp4" fetchpriority="high" />
+  <link rel="preload" as="image" href="images/about/profile-avatar.png" fetchpriority="high" />
+  <link rel="preload" as="image" href="images/music/music-yoasobi-gunjou-cover.jpg" fetchpriority="high" />
   <script type="application/ld+json" id="site-structured-data">{"@context":"https://schema.org","@type":"Person","name":"明天","url":"https://www.wpixiu.cn","image":"https://www.wpixiu.cn/images/site-share-card.png","description":"明天的个人主页，记录技术、兴趣、旅行、作品和日常。","sameAs":["https://blog.wpixiu.cn/","https://github.com/libertysea"]}</script>
   <script src="js/data/site-config.generated.js"></script>
 
   <!-- Page section styles -->
+  <link rel="stylesheet" href="css/site-fonts.css">
   <link rel="stylesheet" href="css/about-card-runtime.css" />
   <link rel="stylesheet" href="css/hero.css">
   <link rel="stylesheet" href="css/about.css">
@@ -77,7 +81,7 @@
       <small>YOASOBI</small>
     </span>
   </button>
-  <audio id="homeMusicAudio" src="music/local/yoasobi-gunjou.mp3" preload="auto"></audio>
+  <audio id="homeMusicAudio" src="music/local/yoasobi-gunjou.mp3" preload="metadata"></audio>
   <section class="home-music-panel" id="homeMusicPanel" aria-label="音乐播放列表" hidden>
     <div class="home-music-panel__current">
       <span class="home-music-panel__cover"><img id="homeMusicCover" src="images/music/music-yoasobi-gunjou-cover.jpg" alt="" draggable="false" /></span>
@@ -221,7 +225,7 @@
     </div>
   </div>
   <section class="story-section travel-section" id="travel" aria-label="Travel hero">
-    <video class="travel-video" src="https://d8j0ntlcm91z4.cloudfront.net/user_38xzZboKViGWJOttwIXH07lWA1P/hf_20260317_100335_dc625816-c3c1-4b00-b93e-4cb301cf5ea5.mp4" autoplay muted loop playsinline preload="auto"></video>
+    <video class="travel-video" src="https://d8j0ntlcm91z4.cloudfront.net/user_38xzZboKViGWJOttwIXH07lWA1P/hf_20260317_100335_dc625816-c3c1-4b00-b93e-4cb301cf5ea5.mp4" autoplay muted loop playsinline preload="metadata"></video>
     <div class="travel-content">
       <h2 class="travel-title" aria-label="&#19990;&#30028;&#37027;&#20040;&#22823;&#65292;&#25105;&#24819;&#21435;&#30475;&#30475;&#65281;">
         <span class="travel-title__line"><span class="travel-title__core">&#19990;&#30028;&#37027;&#20040;&#22823;</span><span class="travel-title__punct">&#65292;</span></span>

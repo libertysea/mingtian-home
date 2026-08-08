@@ -1,6 +1,18 @@
 {
-  "generatedAt": "2026-08-06T15:10:47.291Z",
+  "generatedAt": "2026-08-08T01:34:53.500Z",
   "configFile": "site.config.yaml",
+  "siteFonts": {
+    "file": "css/site-fonts.css",
+    "enabledFamilies": [
+      "Mingtian Hand Latin",
+      "Mingtian Brush SC"
+    ],
+    "sourceFiles": [
+      "fonts/caveat-semibold.ttf",
+      "fonts/ma-shan-zheng-regular.ttf"
+    ],
+    "aliasCount": 15
+  },
   "siteConfig": {
     "file": "js/data/site-config.generated.js",
     "title": "明天",

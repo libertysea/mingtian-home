@@ -116,7 +116,8 @@
 
     @media (max-width: 860px) {
       .daily-section {
-        min-height: 100dvh;
+        --daily-stable-vh: 100svh;
+        min-height: var(--daily-stable-vh);
         padding: 14px 0;
       }
 
@@ -128,10 +129,10 @@
 
       .daily-book {
         justify-self: center;
-        width: min(132vw, calc((100dvh - 28px) * 1.906));
+        width: min(132vw, calc((var(--daily-stable-vh) - 28px) * 1.906));
         aspect-ratio: 3 / 2;
         background-position: center;
-        transform: translateY(clamp(-24px, -3dvh, -12px));
+        transform: translateY(clamp(-24px, calc(var(--daily-stable-vh) * -0.03), -12px));
       }
 
       .daily-left-page {
@@ -483,19 +484,20 @@
 
     @media (max-width: 760px) {
       .daily-section {
-        --daily-mobile-book-width: clamp(910px, min(252vw, 126dvh), 1068px);
+        --daily-stable-vh: 100svh;
+        --daily-mobile-book-width: clamp(910px, min(252vw, calc(var(--daily-stable-vh) * 1.26)), 1068px);
         --daily-mobile-book-height: calc(var(--daily-mobile-book-width) * 0.667);
         --daily-mobile-page-top: calc(var(--daily-mobile-book-height) * 0.142);
         --daily-mobile-page-height: calc(var(--daily-mobile-book-height) * 0.713);
         --daily-mobile-arrow-size: clamp(48px, 15vw, 62px);
-        --daily-mobile-book-arrow-gap: clamp(10px, 1.4dvh, 14px);
-        --daily-mobile-arrow-drop: clamp(26px, 4.2dvh, 34px);
-        --daily-mobile-short-top-gap: clamp(0px, calc((700px - 100dvh) * 0.56), 18px);
-        --daily-mobile-balance-shift: clamp(3px, calc((100dvh - 667px) * 0.2 + 3px), 24px);
-        --daily-mobile-group-y: calc((75dvh - var(--daily-mobile-page-height) - var(--daily-mobile-book-arrow-gap) - var(--daily-mobile-arrow-drop) - var(--daily-mobile-arrow-size)) / 2);
+        --daily-mobile-book-arrow-gap: clamp(10px, calc(var(--daily-stable-vh) * 0.014), 14px);
+        --daily-mobile-arrow-drop: clamp(26px, calc(var(--daily-stable-vh) * 0.042), 34px);
+        --daily-mobile-short-top-gap: clamp(0px, calc((700px - var(--daily-stable-vh)) * 0.56), 18px);
+        --daily-mobile-balance-shift: clamp(3px, calc((var(--daily-stable-vh) - 667px) * 0.2 + 3px), 24px);
+        --daily-mobile-group-y: calc((75svh - var(--daily-mobile-page-height) - var(--daily-mobile-book-arrow-gap) - var(--daily-mobile-arrow-drop) - var(--daily-mobile-arrow-size)) / 2);
         --daily-mobile-spine-target: clamp(2px, calc((100vw - 360px) * 0.4 + 2px), 8px);
-        height: 75dvh;
-        min-height: 75dvh;
+        height: 75svh;
+        min-height: 75svh;
         padding: 0;
       }
 
@@ -564,6 +566,6 @@
 
     @media (max-width: 760px) and (max-height: 700px) {
       .daily-section {
-        --daily-mobile-book-width: min(880px, min(252vw, 126dvh));
+        --daily-mobile-book-width: min(880px, min(252vw, calc(var(--daily-stable-vh) * 1.26)));
       }
     }

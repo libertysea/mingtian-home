@@ -12,6 +12,8 @@
 
   const imageManifestUrl = 'images/travel/gallery.json';
   let images = [];
+  let galleryInitialized = false;
+  let galleryInitializing = null;
 
   const config = {
     fit: 0.66,
@@ -201,6 +203,8 @@
       img.src = item.src;
       img.alt = item.alt;
       img.draggable = false;
+      img.loading = 'lazy';
+      img.decoding = 'async';
 
       tile.appendChild(img);
       outer.appendChild(tile);
@@ -616,6 +620,7 @@
 
   async function openGalleryWithTransition() {
     if (gallery.classList.contains('is-open') || state.transitionPlaying) return;
+    await ensureGalleryInitialized();
     let opened = false;
     const openOnce = () => {
       if (opened) return;
@@ -743,11 +748,25 @@
   }
 
   async function initializeGallery() {
-    images = await loadImages();
+    if (!images.length) images = await loadImages();
     if (!images.length) return;
 
     renderGallery();
     updateLayout();
+    galleryInitialized = true;
+  }
+
+  function ensureGalleryInitialized() {
+    if (galleryInitialized) return Promise.resolve(true);
+    if (galleryInitializing) return galleryInitializing;
+
+    galleryInitializing = initializeGallery()
+      .then(() => galleryInitialized)
+      .finally(() => {
+        galleryInitializing = null;
+      });
+
+    return galleryInitializing;
   }
 
   openButton.setAttribute('aria-controls', 'travel-gallery');
@@ -772,5 +791,15 @@
   const resizeObserver = new ResizeObserver(updateLayout);
   resizeObserver.observe(stage);
 
-  initializeGallery();
+  if ('IntersectionObserver' in window) {
+    const preloadObserver = new IntersectionObserver((entries) => {
+      if (!entries.some((entry) => entry.isIntersecting)) return;
+      preloadObserver.disconnect();
+      loadImages().then((loadedImages) => {
+        if (!images.length) images = loadedImages;
+      });
+    }, { rootMargin: '35% 0px', threshold: 0 });
+
+    preloadObserver.observe(openButton);
+  }
 })();

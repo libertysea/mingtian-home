@@ -1,14 +1,11 @@
 import React from 'react';
 import { flushSync } from 'react-dom';
 import { createRoot } from 'react-dom/client';
-import musicBackground from '../../images/music/mos-background.webp';
 import MusicExperience from './MusicExperience';
 
 const host = document.getElementById('music-component-root');
 
-window.MusicAssets = {
-  'images/mos-background.webp': musicBackground as unknown as string
-};
+window.MusicAssets = window.MusicAssets || {};
 
 if (!host) {
   throw new Error('The music component host is missing.');

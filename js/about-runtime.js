@@ -352,7 +352,7 @@
   let aboutLanyardReplayTimer = 0;
   let aboutRuntimeLoading = false;
   let aboutRuntimeLoaded = Boolean(aboutSection?.querySelector('.bits-lanyard, .lanyard-wrapper'));
-  let aboutRuntimeLoadId = 0;
+  let aboutRuntimePromise = null;
   let portfolioRuntimeLoaded = false;
 
   const getAboutLanyardElement = () => (
@@ -365,72 +365,74 @@
     requestAboutLanyardScrollCheck();
   };
 
-  const getVersionedScriptSrc = (src, version) => {
-    if (!version) return src;
-    const separator = src.includes('?') ? '&' : '?';
-    return `${src}${separator}drop=${version}`;
-  };
+  const loadRuntimeScript = (spec) => new Promise((resolve) => {
+    const existing = document.querySelector(`script[src="${spec.src}"]`);
+    if (existing) {
+      resolve(true);
+      return;
+    }
 
-  const loadRuntimeScript = (spec, loadId) => new Promise((resolve) => {
     const script = document.createElement('script');
     script.src = spec.src;
     if (spec.type) script.type = spec.type;
     if (spec.crossOrigin) script.crossOrigin = spec.crossOrigin;
-    script.onload = () => resolve(loadId === aboutRuntimeLoadId);
+    script.onload = () => resolve(true);
     script.onerror = () => resolve(false);
     document.body.appendChild(script);
   });
 
-  const getAboutRuntimeScripts = (version) => {
+  const getAboutRuntimeScripts = () => {
     const fileMode = location.protocol === 'file:';
-    const scripts = fileMode
-      ? [{ src: getVersionedScriptSrc('js/runtime/about-card-standalone.js', version) }]
-      : [{ src: getVersionedScriptSrc('js/runtime/about-card-module.js', version), type: 'module', crossOrigin: 'anonymous' }];
-
-    if (!portfolioRuntimeLoaded) {
-      scripts.push(fileMode
-        ? { src: 'js/runtime/portfolio-gallery-standalone.js' }
-        : { src: 'js/portfolio-gallery.js', type: 'module' });
-    }
-
-    return scripts;
+    return fileMode
+      ? [{ src: 'js/runtime/about-card-standalone.js' }]
+      : [{ src: 'js/runtime/about-card-module.js', type: 'module', crossOrigin: 'anonymous' }];
   };
 
-  const loadAboutCardRuntime = () => {
-    if (aboutRuntimeLoaded) return Promise.resolve(true);
-    if (aboutRuntimeLoading) return Promise.resolve(false);
+  const loadPortfolioRuntime = () => {
+    if (portfolioRuntimeLoaded) return Promise.resolve(true);
+    const fileMode = location.protocol === 'file:';
+    const spec = fileMode
+      ? { src: 'js/runtime/portfolio-gallery-standalone.js' }
+      : { src: 'js/portfolio-gallery.js', type: 'module' };
 
-    const loadId = aboutRuntimeLoadId + 1;
-    aboutRuntimeLoadId = loadId;
-    aboutRuntimeLoading = true;
-
-    return getAboutRuntimeScripts(loadId).reduce((chain, spec) => (
-      chain.then((ok) => {
-        if (!ok) return false;
-        return loadRuntimeScript(spec, loadId);
-      })
-    ), Promise.resolve(true)).then((ok) => {
-      if (loadId === aboutRuntimeLoadId) {
-        aboutRuntimeLoading = false;
-        if (ok) {
-          portfolioRuntimeLoaded = true;
-          setAboutRuntimeLoaded();
-          if (typeof window.__rebuildAboutCardText === 'function') {
-            window.__rebuildAboutCardText();
-          }
-        }
-      }
+    return loadRuntimeScript(spec).then((ok) => {
+      if (ok) portfolioRuntimeLoaded = true;
       return ok;
     });
   };
 
+  const loadAboutCardRuntime = () => {
+    if (aboutRuntimeLoaded) return Promise.resolve(true);
+    if (aboutRuntimeLoading && aboutRuntimePromise) return aboutRuntimePromise;
+    aboutRuntimeLoading = true;
+
+    aboutRuntimePromise = getAboutRuntimeScripts().reduce((chain, spec) => (
+      chain.then((ok) => {
+        if (!ok) return false;
+        return loadRuntimeScript(spec);
+      })
+    ), Promise.resolve(true)).then((ok) => {
+      aboutRuntimeLoading = false;
+      if (ok) {
+        setAboutRuntimeLoaded();
+        if (typeof window.__rebuildAboutCardText === 'function') {
+          window.__rebuildAboutCardText();
+        }
+      }
+      return ok;
+    }).catch((error) => {
+      aboutRuntimeLoading = false;
+      aboutRuntimePromise = null;
+      throw error;
+    });
+
+    return aboutRuntimePromise;
+  };
+
   const resetAboutCardRuntime = () => {
     window.clearTimeout(aboutLanyardReplayTimer);
-    aboutRuntimeLoadId += 1;
-    aboutRuntimeLoading = false;
-    aboutRuntimeLoaded = false;
-    document.documentElement.classList.remove('about-card-runtime-loaded');
-    document.getElementById('identity-root')?.replaceChildren();
+    aboutSection.classList.remove('lanyard-drop-active');
+    getAboutLanyardElement()?.classList.remove('is-drop-active', 'is-replaying');
   };
 
   const replayAboutLanyardDom = () => {
@@ -477,20 +479,22 @@
     if (!active) {
       if (!aboutLanyardActive && !aboutRuntimeLoaded && !aboutRuntimeLoading && !getAboutLanyardElement()) return;
       aboutLanyardActive = false;
-      aboutSection.classList.remove('lanyard-drop-active');
-      getAboutLanyardElement()?.classList.remove('is-drop-active', 'is-replaying');
       resetAboutCardRuntime();
       return;
     }
     if (aboutLanyardActive === active) {
-      loadAboutCardRuntime();
-      replayAboutLanyardWhenReady();
+      if (!getAboutLanyardElement() || aboutRuntimeLoading) {
+        loadAboutCardRuntime().then((ok) => {
+          if (ok) replayAboutLanyardWhenReady();
+        });
+      }
       return;
     }
     aboutLanyardActive = active;
     aboutSection.classList.add('lanyard-drop-active');
-    loadAboutCardRuntime();
-    replayAboutLanyardWhenReady();
+    loadAboutCardRuntime().then((ok) => {
+      if (ok) replayAboutLanyardWhenReady();
+    });
   };
 
   const updateAboutLanyardByScroll = () => {
@@ -532,5 +536,21 @@
   window.addEventListener('scroll', requestAboutLanyardScrollCheck, { passive: true });
   window.addEventListener('resize', requestAboutLanyardScrollCheck);
   window.addEventListener('load', requestAboutLanyardScrollCheck, { once: true });
+
+  const projectsSection = document.getElementById('projects');
+  if (projectsSection && 'IntersectionObserver' in window) {
+    const portfolioObserver = new IntersectionObserver((entries) => {
+      if (!entries.some((entry) => entry.isIntersecting)) return;
+      portfolioObserver.disconnect();
+      loadPortfolioRuntime();
+    }, { rootMargin: '70% 0px', threshold: 0 });
+
+    portfolioObserver.observe(projectsSection);
+  } else {
+    window.addEventListener('load', () => {
+      window.setTimeout(loadPortfolioRuntime, 1200);
+    }, { once: true });
+  }
+
   requestAboutLanyardScrollCheck();
 })();
