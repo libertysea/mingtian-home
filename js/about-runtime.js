@@ -17,6 +17,8 @@
   let identityTiltYTo = null;
   const scrollFloatItems = [];
   const reduceMotionQuery = window.matchMedia('(prefers-reduced-motion: reduce)');
+  const mobileTouchQuery = window.matchMedia('(pointer: coarse), (max-width: 749px)');
+  const longPressDelay = 360;
 
   const clamp = (value, min = 0, max = 1) => Math.min(max, Math.max(min, value));
   const scrollFloatEase = (value) => value * value * (3 - 2 * value);
@@ -536,6 +538,70 @@
   window.addEventListener('scroll', requestAboutLanyardScrollCheck, { passive: true });
   window.addEventListener('resize', requestAboutLanyardScrollCheck);
   window.addEventListener('load', requestAboutLanyardScrollCheck, { once: true });
+
+  const setupMobileLongPressMode = () => {
+    if (!mobileTouchQuery.matches) return;
+
+    const copy = aboutSection.querySelector('.identity-copy');
+    let holdTimer = 0;
+    let holdMode = '';
+    let startPoint = null;
+
+    const clearHold = () => {
+      window.clearTimeout(holdTimer);
+      holdTimer = 0;
+      startPoint = null;
+      if (!holdMode) return;
+      aboutSection.classList.remove('is-mobile-3d-hold', 'is-mobile-lanyard-hold');
+      holdMode = '';
+      resetIdentityTilt();
+    };
+
+    const armHold = (event, mode) => {
+      if (!event.isPrimary) return;
+      window.clearTimeout(holdTimer);
+      startPoint = { x: event.clientX, y: event.clientY };
+      holdTimer = window.setTimeout(() => {
+        holdMode = mode;
+        aboutSection.classList.add(mode === 'copy' ? 'is-mobile-3d-hold' : 'is-mobile-lanyard-hold');
+        if (mode === 'copy') {
+          identityTiltTarget = copy;
+          identityTiltPoint = { x: event.clientX, y: event.clientY };
+          syncIdentityTilt();
+        }
+      }, longPressDelay);
+    };
+
+    aboutSection.addEventListener('pointerdown', (event) => {
+      if (event.pointerType === 'mouse') return;
+      const lanyardTarget = event.target.closest('.bits-lanyard, .lanyard-wrapper');
+      if (lanyardTarget) {
+        armHold(event, 'lanyard');
+        return;
+      }
+      if (copy && event.target.closest('.identity-copy')) {
+        armHold(event, 'copy');
+      }
+    }, { passive: true });
+
+    aboutSection.addEventListener('pointermove', (event) => {
+      if (!startPoint) return;
+      const moved = Math.hypot(event.clientX - startPoint.x, event.clientY - startPoint.y);
+      if (!holdMode && moved > 10) {
+        clearHold();
+        return;
+      }
+      if (holdMode === 'copy') {
+        handleIdentityPointerMove(event);
+      }
+    }, { passive: true });
+
+    ['pointerup', 'pointercancel', 'lostpointercapture'].forEach((type) => {
+      aboutSection.addEventListener(type, clearHold, { passive: true });
+    });
+  };
+
+  setupMobileLongPressMode();
 
   const projectsSection = document.getElementById('projects');
   if (projectsSection && 'IntersectionObserver' in window) {
