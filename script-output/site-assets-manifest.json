@@ -1,17 +1,29 @@
 {
-  "generatedAt": "2026-08-08T01:34:53.500Z",
+  "generatedAt": "2026-08-09T02:01:53.072Z",
   "configFile": "site.config.yaml",
   "siteFonts": {
     "file": "css/site-fonts.css",
     "enabledFamilies": [
       "Mingtian Hand Latin",
-      "Mingtian Brush SC"
+      "Mingtian Brush SC",
+      "Mingtian Ending Serif",
+      "Mingtian Continuation Heavy",
+      "Georgia",
+      "Georgia",
+      "Mingtian Ending Condensed",
+      "Mingtian Ending Condensed"
     ],
     "sourceFiles": [
-      "fonts/caveat-semibold.ttf",
-      "fonts/ma-shan-zheng-regular.ttf"
+      "fonts/segoe-script.ttf",
+      "fonts/ma-shan-zheng-regular.ttf",
+      "fonts/stzhongsong-bold.ttf",
+      "fonts/source-han-serif-sc-heavy.ttf",
+      "fonts/georgia.ttf",
+      "fonts/georgia-bold.ttf",
+      "fonts/arial-narrow-regular.ttf",
+      "fonts/arial-narrow-bold.ttf"
     ],
-    "aliasCount": 15
+    "aliasCount": 12
   },
   "siteConfig": {
     "file": "js/data/site-config.generated.js",

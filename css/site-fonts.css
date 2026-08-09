@@ -6,7 +6,7 @@
 
 @font-face {
   font-family: "Mingtian Hand Latin";
-  src: url("../fonts/caveat-semibold.ttf") format("truetype");
+  src: url("../fonts/segoe-script.ttf") format("truetype");
   font-weight: 400 700;
   font-style: normal;
   font-display: swap;
@@ -14,39 +14,7 @@
 
 @font-face {
   font-family: "Segoe Script";
-  src: url("../fonts/caveat-semibold.ttf") format("truetype");
-  font-weight: 400 700;
-  font-style: normal;
-  font-display: swap;
-}
-
-@font-face {
-  font-family: "Lucida Handwriting";
-  src: url("../fonts/caveat-semibold.ttf") format("truetype");
-  font-weight: 400 700;
-  font-style: normal;
-  font-display: swap;
-}
-
-@font-face {
-  font-family: "Brush Script MT";
-  src: url("../fonts/caveat-semibold.ttf") format("truetype");
-  font-weight: 400 700;
-  font-style: normal;
-  font-display: swap;
-}
-
-@font-face {
-  font-family: "Segoe Print";
-  src: url("../fonts/caveat-semibold.ttf") format("truetype");
-  font-weight: 400 700;
-  font-style: normal;
-  font-display: swap;
-}
-
-@font-face {
-  font-family: "Bradley Hand ITC";
-  src: url("../fonts/caveat-semibold.ttf") format("truetype");
+  src: url("../fonts/segoe-script.ttf") format("truetype");
   font-weight: 400 700;
   font-style: normal;
   font-display: swap;
@@ -136,6 +104,62 @@
   font-family: "方正舒体";
   src: url("../fonts/ma-shan-zheng-regular.ttf") format("truetype");
   font-weight: 400;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: "Mingtian Ending Serif";
+  src: url("../fonts/stzhongsong-bold.ttf") format("truetype");
+  font-weight: 700 900;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: "STZhongsong";
+  src: url("../fonts/stzhongsong-bold.ttf") format("truetype");
+  font-weight: 700 900;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: "Mingtian Continuation Heavy";
+  src: url("../fonts/source-han-serif-sc-heavy.ttf") format("truetype");
+  font-weight: 800 900;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: "Georgia";
+  src: url("../fonts/georgia.ttf") format("truetype");
+  font-weight: 400;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: "Georgia";
+  src: url("../fonts/georgia-bold.ttf") format("truetype");
+  font-weight: 700 800;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: "Mingtian Ending Condensed";
+  src: url("../fonts/arial-narrow-regular.ttf") format("truetype");
+  font-weight: 400;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: "Mingtian Ending Condensed";
+  src: url("../fonts/arial-narrow-bold.ttf") format("truetype");
+  font-weight: 700 800;
   font-style: normal;
   font-display: swap;
 }

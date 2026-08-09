@@ -730,7 +730,7 @@
 
     .title__latin {
       font-family: "Mingtian Hand Latin", "Segoe Script", "Lucida Handwriting", "Brush Script MT", cursive;
-      font-size: clamp(50px, 6.8vw, 98px);
+      font-size: clamp(42px, 5.3vw, 76px);
       font-style: normal;
       letter-spacing: 0.015em;
       opacity: 0.94;

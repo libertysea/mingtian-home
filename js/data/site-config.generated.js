@@ -419,7 +419,7 @@
       }
     }
   },
-  "generatedAt": "2026-08-08T01:34:53.485Z"
+  "generatedAt": "2026-08-09T02:01:53.056Z"
 };
 
   window.SITE_CONFIG = config;

@@ -56,7 +56,7 @@
 
 .daily-continuation__title {
       margin: 0;
-      font-family: "Songti SC", "STZhongsong", "Noto Serif CJK SC", "SimSun", serif;
+      font-family: "Mingtian Ending Serif", "Songti SC", "STZhongsong", "Noto Serif CJK SC", "SimSun", serif;
       font-size: clamp(64px, 12vw, 190px);
       font-weight: 800;
       line-height: 0.95;
@@ -99,7 +99,7 @@
 .daily-continuation__quote {
       margin: clamp(36px, 6dvh, 64px) 0 0;
       color: rgba(255, 255, 255, 0.88);
-      font-family: "Songti SC", "STZhongsong", "Noto Serif CJK SC", serif;
+      font-family: "Mingtian Ending Serif", "Songti SC", "STZhongsong", "Noto Serif CJK SC", serif;
       font-size: clamp(18px, 1.7vw, 30px);
       font-weight: 800;
       letter-spacing: 0.16em;
@@ -115,7 +115,7 @@
       grid-area: copyright;
       justify-self: end;
       color: rgba(255, 255, 255, 0.54);
-      font-family: "Arial Narrow", "Avenir Next Condensed", "PingFang SC", sans-serif;
+      font-family: "Arial Narrow", "Mingtian Ending Condensed", "Avenir Next Condensed", "PingFang SC", sans-serif;
       font-size: 12px;
       font-weight: 800;
       letter-spacing: 0.16em;
@@ -127,7 +127,7 @@
       grid-area: record;
       justify-self: start;
       color: rgba(255, 255, 255, 0.58);
-      font-family: "Arial Narrow", "Avenir Next Condensed", "PingFang SC", sans-serif;
+      font-family: "Arial Narrow", "Mingtian Ending Condensed", "Avenir Next Condensed", "PingFang SC", sans-serif;
       font-size: 12px;
       font-weight: 800;
       letter-spacing: 0.12em;

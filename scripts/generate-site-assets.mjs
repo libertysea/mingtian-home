@@ -174,15 +174,51 @@ async function buildSiteFonts() {
   const fonts = [
     {
       family: 'Mingtian Hand Latin',
-      file: 'fonts/caveat-semibold.ttf',
+      file: 'fonts/segoe-script.ttf',
       weight: '400 700',
-      aliases: ['Segoe Script', 'Lucida Handwriting', 'Brush Script MT', 'Segoe Print', 'Bradley Hand ITC'],
+      aliases: ['Segoe Script'],
     },
     {
       family: 'Mingtian Brush SC',
       file: 'fonts/ma-shan-zheng-regular.ttf',
       weight: '400',
       aliases: ['STXingkai', 'KaiTi', 'Kaiti SC', 'STKaiti', 'FZShuTi', 'LiSu', 'STXinwei', 'YouYuan', '华文新魏', '方正舒体'],
+    },
+    {
+      family: 'Mingtian Ending Serif',
+      file: 'fonts/stzhongsong-bold.ttf',
+      weight: '700 900',
+      aliases: ['STZhongsong'],
+    },
+    {
+      family: 'Mingtian Continuation Heavy',
+      file: 'fonts/source-han-serif-sc-heavy.ttf',
+      weight: '800 900',
+      aliases: [],
+    },
+    {
+      family: 'Georgia',
+      file: 'fonts/georgia.ttf',
+      weight: '400',
+      aliases: [],
+    },
+    {
+      family: 'Georgia',
+      file: 'fonts/georgia-bold.ttf',
+      weight: '700 800',
+      aliases: [],
+    },
+    {
+      family: 'Mingtian Ending Condensed',
+      file: 'fonts/arial-narrow-regular.ttf',
+      weight: '400',
+      aliases: [],
+    },
+    {
+      family: 'Mingtian Ending Condensed',
+      file: 'fonts/arial-narrow-bold.ttf',
+      weight: '700 800',
+      aliases: [],
     },
   ];
 
