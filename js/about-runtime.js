@@ -18,7 +18,7 @@
   const scrollFloatItems = [];
   const reduceMotionQuery = window.matchMedia('(prefers-reduced-motion: reduce)');
   const mobileTouchQuery = window.matchMedia('(pointer: coarse), (max-width: 749px)');
-  const longPressDelay = 360;
+  const mobileLanyardHoldDelay = 420;
 
   const clamp = (value, min = 0, max = 1) => Math.min(max, Math.max(min, value));
   const scrollFloatEase = (value) => value * value * (3 - 2 * value);
@@ -281,7 +281,7 @@
   const syncIdentityTilt = () => {
     identityTiltFrame = 0;
     const copy = identityTiltTarget;
-    if (!copy || !identityTiltPoint || reduceMotionQuery.matches) return;
+    if (!copy || !identityTiltPoint || reduceMotionQuery.matches || mobileTouchQuery.matches) return;
 
     const rect = copy.getBoundingClientRect();
     const localX = (identityTiltPoint.x - rect.left) / rect.width - 0.5;
@@ -302,7 +302,7 @@
     copy.style.setProperty('--copy-tilt-y', `${tiltY.toFixed(2)}deg`);
   };
   const handleIdentityPointerMove = (event) => {
-    if (reduceMotionQuery.matches) return;
+    if (reduceMotionQuery.matches || mobileTouchQuery.matches) return;
     const copy = aboutSection?.querySelector('.identity-copy');
     if (!copy) return;
 
@@ -510,47 +510,49 @@
   const setupMobileLongPressMode = () => {
     if (!mobileTouchQuery.matches) return;
 
-    const copy = aboutSection.querySelector('.identity-copy');
     let holdTimer = 0;
     let holdMode = '';
     let startPoint = null;
+
+    const clearMobileIdentityTilt = () => {
+      const copy = aboutSection.querySelector('.identity-copy');
+      if (!copy) return;
+      copy.classList.remove('is-tilting');
+      copy.style.setProperty('--copy-lift', '0px');
+      copy.style.setProperty('--copy-tilt-x', '0deg');
+      copy.style.setProperty('--copy-tilt-y', '0deg');
+    };
 
     const clearHold = () => {
       window.clearTimeout(holdTimer);
       holdTimer = 0;
       startPoint = null;
       if (!holdMode) return;
-      aboutSection.classList.remove('is-mobile-3d-hold', 'is-mobile-lanyard-hold');
+      aboutSection.classList.remove('is-mobile-lanyard-hold');
       holdMode = '';
       resetIdentityTilt();
     };
 
-    const armHold = (event, mode) => {
+    const armLanyardHold = (event) => {
       if (!event.isPrimary) return;
       window.clearTimeout(holdTimer);
       startPoint = { x: event.clientX, y: event.clientY };
       holdTimer = window.setTimeout(() => {
-        holdMode = mode;
-        aboutSection.classList.add(mode === 'copy' ? 'is-mobile-3d-hold' : 'is-mobile-lanyard-hold');
-        if (mode === 'copy') {
-          identityTiltTarget = copy;
-          identityTiltPoint = { x: event.clientX, y: event.clientY };
-          syncIdentityTilt();
-        }
-      }, longPressDelay);
+        holdMode = 'lanyard';
+        holdTimer = 0;
+        aboutSection.classList.add('is-mobile-lanyard-hold');
+      }, mobileLanyardHoldDelay);
     };
 
     aboutSection.addEventListener('pointerdown', (event) => {
       if (event.pointerType === 'mouse') return;
+      clearMobileIdentityTilt();
       const lanyardTarget = event.target.closest('.bits-lanyard, .lanyard-wrapper');
       if (lanyardTarget) {
-        armHold(event, 'lanyard');
+        armLanyardHold(event);
         return;
       }
-      if (copy && event.target.closest('.identity-copy')) {
-        armHold(event, 'copy');
-      }
-    }, { passive: true });
+    }, { capture: true, passive: true });
 
     aboutSection.addEventListener('pointermove', (event) => {
       if (!startPoint) return;
@@ -558,9 +560,6 @@
       if (!holdMode && moved > 10) {
         clearHold();
         return;
-      }
-      if (holdMode === 'copy') {
-        handleIdentityPointerMove(event);
       }
     }, { passive: true });
 

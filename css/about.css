@@ -1089,15 +1089,6 @@
     pointer-events: none !important;
   }
 
-  .identity-section.is-mobile-3d-hold .identity-3d-hitarea {
-    pointer-events: auto !important;
-  }
-
-  .identity-section.is-mobile-3d-hold .identity-copy,
-  .identity-section.is-mobile-3d-hold .identity-3d-stage {
-    touch-action: none;
-  }
-
   .identity-lanyard-pane,
   .identity-lanyard-pane .bits-lanyard,
   .identity-lanyard-pane .lanyard-wrapper {
@@ -1108,26 +1099,6 @@
   .identity-section.is-mobile-lanyard-hold .identity-lanyard-pane .bits-lanyard,
   .identity-section.is-mobile-lanyard-hold .identity-lanyard-pane .lanyard-wrapper {
     touch-action: none;
-  }
-
-  .identity-section.is-mobile-lanyard-hold .identity-lanyard-pane {
-    position: absolute;
-    inset: 0;
-    left: 0;
-    width: 100%;
-    height: 100svh;
-    min-height: 100svh;
-    z-index: 85;
-    transform: none;
-  }
-
-  .identity-section.is-mobile-lanyard-hold .identity-lanyard-pane .lanyard-wrapper {
-    position: absolute;
-    inset: 0;
-    top: var(--identity-mobile-lanyard-top);
-    bottom: auto;
-    width: 100%;
-    height: var(--identity-mobile-lanyard-height);
   }
 
   .identity-layout {
@@ -1184,6 +1155,116 @@
 
   .identity-3d-stage {
     min-height: min(300px, calc(100svh - 288px)) !important;
+  }
+}
+
+@media (max-width: 749px), (orientation: portrait) {
+  .identity-copy,
+  .identity-copy:hover,
+  .identity-copy.is-tilting,
+  .identity-3d-stage,
+  .identity-3d-stage:hover,
+  .identity-3d-stage.is-stage-tilting {
+    transform: none !important;
+    filter: none !important;
+    --copy-lift: 0px !important;
+    --copy-tilt-x: 0deg !important;
+    --copy-tilt-y: 0deg !important;
+    --stage-tilt-x: 0deg !important;
+    --stage-tilt-y: 0deg !important;
+    --stage-shadow: 0 !important;
+  }
+
+  .identity-copy:hover .identity-kicker,
+  .identity-copy:hover .identity-role,
+  .identity-copy:hover .identity-role:not(:hover),
+  .identity-copy.is-tilting .identity-kicker,
+  .identity-copy.is-tilting .identity-role,
+  .identity-copy.is-tilting .identity-role:not(:hover),
+  .identity-copy:active .identity-kicker,
+  .identity-copy:active .identity-role,
+  .identity-copy:active .identity-role:not(:hover),
+  .identity-copy h2:hover,
+  .identity-copy.is-tilting h2,
+  .identity-copy h2:active,
+  .identity-3d-stage:hover .identity-kicker,
+  .identity-3d-stage:hover .identity-role,
+  .identity-3d-stage:hover .identity-role:not(:hover),
+  .identity-3d-stage:active .identity-kicker,
+  .identity-3d-stage:active .identity-role,
+  .identity-3d-stage:active .identity-role:not(:hover),
+  .identity-3d-stage h2:hover,
+  .identity-3d-stage h2:active,
+  .identity-3d-stage.is-stage-tilting h2,
+  .identity-3d-stage.is-stage-tilting .identity-role {
+    transform: none !important;
+  }
+
+  .identity-3d-stage .identity-kicker,
+  .identity-copy:hover .identity-3d-stage .identity-kicker,
+  .identity-copy.is-tilting .identity-3d-stage .identity-kicker,
+  .identity-copy:active .identity-3d-stage .identity-kicker,
+  .identity-3d-stage:hover .identity-kicker,
+  .identity-3d-stage:active .identity-kicker {
+    margin: 0 0 18px !important;
+    line-height: 1.1 !important;
+  }
+
+  .identity-3d-stage h2,
+  .identity-3d-stage h2:hover,
+  .identity-copy.is-tilting .identity-3d-stage h2,
+  .identity-3d-stage h2:active,
+  .identity-3d-stage.is-stage-tilting h2 {
+    margin: 0 0 22px !important;
+    line-height: 1 !important;
+  }
+
+  .identity-3d-stage .identity-role,
+  .identity-3d-stage .identity-role:hover,
+  .identity-copy.is-tilting .identity-3d-stage .identity-role,
+  .identity-3d-stage .identity-role:active,
+  .identity-3d-stage:hover .identity-role:not(:hover),
+  .identity-3d-stage:active .identity-role:not(:hover),
+  .identity-3d-stage.is-stage-tilting .identity-role {
+    margin-bottom: 8px !important;
+    line-height: 1.32 !important;
+  }
+
+  .identity-3d-stage .identity-role + .identity-role,
+  .identity-3d-stage:hover .identity-role + .identity-role,
+  .identity-copy.is-tilting .identity-3d-stage .identity-role + .identity-role,
+  .identity-3d-stage:active .identity-role + .identity-role,
+  .identity-3d-stage.is-stage-tilting .identity-role + .identity-role {
+    margin-top: 4px !important;
+    margin-bottom: 26px !important;
+  }
+
+  .identity-section.is-mobile-lanyard-hold .identity-copy {
+    pointer-events: none;
+  }
+
+  .identity-section.is-mobile-lanyard-hold .identity-lanyard-pane {
+    position: absolute !important;
+    inset: 0 !important;
+    left: 0 !important;
+    width: 100% !important;
+    height: 100svh !important;
+    min-height: 100svh !important;
+    z-index: 120 !important;
+    pointer-events: auto;
+    overflow: visible !important;
+    transform: none !important;
+  }
+
+  .identity-section.is-mobile-lanyard-hold .identity-lanyard-pane .lanyard-wrapper,
+  .identity-section.is-mobile-lanyard-hold .identity-lanyard-pane canvas {
+    position: absolute !important;
+    inset: 0 !important;
+    width: 100% !important;
+    height: 100svh !important;
+    min-height: 100svh !important;
+    max-height: none !important;
+    overflow: visible !important;
   }
 }
 /* About flip hint */
