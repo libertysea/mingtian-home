@@ -351,10 +351,10 @@
     return true;
   };
 
-  let aboutLanyardReplayTimer = 0;
   let aboutRuntimeLoading = false;
   let aboutRuntimeLoaded = Boolean(aboutSection?.querySelector('.bits-lanyard, .lanyard-wrapper'));
   let aboutRuntimePromise = null;
+  let aboutRuntimeVersion = 0;
   let portfolioRuntimeLoaded = false;
 
   const getAboutLanyardElement = () => (
@@ -385,9 +385,10 @@
 
   const getAboutRuntimeScripts = () => {
     const fileMode = location.protocol === 'file:';
+    const version = aboutRuntimeVersion ? `?drop=${aboutRuntimeVersion}` : '';
     return fileMode
-      ? [{ src: 'js/runtime/about-card-standalone.js' }]
-      : [{ src: 'js/runtime/about-card-module.js', type: 'module', crossOrigin: 'anonymous' }];
+      ? [{ src: `js/runtime/about-card-standalone.js${version}` }]
+      : [{ src: `js/runtime/about-card-module.js${version}`, type: 'module', crossOrigin: 'anonymous' }];
   };
 
   const loadPortfolioRuntime = () => {
@@ -432,48 +433,19 @@
   };
 
   const resetAboutCardRuntime = () => {
-    window.clearTimeout(aboutLanyardReplayTimer);
     aboutSection.classList.remove('lanyard-drop-active');
-    getAboutLanyardElement()?.classList.remove('is-drop-active', 'is-replaying');
-  };
+    if (!aboutRuntimeLoaded && !getAboutLanyardElement()) return;
 
-  const replayAboutLanyardDom = () => {
-    const lanyard = getAboutLanyardElement();
-    if (!lanyard) return false;
-
-    window.clearTimeout(aboutLanyardReplayTimer);
-    lanyard.classList.add('is-drop-active');
-
-    if (reduceMotionQuery.matches) {
-      lanyard.classList.remove('is-replaying');
-      return true;
+    const root = document.getElementById('identity-root');
+    if (root) {
+      const freshRoot = document.createElement('div');
+      freshRoot.id = root.id;
+      root.replaceWith(freshRoot);
     }
-
-    lanyard.classList.remove('is-replaying');
-    void lanyard.offsetWidth;
-    lanyard.classList.add('is-replaying');
-    aboutLanyardReplayTimer = window.setTimeout(() => {
-      lanyard.classList.remove('is-replaying');
-    }, 1650);
-    return true;
-  };
-
-  if (typeof window.__replayAboutLanyard !== 'function') {
-    window.__replayAboutLanyard = replayAboutLanyardDom;
-  }
-
-  const replayAboutLanyardWhenReady = () => {
-    let attempts = 0;
-    const run = () => {
-      const replay = typeof window.__replayAboutLanyard === 'function'
-        ? window.__replayAboutLanyard
-        : replayAboutLanyardDom;
-
-      if (replay()) return;
-      attempts += 1;
-      if (attempts < 180) requestAnimationFrame(run);
-    };
-    run();
+    aboutRuntimeLoaded = false;
+    aboutRuntimeLoading = false;
+    aboutRuntimePromise = null;
+    aboutRuntimeVersion += 1;
   };
 
   const setAboutLanyardActive = (active) => {
@@ -486,17 +458,13 @@
     }
     if (aboutLanyardActive === active) {
       if (!getAboutLanyardElement() || aboutRuntimeLoading) {
-        loadAboutCardRuntime().then((ok) => {
-          if (ok) replayAboutLanyardWhenReady();
-        });
+        loadAboutCardRuntime();
       }
       return;
     }
     aboutLanyardActive = active;
     aboutSection.classList.add('lanyard-drop-active');
-    loadAboutCardRuntime().then((ok) => {
-      if (ok) replayAboutLanyardWhenReady();
-    });
+    loadAboutCardRuntime();
   };
 
   const updateAboutLanyardByScroll = () => {
