@@ -621,7 +621,7 @@ export default function MusicExperience({ onExit }: MusicExperienceProps) {
   return (
     <main className="music-app" id="music-app" aria-label="Immersive music space">
       <div className="music-backdrop" aria-hidden="true">
-        <img ref={backdropRef} src={resolveAsset('images/mos-background.webp')} alt="" draggable={false} decoding="async" />
+                    <img ref={backdropRef} src={resolveAsset('images/music/mos-background.webp')} alt="" draggable={false} decoding="async" />
         <div className="music-backdrop__wash" />
         <div className="music-backdrop__vignette" />
         <div className="music-backdrop__grain" />
