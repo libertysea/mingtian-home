@@ -16,13 +16,22 @@
   const setImage = (selector, src, root = document) => {
     if (!src) return;
     const image = $(selector, root);
-    if (image) image.src = src;
+    if (!image) return;
+    if (image.hasAttribute('data-lazy-src') && !image.src) {
+      image.dataset.lazySrc = src;
+      return;
+    }
+    image.src = src;
   };
 
   const setVideo = (selector, src, root = document) => {
     if (!src) return;
     const video = $(selector, root);
     if (!video) return;
+    if (video.hasAttribute('data-lazy-src') && video.id !== 'heroVideo') {
+      video.dataset.lazySrc = src;
+      return;
+    }
     const nextSrc = new URL(src, document.baseURI).href;
     if (video.currentSrc === nextSrc || video.src === nextSrc) return;
     video.src = src;

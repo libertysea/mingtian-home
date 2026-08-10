@@ -162,6 +162,7 @@
 
   const waitForCriticalResources = async () => {
     await withTimeout(Promise.all([
+      window.SiteResourceLoader?.waitForCritical?.() || Promise.resolve(false),
       waitForHeroVideo(),
       waitForFonts(),
       waitForImage('.site-nav__brand img'),

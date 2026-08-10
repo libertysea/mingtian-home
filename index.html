@@ -33,17 +33,9 @@
   <link rel="stylesheet" href="css/hero.css">
   <link rel="stylesheet" href="css/about.css">
   <link rel="stylesheet" href="css/portfolio.css">
-  <link rel="stylesheet" href="css/daily.css">
   <link rel="stylesheet" href="css/page-layout.css">
-  <link rel="stylesheet" href="css/ending.css">
 
   <!-- Feature styles -->
-  <link rel="stylesheet" href="css/interests-player.css">
-  <link rel="stylesheet" href="css/interests-room.css">
-  <link rel="stylesheet" href="css/story-section.css">
-  <link rel="stylesheet" href="css/blog.css">
-  <link rel="stylesheet" href="css/travel.css">
-  <link rel="stylesheet" href="css/travel-gallery-transition.css">
   <link rel="stylesheet" href="css/navigation.css">
   <link rel="stylesheet" href="css/music-orb.css">
   <link rel="stylesheet" href="css/music-player.css">
@@ -139,33 +131,33 @@
             <span class="interests-player__pulse-outer"></span>
             <span class="interests-player__pulse-inner"></span>
           </span>
-          <img class="interests-player__vinyl" src="images/interests/interests-vinyl.png" alt="" draggable="false" />
+          <img class="interests-player__vinyl" data-lazy-src="images/interests/interests-vinyl.png" alt="" draggable="false" loading="lazy" decoding="async" />
         </span>
         <span class="interests-player__tonearm-wrap">
-          <img class="interests-player__tonearm" src="images/interests/interests-tonearm.svg" alt="" draggable="false" />
+          <img class="interests-player__tonearm" data-lazy-src="images/interests/interests-tonearm.svg" alt="" draggable="false" loading="lazy" decoding="async" />
         </span>
       </span>
       <span class="interests-player__tooltip" id="interests-player-tooltip" role="tooltip">Open music room - click to listen</span>
     </button>
     <div class="interests-scene">
-      <img class="interests-room" src="images/interests/interest-room-background.png" alt="" draggable="false" loading="lazy" decoding="async" />      <p class="interests-enjoy-title">
+      <img class="interests-room" data-lazy-src="images/interests/interest-room-background.png" alt="" draggable="false" loading="lazy" decoding="async" />      <p class="interests-enjoy-title">
         <span class="interests-enjoy-title__en">Enjoy every moment.</span>
         <span class="interests-enjoy-title__cn">享受每一个瞬间。</span>
         <span class="interests-enjoy-title__line" aria-hidden="true"></span>
       </p>
       <div class="interests-tv-carousel" aria-label="电视影视轮播">
         <button class="interests-tv-screen" type="button" data-tv-carousel aria-label="切换电视节目，当前：无耻之徒">
-          <img class="interests-tv-slide is-active" src="images/tv/tv-shameless-cast.jpg" alt="" data-tv-slide data-title="无耻之徒" aria-hidden="false" draggable="false" loading="lazy" decoding="async" />
-          <img class="interests-tv-slide" src="images/tv/tv-the-walking-dead.png" alt="" data-tv-slide data-title="行尸走肉" aria-hidden="true" draggable="false" loading="lazy" decoding="async" />
-          <img class="interests-tv-slide" src="images/tv/tv-love-letter.png" alt="" data-tv-slide data-title="情书" aria-hidden="true" draggable="false" loading="lazy" decoding="async" />
-          <img class="interests-tv-slide" src="images/tv/tv-robot-dreams.jpg" alt="" data-tv-slide data-title="机器人之梦" aria-hidden="true" draggable="false" loading="lazy" decoding="async" />
-          <img class="interests-tv-slide" src="images/tv/tv-we-made-a-beautiful-bouquet.jpg" alt="" data-tv-slide data-title="花束般的恋爱" aria-hidden="true" draggable="false" loading="lazy" decoding="async" />
-          <img class="interests-tv-slide" src="images/tv/tv-heidi.png" alt="" data-tv-slide data-title="海蒂和爷爷" aria-hidden="true" draggable="false" loading="lazy" decoding="async" />
+          <img class="interests-tv-slide is-active" data-lazy-src="images/tv/tv-shameless-cast.jpg" alt="" data-tv-slide data-title="无耻之徒" aria-hidden="false" draggable="false" loading="lazy" decoding="async" />
+          <img class="interests-tv-slide" data-lazy-src="images/tv/tv-the-walking-dead.png" alt="" data-tv-slide data-title="行尸走肉" aria-hidden="true" draggable="false" loading="lazy" decoding="async" />
+          <img class="interests-tv-slide" data-lazy-src="images/tv/tv-love-letter.png" alt="" data-tv-slide data-title="情书" aria-hidden="true" draggable="false" loading="lazy" decoding="async" />
+          <img class="interests-tv-slide" data-lazy-src="images/tv/tv-robot-dreams.jpg" alt="" data-tv-slide data-title="机器人之梦" aria-hidden="true" draggable="false" loading="lazy" decoding="async" />
+          <img class="interests-tv-slide" data-lazy-src="images/tv/tv-we-made-a-beautiful-bouquet.jpg" alt="" data-tv-slide data-title="花束般的恋爱" aria-hidden="true" draggable="false" loading="lazy" decoding="async" />
+          <img class="interests-tv-slide" data-lazy-src="images/tv/tv-heidi.png" alt="" data-tv-slide data-title="海蒂和爷爷" aria-hidden="true" draggable="false" loading="lazy" decoding="async" />
         </button>
       </div>
-      <img class="interests-asset interests-asset--tv" src="images/interests/retro-tv-trimmed.png" alt="" draggable="false" loading="lazy" decoding="async" />
+      <img class="interests-asset interests-asset--tv" data-lazy-src="images/interests/retro-tv-trimmed.png" alt="" draggable="false" loading="lazy" decoding="async" />
       <div class="interests-game-group">
-      <img class="interests-asset interests-asset--gaming" src="images/interests/game-character-beanbag-trimmed.png" alt="" draggable="false" loading="lazy" decoding="async" />
+      <img class="interests-asset interests-asset--gaming" data-lazy-src="images/interests/game-character-beanbag-trimmed.png" alt="" draggable="false" loading="lazy" decoding="async" />
       <button class="interests-game-hotspot" type="button" data-game-hotspot aria-expanded="false" aria-controls="game-showcase" aria-label="打开游戏收藏"></button>
       <div id="game-showcase" class="interests-game-bubble" data-game-showcase aria-label="我喜欢的游戏">
         <span class="interests-game-bubble__tail" aria-hidden="true"></span>
@@ -176,30 +168,30 @@
           </div>
           <div class="interests-game-showcase__panels" role="group" aria-label="游戏轮播">
             <button class="interests-game-panel" type="button" data-game-panel aria-label="原神" aria-pressed="false">
-              <img src="images/games/games-genshin-impact.png" alt="" draggable="false" loading="lazy" decoding="async" />
+              <img data-lazy-src="images/games/games-genshin-impact.png" alt="" draggable="false" loading="lazy" decoding="async" />
               <span class="interests-game-panel__label">原神</span>
             </button>
             <button class="interests-game-panel" type="button" data-game-panel aria-label="崩坏：星穹铁道" aria-pressed="false">
-              <img src="images/games/games-honkai-star-rail.jpg" alt="" draggable="false" loading="lazy" decoding="async" />
+              <img data-lazy-src="images/games/games-honkai-star-rail.jpg" alt="" draggable="false" loading="lazy" decoding="async" />
               <span class="interests-game-panel__label">崩坏：星穹铁道</span>
             </button>
             <button class="interests-game-panel" type="button" data-game-panel aria-label="双人成行" aria-pressed="false">
-              <img src="images/games/games-it-takes-two.png" alt="" draggable="false" loading="lazy" decoding="async" />
+              <img data-lazy-src="images/games/games-it-takes-two.png" alt="" draggable="false" loading="lazy" decoding="async" />
               <span class="interests-game-panel__label">双人成行</span>
             </button>
             <button class="interests-game-panel" type="button" data-game-panel aria-label="饥荒" aria-pressed="false">
-              <img src="images/games/games-dont-starve.png" alt="" draggable="false" loading="lazy" decoding="async" />
+              <img data-lazy-src="images/games/games-dont-starve.png" alt="" draggable="false" loading="lazy" decoding="async" />
               <span class="interests-game-panel__label">饥荒</span>
             </button>
             <button class="interests-game-panel" type="button" data-game-panel aria-label="文明 VI" aria-pressed="false">
-              <img src="images/games/games-civilization-vi.png" alt="" draggable="false" loading="lazy" decoding="async" />
+              <img data-lazy-src="images/games/games-civilization-vi.png" alt="" draggable="false" loading="lazy" decoding="async" />
               <span class="interests-game-panel__label">文明 VI</span>
             </button>
           </div>
         </div>
       </div>
       </div>
-      <img class="interests-asset interests-asset--music" src="images/interests/personal-music-cutout.png" alt="戴耳机听音乐的人物、小猫与音符" draggable="false" loading="lazy" decoding="async" />
+      <img class="interests-asset interests-asset--music" data-lazy-src="images/interests/personal-music-cutout.png" alt="戴耳机听音乐的人物、小猫与音符" draggable="false" loading="lazy" decoding="async" />
     </div>
   </section>
 
@@ -214,7 +206,7 @@
       </div>
     </div>
     <div class="blog-preview-frame" aria-hidden="true">
-      <img src="images/blog/blog-hero-preview.png" alt="" draggable="false" />
+      <img data-lazy-src="images/blog/blog-hero-preview.png" alt="" draggable="false" loading="lazy" decoding="async" />
     </div>
   </section>
   <div class="travel-flight-transition" data-travel-flight-transition aria-hidden="true">
@@ -224,7 +216,7 @@
     </div>
   </div>
   <section class="story-section travel-section" id="travel" aria-label="Travel hero">
-    <video class="travel-video" src="https://d8j0ntlcm91z4.cloudfront.net/user_38xzZboKViGWJOttwIXH07lWA1P/hf_20260317_100335_dc625816-c3c1-4b00-b93e-4cb301cf5ea5.mp4" autoplay muted loop playsinline preload="metadata"></video>
+    <video class="travel-video" data-lazy-src="videos/travel-train.mp4" autoplay muted loop playsinline preload="none"></video>
     <div class="travel-content">
       <h2 class="travel-title" aria-label="&#19990;&#30028;&#37027;&#20040;&#22823;&#65292;&#25105;&#24819;&#21435;&#30475;&#30475;&#65281;">
         <span class="travel-title__line"><span class="travel-title__core">&#19990;&#30028;&#37027;&#20040;&#22823;</span><span class="travel-title__punct">&#65292;</span></span>
@@ -305,25 +297,25 @@
             <span class="daily-title-tags">STUDY · CODE · CAMPUS</span>
           </div>
           <div class="daily-left-note">欢迎来到离科学最近的地方！</div>
-          <img class="daily-left-seal-sticker" src="images/daily/daily-left-cas-seal-splash.png" alt="" draggable="false" />
-          <img class="daily-left-card-sticker" src="images/daily/daily-left-ucas-card-cutout.png" alt="" draggable="false" />
-          <img class="daily-left-coder-sticker" src="images/daily/daily-left-coder-sticker.png" alt="" draggable="false" />
-          <img class="daily-left-sticker" src="images/daily/daily-left-ucas-sticker-cutout.png" alt="" draggable="false" />
+          <img class="daily-left-seal-sticker" data-lazy-src="images/daily/daily-left-cas-seal-splash.png" alt="" draggable="false" loading="lazy" decoding="async" />
+          <img class="daily-left-card-sticker" data-lazy-src="images/daily/daily-left-ucas-card-cutout.png" alt="" draggable="false" loading="lazy" decoding="async" />
+          <img class="daily-left-coder-sticker" data-lazy-src="images/daily/daily-left-coder-sticker.png" alt="" draggable="false" loading="lazy" decoding="async" />
+          <img class="daily-left-sticker" data-lazy-src="images/daily/daily-left-ucas-sticker-cutout.png" alt="" draggable="false" loading="lazy" decoding="async" />
           <div class="daily-left-vibe" aria-hidden="true">
             <h3 class="daily-left-vibe__title">
               VibeCoding is all you need!
               <span>Quota, reset, comeback, repeat.</span>
             </h3>
-            <img class="daily-left-vibe__comic" src="images/daily/daily-vibecoding-quota-comic.png" alt="" draggable="false" />
-            <img class="daily-left-vibe__cloud" src="images/daily/daily-vibecoding-dream-cloud.png" alt="" draggable="false" />
+            <img class="daily-left-vibe__comic" data-lazy-src="images/daily/daily-vibecoding-quota-comic.png" alt="" draggable="false" loading="lazy" decoding="async" />
+            <img class="daily-left-vibe__cloud" data-lazy-src="images/daily/daily-vibecoding-dream-cloud.png" alt="" draggable="false" loading="lazy" decoding="async" />
             <p class="daily-left-vibe__caption">天才程序员已就绪！</p>
           </div>
           <div class="daily-left-stock-title" aria-hidden="true">
             <h3 class="daily-left-stock-title__main">宇宙最强手游：同花顺</h3>
             <span class="daily-left-stock-title__sub">A Real-Time Emotion Trading Game</span>
           </div>
-          <img class="daily-left-stock-sticker daily-left-stock-sticker--learn" src="images/daily/daily-stock-learn-chain-sticker.png" alt="" draggable="false" />
-          <img class="daily-left-stock-sticker daily-left-stock-sticker--question" src="images/daily/daily-stock-question-sticker.png" alt="" draggable="false" />
+          <img class="daily-left-stock-sticker daily-left-stock-sticker--learn" data-lazy-src="images/daily/daily-stock-learn-chain-sticker.png" alt="" draggable="false" loading="lazy" decoding="async" />
+          <img class="daily-left-stock-sticker daily-left-stock-sticker--question" data-lazy-src="images/daily/daily-stock-question-sticker.png" alt="" draggable="false" loading="lazy" decoding="async" />
           <div class="daily-left-stock-fill" aria-hidden="true">
             <div class="daily-left-stock-fill__ticket">
               <span class="daily-left-stock-fill__eyebrow">这次不一样</span>
@@ -348,7 +340,7 @@
           </div>
         </div>
         <div class="daily-right-page" aria-hidden="true">
-          <img class="daily-right-vibe-sticker" src="images/vibe/vibe-9f2ffeefda81a1841f40adb3f225958e.gif" alt="" draggable="false" />
+          <img class="daily-right-vibe-sticker" data-lazy-src="images/vibe/vibe-9f2ffeefda81a1841f40adb3f225958e.gif" alt="" draggable="false" loading="lazy" decoding="async" />
           <div class="daily-right-terminal" aria-hidden="true">
             <div class="daily-right-terminal__bar">
               <span class="daily-right-terminal__dot"></span>
@@ -361,19 +353,19 @@
             <span class="daily-right-title">今日拾光</span>
           </div>
           <div class="daily-right-date-tape">09 · 2026</div>
-          <img class="daily-right-light-film" src="images/daily/daily-right-light-film-strip.png" alt="" draggable="false" />
-          <img class="daily-floating-study" src="images/daily/daily-floating-study.png" alt="" draggable="false" />
-          <img class="daily-right-card daily-right-card--walk" src="images/daily/daily-right-walk-card.png" alt="" draggable="false" />
-          <img class="daily-right-card daily-right-card--arch" src="images/daily/daily-right-arch-card.png" alt="" draggable="false" />
-          <img class="daily-right-card daily-right-card--film" src="images/daily/daily-right-film-card.png" alt="" draggable="false" />
+          <img class="daily-right-light-film" data-lazy-src="images/daily/daily-right-light-film-strip.png" alt="" draggable="false" loading="lazy" decoding="async" />
+          <img class="daily-floating-study" data-lazy-src="images/daily/daily-floating-study.png" alt="" draggable="false" loading="lazy" decoding="async" />
+          <img class="daily-right-card daily-right-card--walk" data-lazy-src="images/daily/daily-right-walk-card.png" alt="" draggable="false" loading="lazy" decoding="async" />
+          <img class="daily-right-card daily-right-card--arch" data-lazy-src="images/daily/daily-right-arch-card.png" alt="" draggable="false" loading="lazy" decoding="async" />
+          <img class="daily-right-card daily-right-card--film" data-lazy-src="images/daily/daily-right-film-card.png" alt="" draggable="false" loading="lazy" decoding="async" />
           <div class="daily-right-note">日将月就，学有缉熙于光明。</div>
           <div class="daily-right-tags">
             <span>WALK</span>
             <span>LIGHT</span>
             <span>FIRST WEEK</span>
           </div>
-          <img class="daily-right-stock-sticker daily-right-stock-sticker--capital" src="images/daily/daily-stock-capital-trap-sticker.png" alt="" draggable="false" />
-          <img class="daily-right-stock-sticker daily-right-stock-sticker--rider" src="images/daily/daily-stock-delivery-rider.png" alt="" draggable="false" />
+          <img class="daily-right-stock-sticker daily-right-stock-sticker--capital" data-lazy-src="images/daily/daily-stock-capital-trap-sticker.png" alt="" draggable="false" loading="lazy" decoding="async" />
+          <img class="daily-right-stock-sticker daily-right-stock-sticker--rider" data-lazy-src="images/daily/daily-stock-delivery-rider.png" alt="" draggable="false" loading="lazy" decoding="async" />
           <div class="daily-right-stock-copy" aria-hidden="true">
             <strong class="daily-right-stock-copy__title">事到如今，最对不起的还是家人</strong>
             <span class="daily-right-stock-copy__line"><span class="daily-right-stock-copy__emoji">&#129503;</span><span>我想起来了</span></span>
@@ -418,10 +410,10 @@
           </div>
         </div>
         <button class="daily-page-arrow daily-page-arrow--left" type="button" data-daily-flip="prev" aria-label="向前翻页">
-          <img src="images/daily/daily-arrow-right.png" alt="" draggable="false" />
+          <img data-lazy-src="images/daily/daily-arrow-right.png" alt="" draggable="false" loading="lazy" decoding="async" />
         </button>
         <button class="daily-page-arrow daily-page-arrow--right" type="button" data-daily-flip="next" aria-label="向后翻页">
-          <img src="images/daily/daily-arrow-right.png" alt="" draggable="false" />
+          <img data-lazy-src="images/daily/daily-arrow-right.png" alt="" draggable="false" loading="lazy" decoding="async" />
         </button>
       </div>
     </div>
@@ -445,22 +437,14 @@
   <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.13.0/ScrollTrigger.min.js"></script>
   <script type="application/json" id="about-card-runtime-config">{"src":"js/about-card-runtime.js"}</script>
 
-  <script src="vendor/jquery-1.12.4.min.js"></script>
-  <script src="vendor/turn.js"></script>
   <script src="js/data/music-tracks.generated.js"></script>
   <script src="js/apply-site-config.js"></script>
   <script src="js/home-music-runtime.js"></script>
+  <script src="js/resource-loader.js"></script>
   <script src="js/loader-runtime.js"></script>
   <script src="js/about-runtime.js"></script>
-  <script src="js/blog-runtime.js"></script>
-  <script src="js/daily-runtime.js"></script>
   <script src="js/navigation.js"></script>
   <script src="js/music-orb.js"></script>
-  <script src="js/interests-player.js"></script>
   <script src="js/about-card.js"></script>
-  <script src="vendor/lottie.min.js"></script>
-  <script src="js/travel-gallery-transition.js"></script>
-  <script src="js/data/travel-gallery-data.js"></script>
-  <script src="js/travel-world.js"></script>
 </body>
 </html>
