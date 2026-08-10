@@ -354,7 +354,6 @@
   let aboutRuntimeLoading = false;
   let aboutRuntimeLoaded = Boolean(aboutSection?.querySelector('.bits-lanyard, .lanyard-wrapper'));
   let aboutRuntimePromise = null;
-  let aboutRuntimeVersion = 0;
   let portfolioRuntimeLoaded = false;
 
   const getAboutLanyardElement = () => (
@@ -385,10 +384,9 @@
 
   const getAboutRuntimeScripts = () => {
     const fileMode = location.protocol === 'file:';
-    const version = aboutRuntimeVersion ? `?drop=${aboutRuntimeVersion}` : '';
     return fileMode
-      ? [{ src: `js/runtime/about-card-standalone.js${version}` }]
-      : [{ src: `js/runtime/about-card-module.js${version}`, type: 'module', crossOrigin: 'anonymous' }];
+      ? [{ src: 'js/runtime/about-card-standalone.js' }]
+      : [{ src: 'js/runtime/about-card-module.js', type: 'module', crossOrigin: 'anonymous' }];
   };
 
   const loadPortfolioRuntime = () => {
@@ -436,16 +434,9 @@
     aboutSection.classList.remove('lanyard-drop-active');
     if (!aboutRuntimeLoaded && !getAboutLanyardElement()) return;
 
-    const root = document.getElementById('identity-root');
-    if (root) {
-      const freshRoot = document.createElement('div');
-      freshRoot.id = root.id;
-      root.replaceWith(freshRoot);
-    }
-    aboutRuntimeLoaded = false;
+    aboutRuntimeLoaded = Boolean(getAboutLanyardElement());
     aboutRuntimeLoading = false;
     aboutRuntimePromise = null;
-    aboutRuntimeVersion += 1;
   };
 
   const setAboutLanyardActive = (active) => {
