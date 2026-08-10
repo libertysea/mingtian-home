@@ -2,12 +2,17 @@
   const loadedStyles = new Map();
   const loadedScripts = new Map();
   const loadedGroups = new Map();
+  const deferredOrder = ['interests', 'blog', 'travel', 'daily'];
+  let deferredQueueStarted = false;
+  let deferredQueuePromise = null;
 
   const resolveUrl = (url) => new URL(url, document.baseURI).href;
 
-  const loadStyle = (href) => {
+  const loadStyle = (style) => {
+    const href = typeof style === 'string' ? style : style.href;
+    const shouldReapply = Boolean(typeof style === 'object' && style.reapply);
     const key = resolveUrl(href);
-    if (loadedStyles.has(key)) return loadedStyles.get(key);
+    if (loadedStyles.has(key) && !shouldReapply) return loadedStyles.get(key);
 
     const existing = Array.from(document.querySelectorAll('link[rel="stylesheet"]'))
       .find((link) => resolveUrl(link.getAttribute('href')) === key);
@@ -17,6 +22,7 @@
       const finish = () => resolve(true);
 
       if (existing?.sheet) {
+        if (shouldReapply) document.head.appendChild(existing);
         resolve(true);
         return;
       }
@@ -28,10 +34,12 @@
         link.rel = 'stylesheet';
         link.href = href;
         document.head.appendChild(link);
+      } else if (shouldReapply) {
+        document.head.appendChild(link);
       }
     });
 
-    loadedStyles.set(key, promise);
+    if (!shouldReapply) loadedStyles.set(key, promise);
     return promise;
   };
 
@@ -130,6 +138,53 @@
     return Promise.all(waits);
   };
 
+  const getAboutRuntimeScripts = () => (
+    location.protocol === 'file:'
+      ? [{ src: 'js/runtime/about-card-standalone.js' }]
+      : [{ src: 'js/runtime/about-card-module.js', type: 'module', crossOrigin: 'anonymous' }]
+  );
+
+  const waitForElement = (selector, timeoutMs = 4500) => {
+    const existing = document.querySelector(selector);
+    if (existing) return Promise.resolve(true);
+
+    return new Promise((resolve) => {
+      let settled = false;
+      const finish = (ok) => {
+        if (settled) return;
+        settled = true;
+        window.clearTimeout(timer);
+        observer.disconnect();
+        resolve(ok);
+      };
+      const observer = new MutationObserver(() => {
+        if (document.querySelector(selector)) finish(true);
+      });
+      const timer = window.setTimeout(() => finish(false), timeoutMs);
+      observer.observe(document.documentElement, { childList: true, subtree: true });
+    });
+  };
+
+  const waitForNextFrame = () => new Promise((resolve) => {
+    requestAnimationFrame(() => requestAnimationFrame(resolve));
+  });
+
+  const loadAboutCardCritical = () => getAboutRuntimeScripts().reduce(
+    (chain, spec) => chain.then(() => loadScript(spec.src, spec)),
+    Promise.resolve(true)
+  ).then(async () => {
+    if (typeof window.__renderAboutCardRuntime === 'function') {
+      window.__renderAboutCardRuntime();
+    }
+    await waitForElement('#about .lanyard-wrapper, #about .bits-lanyard');
+    await waitForNextFrame();
+    if (!document.getElementById('about')?.classList.contains('lanyard-drop-active')) {
+      window.__clearAboutCardRuntime?.();
+    }
+    document.documentElement.classList.add('about-card-critical-ready');
+    return true;
+  });
+
   const criticalPromise = Promise.all([
     loadStyle('css/site-fonts.css'),
     loadStyle('css/about-card-runtime.css'),
@@ -137,6 +192,7 @@
     loadStyle('css/about.css'),
     loadStyle('css/navigation.css'),
     loadStyle('css/music-orb.css'),
+    loadAboutCardCritical(),
     waitForImage(document.querySelector('.site-nav__brand img')),
     waitForImage(document.querySelector('.home-music-orb__disc img')),
     document.fonts?.ready?.then(() => true, () => false) || Promise.resolve(false)
@@ -161,6 +217,7 @@
       root: '#daily',
       styles: [
         'css/daily.css',
+        { href: 'css/page-layout.css', reapply: true },
         'css/ending.css'
       ],
       scripts: [
@@ -201,20 +258,34 @@
     return promise;
   };
 
+  const startDeferredQueue = () => {
+    if (deferredQueueStarted) return deferredQueuePromise;
+    deferredQueueStarted = true;
+    deferredQueuePromise = deferredOrder.reduce(
+      (chain, name) => chain.then(() => loadGroup(name)),
+      Promise.resolve(true)
+    );
+    return deferredQueuePromise;
+  };
+
   const observeGroups = () => {
     Object.entries(groups).forEach(([name, group]) => {
       const target = document.querySelector(group.root);
       if (!target) return;
 
       if (!('IntersectionObserver' in window)) {
-        window.addEventListener('load', () => loadGroup(name), { once: true });
+        window.addEventListener('load', startDeferredQueue, { once: true });
         return;
       }
 
       const observer = new IntersectionObserver((entries) => {
         if (!entries.some((entry) => entry.isIntersecting)) return;
         observer.disconnect();
-        loadGroup(name);
+        if (loadedGroups.has(name)) return;
+        const waitForPreviousGroups = deferredOrder
+          .slice(0, Math.max(0, deferredOrder.indexOf(name)))
+          .reduce((chain, previousName) => chain.then(() => loadGroup(previousName)), Promise.resolve(true));
+        waitForPreviousGroups.then(() => loadGroup(name));
       }, {
         rootMargin: '120% 0px',
         threshold: 0
@@ -226,6 +297,7 @@
 
   window.SiteResourceLoader = {
     loadGroup,
+    startDeferredQueue,
     revealMedia,
     waitForCritical: () => criticalPromise
   };
@@ -238,5 +310,8 @@
     }
   };
 
-  criticalPromise.then(startDeferredGroups, startDeferredGroups);
+  criticalPromise.then(() => {
+    startDeferredGroups();
+    startDeferredQueue();
+  }, startDeferredGroups);
 })();

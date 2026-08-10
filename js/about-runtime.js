@@ -369,7 +369,12 @@
   const loadRuntimeScript = (spec) => new Promise((resolve) => {
     const existing = document.querySelector(`script[src="${spec.src}"]`);
     if (existing) {
-      resolve(true);
+      if (existing.dataset.resourceLoaded === 'true' || typeof window.__renderAboutCardRuntime === 'function') {
+        resolve(true);
+        return;
+      }
+      existing.addEventListener('load', () => resolve(true), { once: true });
+      existing.addEventListener('error', () => resolve(false), { once: true });
       return;
     }
 
@@ -377,7 +382,10 @@
     script.src = spec.src;
     if (spec.type) script.type = spec.type;
     if (spec.crossOrigin) script.crossOrigin = spec.crossOrigin;
-    script.onload = () => resolve(true);
+    script.onload = () => {
+      script.dataset.resourceLoaded = 'true';
+      resolve(true);
+    };
     script.onerror = () => resolve(false);
     document.body.appendChild(script);
   });
@@ -438,7 +446,6 @@
   const resetAboutCardRuntime = () => {
     aboutSection.classList.remove('lanyard-drop-active');
     if (!aboutRuntimeLoaded && !getAboutLanyardElement()) return;
-
     if (typeof window.__clearAboutCardRuntime === 'function') {
       window.__clearAboutCardRuntime();
     }
@@ -566,7 +573,7 @@
     });
   };
 
-  setupMobileLongPressMode();
+  // Mobile long-press mode conflicts with the 3D lanyard pointer state.
 
   const projectsSection = document.getElementById('projects');
   if (projectsSection && 'IntersectionObserver' in window) {
