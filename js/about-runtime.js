@@ -403,7 +403,12 @@
   };
 
   const loadAboutCardRuntime = () => {
-    if (aboutRuntimeLoaded) return Promise.resolve(true);
+    if (aboutRuntimeLoaded) {
+      if (!getAboutLanyardElement() && typeof window.__renderAboutCardRuntime === 'function') {
+        window.__renderAboutCardRuntime();
+      }
+      return Promise.resolve(true);
+    }
     if (aboutRuntimeLoading && aboutRuntimePromise) return aboutRuntimePromise;
     aboutRuntimeLoading = true;
 
@@ -434,7 +439,9 @@
     aboutSection.classList.remove('lanyard-drop-active');
     if (!aboutRuntimeLoaded && !getAboutLanyardElement()) return;
 
-    aboutRuntimeLoaded = Boolean(getAboutLanyardElement());
+    if (typeof window.__clearAboutCardRuntime === 'function') {
+      window.__clearAboutCardRuntime();
+    }
     aboutRuntimeLoading = false;
     aboutRuntimePromise = null;
   };
