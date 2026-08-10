@@ -6,7 +6,7 @@
       min-height: 720px;
       overflow: hidden;
       isolation: isolate;
-      scroll-snap-align: start;
+      scroll-snap-align: none;
       scroll-snap-stop: normal;
       color: #142b5f;
       background:

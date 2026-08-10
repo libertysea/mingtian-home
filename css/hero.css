@@ -90,7 +90,7 @@
       --hero-video-scale: 1;
       background: #000;
       overflow: hidden;
-      scroll-snap-align: start;
+      scroll-snap-align: none;
       scroll-snap-stop: normal;
     }
 
