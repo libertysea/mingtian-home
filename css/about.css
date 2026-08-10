@@ -1095,6 +1095,15 @@
     touch-action: pan-y;
   }
 
+  .identity-lanyard-pane .lanyard-wrapper {
+    width: 100vw !important;
+    margin-left: calc((100% - 100vw) / 2) !important;
+  }
+
+  .identity-lanyard-pane canvas {
+    width: 100vw !important;
+  }
+
   .identity-section.is-mobile-lanyard-hold .identity-lanyard-pane,
   .identity-section.is-mobile-lanyard-hold .identity-lanyard-pane .bits-lanyard,
   .identity-section.is-mobile-lanyard-hold .identity-lanyard-pane .lanyard-wrapper {

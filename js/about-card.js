@@ -271,12 +271,23 @@
     return true;
   };
 
-  window.__rebuildAboutCardText = rebuild;
+  let rebuildFrame = 0;
+  const requestRebuild = () => {
+    if (rebuild()) return true;
+    if (rebuildFrame) return false;
 
-  const root = document.getElementById('identity-root');
+    rebuildFrame = requestAnimationFrame(() => {
+      rebuildFrame = 0;
+      rebuild();
+    });
+    return false;
+  };
+
+  window.__rebuildAboutCardText = requestRebuild;
+
   const observer = new MutationObserver(() => {
-    rebuild();
+    requestRebuild();
   });
-  if (root) observer.observe(root, { childList: true, subtree: true });
-  rebuild();
+  if (about) observer.observe(about, { childList: true, subtree: true });
+  requestRebuild();
 })();
