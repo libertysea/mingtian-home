@@ -13,7 +13,7 @@
   const loaderSettleMs = 760;
   const loaderHoldMs = 500;
   const loaderEraseMs = 180;
-  const maxCriticalWaitMs = 6000;
+  const maxCriticalWaitMs = 10000;
   const softCap = 92;
 
   const setProgress = (value) => {

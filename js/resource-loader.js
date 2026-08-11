@@ -112,6 +112,32 @@
     });
   };
 
+  const preloadImageUrl = (src) => new Promise((resolve) => {
+    const image = new Image();
+    const finish = (ok) => resolve(ok);
+
+    image.decoding = 'async';
+    image.onload = () => {
+      if (typeof image.decode === 'function') {
+        image.decode().then(() => finish(true), () => finish(true));
+      } else {
+        finish(true);
+      }
+    };
+    image.onerror = () => finish(false);
+    image.src = src;
+  });
+
+  const preloadFetchUrl = (src) => (
+    fetch(src, { cache: 'force-cache' }).then((response) => response.ok, () => false)
+  );
+
+  const preloadAboutCardAssets = () => Promise.all([
+    preloadImageUrl('images/about/about-card-front.png'),
+    preloadImageUrl('images/about/about-card-back.png'),
+    preloadFetchUrl('models/about-card.glb')
+  ]);
+
   const revealMedia = (root) => {
     const scope = typeof root === 'string' ? document.querySelector(root) : root;
     if (!scope) return Promise.resolve([]);
@@ -211,21 +237,22 @@
     });
   };
 
-  const loadAboutCardCritical = () => getAboutRuntimeScripts().reduce(
-    (chain, spec) => chain.then(() => loadScript(spec.src, spec)),
-    Promise.resolve(true)
-  ).then(async () => {
-    if (typeof window.__renderAboutCardRuntime === 'function') {
-      window.__renderAboutCardRuntime();
-    }
-    await waitForAboutCardFirstFrame();
-    await waitForNextFrame();
-    if (!document.getElementById('about')?.classList.contains('lanyard-drop-active')) {
-      window.__clearAboutCardRuntime?.();
-    }
-    document.documentElement.classList.add('about-card-critical-ready');
-    return true;
-  });
+  const loadAboutCardCritical = () => {
+    const assetsPromise = preloadAboutCardAssets();
+    return getAboutRuntimeScripts().reduce(
+      (chain, spec) => chain.then(() => loadScript(spec.src, spec)),
+      Promise.resolve(true)
+    ).then(async () => {
+      await assetsPromise;
+      if (typeof window.__renderAboutCardRuntime === 'function') {
+        window.__renderAboutCardRuntime();
+      }
+      await waitForAboutCardFirstFrame();
+      await waitForNextFrame();
+      document.documentElement.classList.add('about-card-critical-ready');
+      return true;
+    });
+  };
 
   const criticalPromise = Promise.all([
     loadStyle('css/site-fonts.css'),
