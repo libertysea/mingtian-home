@@ -1,6 +1,8 @@
-import { readdir, rename, mkdir, writeFile, readFile } from 'node:fs/promises';
+import { readdir, rename, mkdir, writeFile, readFile, stat, rm } from 'node:fs/promises';
+import { execFile } from 'node:child_process';
 import path from 'node:path';
 import { fileURLToPath } from 'node:url';
+import { promisify } from 'node:util';
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
 const projectRoot = path.resolve(__dirname, '..');
@@ -13,6 +15,7 @@ const travelDataFile = path.join(projectRoot, 'js', 'data', 'travel-gallery-data
 const siteFontsFile = path.join(projectRoot, 'css', 'site-fonts.css');
 const outputDir = path.join(projectRoot, 'script-output');
 const manifestFile = path.join(outputDir, 'site-assets-manifest.json');
+const execFileAsync = promisify(execFile);
 
 const imageExts = new Set(['.jpg', '.jpeg', '.png', '.webp', '.gif']);
 const collator = new Intl.Collator('zh-Hans-CN', { numeric: true, sensitivity: 'base' });
@@ -170,53 +173,165 @@ function fontFace(family, file, options = {}) {
   ].join('\n');
 }
 
-async function buildSiteFonts() {
+function uniqueChars(value) {
+  return [...new Set(Array.from(String(value || '')))].join('');
+}
+
+function collectText(value) {
+  if (value == null) return '';
+  if (typeof value === 'string' || typeof value === 'number' || typeof value === 'boolean') {
+    return String(value);
+  }
+  if (Array.isArray(value)) return value.map(collectText).join('\n');
+  if (typeof value === 'object') return Object.values(value).map(collectText).join('\n');
+  return '';
+}
+
+async function fileSize(file) {
+  try {
+    return (await stat(path.join(projectRoot, file))).size;
+  } catch {
+    return 0;
+  }
+}
+
+async function subsetFont(sourceFile, outputFile, text) {
+  const sourcePath = path.join(projectRoot, sourceFile);
+  const outputPath = path.join(projectRoot, outputFile);
+  const textFile = path.join(outputDir, path.basename(outputFile, path.extname(outputFile)) + '.chars.txt');
+
+  await mkdir(path.dirname(outputPath), { recursive: true });
+  await mkdir(outputDir, { recursive: true });
+  await writeFile(textFile, uniqueChars(text), 'utf8');
+
+  await execFileAsync('pyftsubset', [
+    sourcePath,
+    '--text-file=' + textFile,
+    '--output-file=' + outputPath,
+    '--flavor=woff2',
+    '--layout-features=*',
+    '--glyph-names',
+    '--symbol-cmap',
+    '--legacy-cmap',
+    '--notdef-glyph',
+    '--notdef-outline',
+    '--recommended-glyphs',
+    '--name-IDs=*',
+    '--name-legacy',
+    '--name-languages=*',
+  ], { cwd: projectRoot, windowsHide: true });
+
+  return {
+    source: sourceFile,
+    output: outputFile,
+    sourceBytes: await fileSize(sourceFile),
+    outputBytes: await fileSize(outputFile),
+    characters: uniqueChars(text).length,
+  };
+}
+
+async function cleanGeneratedFonts(keepFiles) {
+  const generatedDir = path.join(projectRoot, 'fonts', 'generated');
+  const keep = new Set(keepFiles.map((file) => path.basename(file)));
+  keep.add('inter-latin.woff2');
+
+  const entries = await readdir(generatedDir, { withFileTypes: true });
+  let removed = 0;
+
+  for (const entry of entries) {
+    if (!entry.isFile() || keep.has(entry.name)) {
+      continue;
+    }
+
+    await rm(path.join(generatedDir, entry.name), { force: true });
+    removed += 1;
+  }
+
+  return removed;
+}
+
+async function buildSiteFonts(config, rawConfigText) {
+  const indexText = await readFile(path.join(projectRoot, 'index.html'), 'utf8');
+  const fixedUiText = [
+    'Per Aspera Ad Astra.',
+    '循此苦旅 · 终抵繁星',
+    '未完待續',
+    'TO BE CONTINUED',
+    '我们的征途是星辰大海！',
+    '鲁ICP备2023001803号',
+    '© 2026 明天',
+    '关于 作品 兴趣 博客 旅行 日常 音乐 群青 明天',
+  ].join('\n');
+  const subsetText = [
+    rawConfigText,
+    collectText(config),
+    indexText.replace(/<script[\s\S]*?<\/script>/g, ''),
+    fixedUiText,
+  ].join('\n');
+
+  const subsetResults = [];
+  for (const [source, output] of [
+    ['fonts/source/segoe-script.ttf', 'fonts/generated/segoe-script-subset.woff2'],
+    ['fonts/source/ma-shan-zheng-regular.ttf', 'fonts/generated/ma-shan-zheng-subset.woff2'],
+    ['fonts/source/stzhongsong-bold.ttf', 'fonts/generated/stzhongsong-bold-subset.woff2'],
+    ['fonts/source/source-han-serif-sc-heavy.ttf', 'fonts/generated/source-han-serif-sc-heavy-subset.woff2'],
+    ['fonts/source/georgia.ttf', 'fonts/generated/georgia-subset.woff2'],
+    ['fonts/source/georgia-bold.ttf', 'fonts/generated/georgia-bold-subset.woff2'],
+    ['fonts/source/arial-narrow-regular.ttf', 'fonts/generated/arial-narrow-regular-subset.woff2'],
+    ['fonts/source/arial-narrow-bold.ttf', 'fonts/generated/arial-narrow-bold-subset.woff2'],
+  ]) {
+    subsetResults.push(await subsetFont(source, output, subsetText));
+  }
+  const removedGeneratedFonts = await cleanGeneratedFonts(subsetResults.map((item) => item.output));
+
   const fonts = [
     {
       family: 'Mingtian Hand Latin',
-      file: 'fonts/segoe-script.ttf',
+      file: 'fonts/generated/segoe-script-subset.woff2',
       weight: '400 700',
+      display: 'block',
       aliases: ['Segoe Script'],
     },
     {
       family: 'Mingtian Brush SC',
-      file: 'fonts/ma-shan-zheng-regular.ttf',
+      file: 'fonts/generated/ma-shan-zheng-subset.woff2',
       weight: '400',
+      display: 'block',
       aliases: ['STXingkai', 'KaiTi', 'Kaiti SC', 'STKaiti', 'FZShuTi', 'LiSu', 'STXinwei', 'YouYuan', '华文新魏', '方正舒体'],
     },
     {
       family: 'Mingtian Ending Serif',
-      file: 'fonts/stzhongsong-bold.ttf',
+      file: 'fonts/generated/stzhongsong-bold-subset.woff2',
       weight: '700 900',
       aliases: ['STZhongsong'],
     },
     {
       family: 'Mingtian Continuation Heavy',
-      file: 'fonts/source-han-serif-sc-heavy.ttf',
+      file: 'fonts/generated/source-han-serif-sc-heavy-subset.woff2',
       weight: '800 900',
       aliases: [],
     },
     {
       family: 'Georgia',
-      file: 'fonts/georgia.ttf',
+      file: 'fonts/generated/georgia-subset.woff2',
       weight: '400',
       aliases: [],
     },
     {
       family: 'Georgia',
-      file: 'fonts/georgia-bold.ttf',
+      file: 'fonts/generated/georgia-bold-subset.woff2',
       weight: '700 800',
       aliases: [],
     },
     {
       family: 'Mingtian Ending Condensed',
-      file: 'fonts/arial-narrow-regular.ttf',
+      file: 'fonts/generated/arial-narrow-regular-subset.woff2',
       weight: '400',
       aliases: [],
     },
     {
       family: 'Mingtian Ending Condensed',
-      file: 'fonts/arial-narrow-bold.ttf',
+      file: 'fonts/generated/arial-narrow-bold-subset.woff2',
       weight: '700 800',
       aliases: [],
     },
@@ -234,11 +349,13 @@ async function buildSiteFonts() {
   for (const item of fonts) {
     faces.push(fontFace(item.family, item.file, {
       weight: item.weight,
+      display: item.display,
       format: item.file.endsWith('.woff2') ? 'woff2' : 'truetype',
     }));
     for (const alias of item.aliases || []) {
       faces.push(fontFace(alias, item.file, {
         weight: item.weight,
+        display: item.display,
         format: item.file.endsWith('.woff2') ? 'woff2' : 'truetype',
       }));
     }
@@ -251,6 +368,8 @@ async function buildSiteFonts() {
     file: slash(path.relative(projectRoot, siteFontsFile)),
     enabledFamilies: fonts.map((item) => item.family),
     sourceFiles: fonts.map((item) => item.file),
+    subsetResults,
+    removedGeneratedFonts,
     aliasCount: fonts.reduce((sum, item) => sum + (item.aliases || []).length, 0),
   };
 }
@@ -592,10 +711,11 @@ async function buildSitemap(config) {
   return { file: slash(path.relative(projectRoot, sitemapFile)), count: urls.length };
 }
 
-const config = parseYaml(await readFile(configFile, 'utf8'));
+const rawConfigText = await readFile(configFile, 'utf8');
+const config = parseYaml(rawConfigText);
 
 const travel = await buildTravelGallery(config);
-const siteFonts = await buildSiteFonts();
+const siteFonts = await buildSiteFonts(config, rawConfigText);
 const siteConfig = await buildSiteConfig(config);
 const musicTracks = await buildMusicTracks(config);
 const robots = await buildRobots(config);

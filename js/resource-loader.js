@@ -169,6 +169,48 @@
     requestAnimationFrame(() => requestAnimationFrame(resolve));
   });
 
+  const delay = (ms) => new Promise((resolve) => {
+    window.setTimeout(resolve, ms);
+  });
+
+  const waitForAboutCardFirstFrame = async (timeoutMs = 6000) => {
+    const startedAt = performance.now();
+    await waitForElement('#about .lanyard-wrapper, #about .bits-lanyard', timeoutMs);
+
+    return new Promise((resolve) => {
+      let stableFrames = 0;
+
+      const check = () => {
+        const root = document.querySelector('#about .lanyard-wrapper, #about .bits-lanyard');
+        const canvas = document.querySelector('#about canvas');
+        const target = canvas || root;
+        const rect = target?.getBoundingClientRect();
+        const hasBox = Boolean(rect && rect.width > 20 && rect.height > 20);
+        const canvasReady = !canvas || (canvas.width > 0 && canvas.height > 0);
+        const visible = Boolean(target && getComputedStyle(target).visibility !== 'hidden');
+
+        if (hasBox && canvasReady && visible) {
+          stableFrames += 1;
+          if (stableFrames >= 3) {
+            resolve(true);
+            return;
+          }
+        } else {
+          stableFrames = 0;
+        }
+
+        if (performance.now() - startedAt > timeoutMs) {
+          resolve(false);
+          return;
+        }
+
+        requestAnimationFrame(check);
+      };
+
+      requestAnimationFrame(check);
+    });
+  };
+
   const loadAboutCardCritical = () => getAboutRuntimeScripts().reduce(
     (chain, spec) => chain.then(() => loadScript(spec.src, spec)),
     Promise.resolve(true)
@@ -176,7 +218,7 @@
     if (typeof window.__renderAboutCardRuntime === 'function') {
       window.__renderAboutCardRuntime();
     }
-    await waitForElement('#about .lanyard-wrapper, #about .bits-lanyard');
+    await waitForAboutCardFirstFrame();
     await waitForNextFrame();
     if (!document.getElementById('about')?.classList.contains('lanyard-drop-active')) {
       window.__clearAboutCardRuntime?.();
@@ -246,13 +288,12 @@
     const group = groups[name];
     if (!group) return Promise.resolve(false);
 
-    const promise = Promise.all([
-      ...group.styles.map(loadStyle),
-      revealMedia(group.root)
-    ]).then(() => group.scripts.reduce(
+    const stylesPromise = Promise.all(group.styles.map(loadStyle));
+    const mediaPromise = revealMedia(group.root);
+    const promise = stylesPromise.then(() => group.scripts.reduce(
       (chain, script) => chain.then(() => loadScript(script)),
       Promise.resolve(true)
-    ));
+    )).then(() => mediaPromise);
 
     loadedGroups.set(name, promise);
     return promise;
@@ -261,9 +302,8 @@
   const startDeferredQueue = () => {
     if (deferredQueueStarted) return deferredQueuePromise;
     deferredQueueStarted = true;
-    deferredQueuePromise = deferredOrder.reduce(
-      (chain, name) => chain.then(() => loadGroup(name)),
-      Promise.resolve(true)
+    deferredQueuePromise = Promise.all(
+      deferredOrder.map((name, index) => delay(index * 350).then(() => loadGroup(name)))
     );
     return deferredQueuePromise;
   };
@@ -282,10 +322,7 @@
         if (!entries.some((entry) => entry.isIntersecting)) return;
         observer.disconnect();
         if (loadedGroups.has(name)) return;
-        const waitForPreviousGroups = deferredOrder
-          .slice(0, Math.max(0, deferredOrder.indexOf(name)))
-          .reduce((chain, previousName) => chain.then(() => loadGroup(previousName)), Promise.resolve(true));
-        waitForPreviousGroups.then(() => loadGroup(name));
+        loadGroup(name);
       }, {
         rootMargin: '120% 0px',
         threshold: 0

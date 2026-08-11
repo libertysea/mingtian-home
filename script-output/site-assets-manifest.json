@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-08-09T02:01:53.072Z",
+  "generatedAt": "2026-08-11T03:15:25.614Z",
   "configFile": "site.config.yaml",
   "siteFonts": {
     "file": "css/site-fonts.css",
@@ -14,15 +14,74 @@
       "Mingtian Ending Condensed"
     ],
     "sourceFiles": [
-      "fonts/segoe-script.ttf",
-      "fonts/ma-shan-zheng-regular.ttf",
-      "fonts/stzhongsong-bold.ttf",
-      "fonts/source-han-serif-sc-heavy.ttf",
-      "fonts/georgia.ttf",
-      "fonts/georgia-bold.ttf",
-      "fonts/arial-narrow-regular.ttf",
-      "fonts/arial-narrow-bold.ttf"
+      "fonts/generated/segoe-script-subset.woff2",
+      "fonts/generated/ma-shan-zheng-subset.woff2",
+      "fonts/generated/stzhongsong-bold-subset.woff2",
+      "fonts/generated/source-han-serif-sc-heavy-subset.woff2",
+      "fonts/generated/georgia-subset.woff2",
+      "fonts/generated/georgia-bold-subset.woff2",
+      "fonts/generated/arial-narrow-regular-subset.woff2",
+      "fonts/generated/arial-narrow-bold-subset.woff2"
     ],
+    "subsetResults": [
+      {
+        "source": "fonts/source/segoe-script.ttf",
+        "output": "fonts/generated/segoe-script-subset.woff2",
+        "sourceBytes": 620204,
+        "outputBytes": 92648,
+        "characters": 579
+      },
+      {
+        "source": "fonts/source/ma-shan-zheng-regular.ttf",
+        "output": "fonts/generated/ma-shan-zheng-subset.woff2",
+        "sourceBytes": 5857164,
+        "outputBytes": 204024,
+        "characters": 579
+      },
+      {
+        "source": "fonts/source/stzhongsong-bold.ttf",
+        "output": "fonts/generated/stzhongsong-bold-subset.woff2",
+        "sourceBytes": 10218864,
+        "outputBytes": 101980,
+        "characters": 579
+      },
+      {
+        "source": "fonts/source/source-han-serif-sc-heavy.ttf",
+        "output": "fonts/generated/source-han-serif-sc-heavy-subset.woff2",
+        "sourceBytes": 2525144,
+        "outputBytes": 81860,
+        "characters": 579
+      },
+      {
+        "source": "fonts/source/georgia.ttf",
+        "output": "fonts/generated/georgia-subset.woff2",
+        "sourceBytes": 142936,
+        "outputBytes": 19788,
+        "characters": 579
+      },
+      {
+        "source": "fonts/source/georgia-bold.ttf",
+        "output": "fonts/generated/georgia-bold-subset.woff2",
+        "sourceBytes": 207476,
+        "outputBytes": 30992,
+        "characters": 579
+      },
+      {
+        "source": "fonts/source/arial-narrow-regular.ttf",
+        "output": "fonts/generated/arial-narrow-regular-subset.woff2",
+        "sourceBytes": 175956,
+        "outputBytes": 20868,
+        "characters": 579
+      },
+      {
+        "source": "fonts/source/arial-narrow-bold.ttf",
+        "output": "fonts/generated/arial-narrow-bold-subset.woff2",
+        "sourceBytes": 178864,
+        "outputBytes": 21508,
+        "characters": 579
+      }
+    ],
+    "removedGeneratedFonts": 0,
     "aliasCount": 12
   },
   "siteConfig": {

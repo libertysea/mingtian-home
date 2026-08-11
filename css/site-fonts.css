@@ -6,111 +6,111 @@
 
 @font-face {
   font-family: "Mingtian Hand Latin";
-  src: url("../fonts/segoe-script.ttf") format("truetype");
+  src: url("../fonts/generated/segoe-script-subset.woff2") format("woff2");
   font-weight: 400 700;
   font-style: normal;
-  font-display: swap;
+  font-display: block;
 }
 
 @font-face {
   font-family: "Segoe Script";
-  src: url("../fonts/segoe-script.ttf") format("truetype");
+  src: url("../fonts/generated/segoe-script-subset.woff2") format("woff2");
   font-weight: 400 700;
   font-style: normal;
-  font-display: swap;
+  font-display: block;
 }
 
 @font-face {
   font-family: "Mingtian Brush SC";
-  src: url("../fonts/ma-shan-zheng-regular.ttf") format("truetype");
+  src: url("../fonts/generated/ma-shan-zheng-subset.woff2") format("woff2");
   font-weight: 400;
   font-style: normal;
-  font-display: swap;
+  font-display: block;
 }
 
 @font-face {
   font-family: "STXingkai";
-  src: url("../fonts/ma-shan-zheng-regular.ttf") format("truetype");
+  src: url("../fonts/generated/ma-shan-zheng-subset.woff2") format("woff2");
   font-weight: 400;
   font-style: normal;
-  font-display: swap;
+  font-display: block;
 }
 
 @font-face {
   font-family: "KaiTi";
-  src: url("../fonts/ma-shan-zheng-regular.ttf") format("truetype");
+  src: url("../fonts/generated/ma-shan-zheng-subset.woff2") format("woff2");
   font-weight: 400;
   font-style: normal;
-  font-display: swap;
+  font-display: block;
 }
 
 @font-face {
   font-family: "Kaiti SC";
-  src: url("../fonts/ma-shan-zheng-regular.ttf") format("truetype");
+  src: url("../fonts/generated/ma-shan-zheng-subset.woff2") format("woff2");
   font-weight: 400;
   font-style: normal;
-  font-display: swap;
+  font-display: block;
 }
 
 @font-face {
   font-family: "STKaiti";
-  src: url("../fonts/ma-shan-zheng-regular.ttf") format("truetype");
+  src: url("../fonts/generated/ma-shan-zheng-subset.woff2") format("woff2");
   font-weight: 400;
   font-style: normal;
-  font-display: swap;
+  font-display: block;
 }
 
 @font-face {
   font-family: "FZShuTi";
-  src: url("../fonts/ma-shan-zheng-regular.ttf") format("truetype");
+  src: url("../fonts/generated/ma-shan-zheng-subset.woff2") format("woff2");
   font-weight: 400;
   font-style: normal;
-  font-display: swap;
+  font-display: block;
 }
 
 @font-face {
   font-family: "LiSu";
-  src: url("../fonts/ma-shan-zheng-regular.ttf") format("truetype");
+  src: url("../fonts/generated/ma-shan-zheng-subset.woff2") format("woff2");
   font-weight: 400;
   font-style: normal;
-  font-display: swap;
+  font-display: block;
 }
 
 @font-face {
   font-family: "STXinwei";
-  src: url("../fonts/ma-shan-zheng-regular.ttf") format("truetype");
+  src: url("../fonts/generated/ma-shan-zheng-subset.woff2") format("woff2");
   font-weight: 400;
   font-style: normal;
-  font-display: swap;
+  font-display: block;
 }
 
 @font-face {
   font-family: "YouYuan";
-  src: url("../fonts/ma-shan-zheng-regular.ttf") format("truetype");
+  src: url("../fonts/generated/ma-shan-zheng-subset.woff2") format("woff2");
   font-weight: 400;
   font-style: normal;
-  font-display: swap;
+  font-display: block;
 }
 
 @font-face {
   font-family: "华文新魏";
-  src: url("../fonts/ma-shan-zheng-regular.ttf") format("truetype");
+  src: url("../fonts/generated/ma-shan-zheng-subset.woff2") format("woff2");
   font-weight: 400;
   font-style: normal;
-  font-display: swap;
+  font-display: block;
 }
 
 @font-face {
   font-family: "方正舒体";
-  src: url("../fonts/ma-shan-zheng-regular.ttf") format("truetype");
+  src: url("../fonts/generated/ma-shan-zheng-subset.woff2") format("woff2");
   font-weight: 400;
   font-style: normal;
-  font-display: swap;
+  font-display: block;
 }
 
 @font-face {
   font-family: "Mingtian Ending Serif";
-  src: url("../fonts/stzhongsong-bold.ttf") format("truetype");
+  src: url("../fonts/generated/stzhongsong-bold-subset.woff2") format("woff2");
   font-weight: 700 900;
   font-style: normal;
   font-display: swap;
@@ -118,7 +118,7 @@
 
 @font-face {
   font-family: "STZhongsong";
-  src: url("../fonts/stzhongsong-bold.ttf") format("truetype");
+  src: url("../fonts/generated/stzhongsong-bold-subset.woff2") format("woff2");
   font-weight: 700 900;
   font-style: normal;
   font-display: swap;
@@ -126,7 +126,7 @@
 
 @font-face {
   font-family: "Mingtian Continuation Heavy";
-  src: url("../fonts/source-han-serif-sc-heavy.ttf") format("truetype");
+  src: url("../fonts/generated/source-han-serif-sc-heavy-subset.woff2") format("woff2");
   font-weight: 800 900;
   font-style: normal;
   font-display: swap;
@@ -134,7 +134,7 @@
 
 @font-face {
   font-family: "Georgia";
-  src: url("../fonts/georgia.ttf") format("truetype");
+  src: url("../fonts/generated/georgia-subset.woff2") format("woff2");
   font-weight: 400;
   font-style: normal;
   font-display: swap;
@@ -142,7 +142,7 @@
 
 @font-face {
   font-family: "Georgia";
-  src: url("../fonts/georgia-bold.ttf") format("truetype");
+  src: url("../fonts/generated/georgia-bold-subset.woff2") format("woff2");
   font-weight: 700 800;
   font-style: normal;
   font-display: swap;
@@ -150,7 +150,7 @@
 
 @font-face {
   font-family: "Mingtian Ending Condensed";
-  src: url("../fonts/arial-narrow-regular.ttf") format("truetype");
+  src: url("../fonts/generated/arial-narrow-regular-subset.woff2") format("woff2");
   font-weight: 400;
   font-style: normal;
   font-display: swap;
@@ -158,7 +158,7 @@
 
 @font-face {
   font-family: "Mingtian Ending Condensed";
-  src: url("../fonts/arial-narrow-bold.ttf") format("truetype");
+  src: url("../fonts/generated/arial-narrow-bold-subset.woff2") format("woff2");
   font-weight: 700 800;
   font-style: normal;
   font-display: swap;

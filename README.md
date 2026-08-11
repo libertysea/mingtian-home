@@ -47,7 +47,8 @@ mingtian-home/
 ├─ videos/                   视频资源
 ├─ music/                    本地音乐与网络音乐元数据
 ├─ models/                   3D 模型资源
-├─ fonts/                    字体资源
+├─ fonts/source/             原始字体文件
+├─ fonts/generated/          脚本生成的运行时字体子集
 ├─ vendor/                   本地第三方依赖
 ├─ robots.txt                搜索引擎规则
 └─ sitemap.xml               站点地图
