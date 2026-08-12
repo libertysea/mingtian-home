@@ -445,6 +445,7 @@
 
   const resetAboutCardRuntime = () => {
     aboutSection.classList.remove('lanyard-drop-active');
+    if (!document.documentElement.classList.contains('about-card-critical-ready')) return;
     if (!aboutRuntimeLoaded && !getAboutLanyardElement()) return;
     if (typeof window.__clearAboutCardRuntime === 'function') {
       window.__clearAboutCardRuntime();
@@ -469,7 +470,12 @@
     }
     aboutLanyardActive = active;
     aboutSection.classList.add('lanyard-drop-active');
-    loadAboutCardRuntime();
+    const hadPrewarmedLanyard = Boolean(getAboutLanyardElement());
+    loadAboutCardRuntime().then(() => {
+      if (aboutLanyardActive && hadPrewarmedLanyard && typeof window.__renderAboutCardRuntime === 'function') {
+        window.__renderAboutCardRuntime();
+      }
+    });
   };
 
   const updateAboutLanyardByScroll = () => {

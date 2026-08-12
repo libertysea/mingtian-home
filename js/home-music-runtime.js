@@ -27,6 +27,13 @@
   let homeMusicGestureUnlocked = false;
   let homeMusicGestureUnlocking = false;
   let homeMusicExternalTrack = null;
+  let homeMusicCoverObserver = null;
+  let resolveHomeMusicBufferReady = null;
+  let homeMusicBufferReady = false;
+
+  window.HomeMusicBufferReady = new Promise((resolve) => {
+    resolveHomeMusicBufferReady = resolve;
+  });
 
   const homeMusicFallbackTrack = {
     id: 'local-yoasobi-gunjou',
@@ -101,7 +108,11 @@
       const image = button.querySelector('img');
       const title = button.querySelector('.home-music-panel__item-title');
       const artist = button.querySelector('.home-music-panel__item-artist');
-      if (image) image.src = item.cover || '';
+      if (image) {
+        image.loading = 'lazy';
+        image.decoding = 'async';
+        image.dataset.src = item.cover || '';
+      }
       if (title) title.textContent = item.title || 'Unknown';
       if (artist) artist.textContent = item.artist || 'Unknown artist';
       button.addEventListener('click', () => playHomeMusicTrack(index, true));
@@ -110,7 +121,52 @@
     homeMusicList.querySelector('.home-music-panel__item.is-current')?.scrollIntoView({
       block: 'nearest'
     });
+    observeHomeMusicCovers();
     homeMusicPanelRendered = true;
+  };
+
+  const loadHomeMusicCover = (image) => {
+    if (!(image instanceof HTMLImageElement) || !image.dataset.src) return;
+    image.src = image.dataset.src;
+    image.removeAttribute('data-src');
+    homeMusicCoverObserver?.unobserve(image);
+  };
+
+  const observeHomeMusicCovers = () => {
+    if (!homeMusicList) return;
+    const images = Array.from(homeMusicList.querySelectorAll('img[data-src]'));
+    if (!('IntersectionObserver' in window)) {
+      images.forEach(loadHomeMusicCover);
+      return;
+    }
+    homeMusicCoverObserver?.disconnect();
+    homeMusicCoverObserver = new IntersectionObserver((entries) => {
+      entries.forEach((entry) => {
+        if (entry.isIntersecting) loadHomeMusicCover(entry.target);
+      });
+    }, { root: homeMusicList, rootMargin: '160px 0px' });
+    images.forEach((image) => homeMusicCoverObserver.observe(image));
+  };
+
+  const updateHomeMusicBufferState = () => {
+    if (!homeMusicAudio) return;
+    const duration = Number.isFinite(homeMusicAudio.duration) ? homeMusicAudio.duration : 0;
+    const currentTime = homeMusicAudio.currentTime || 0;
+    const bufferedUntil = homeMusicAudio.buffered.length
+      ? homeMusicAudio.buffered.end(homeMusicAudio.buffered.length - 1)
+      : 0;
+    const target = duration ? Math.min(duration, Math.max(12, duration * 0.08)) : 12;
+    const hasStableBuffer = bufferedUntil - currentTime >= target || (duration && bufferedUntil >= duration - 0.25);
+    if (!homeMusicBufferReady && hasStableBuffer) {
+      homeMusicBufferReady = true;
+      resolveHomeMusicBufferReady?.(true);
+      window.dispatchEvent(new CustomEvent('home-music-buffer-ready'));
+    }
+  };
+
+  const setHomeMusicBuffering = (buffering) => {
+    homeMusicOrb?.classList.toggle('is-buffering', buffering);
+    document.documentElement.classList.toggle('home-music-buffering', buffering);
   };
 
   const updateHomeMusicProgress = () => {
@@ -278,6 +334,7 @@
 
   const primeHomeMusic = () => {
     if (!homeMusicAudio) return;
+    homeMusicAudio.preload = 'auto';
     try {
       homeMusicAudio.load();
     } catch {
@@ -321,6 +378,15 @@
     updateHomeMusicSync();
   });
   homeMusicAudio?.addEventListener('timeupdate', updateHomeMusicProgress);
+  homeMusicAudio?.addEventListener('progress', updateHomeMusicBufferState);
+  homeMusicAudio?.addEventListener('loadeddata', updateHomeMusicBufferState);
+  homeMusicAudio?.addEventListener('canplay', () => {
+    setHomeMusicBuffering(false);
+    updateHomeMusicBufferState();
+  });
+  homeMusicAudio?.addEventListener('playing', () => setHomeMusicBuffering(false));
+  homeMusicAudio?.addEventListener('waiting', () => setHomeMusicBuffering(true));
+  homeMusicAudio?.addEventListener('stalled', () => setHomeMusicBuffering(true));
   homeMusicAudio?.addEventListener('loadedmetadata', updateHomeMusicProgress);
   homeMusicAudio?.addEventListener('durationchange', updateHomeMusicProgress);
   homeMusicAudio?.addEventListener('ended', () => void playHomeMusicTrack(homeMusicTrackIndex + 1, true));

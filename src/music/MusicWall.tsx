@@ -18,6 +18,7 @@ import {
 } from 'react';
 import type { Track, WallInstance, WallLayout } from './types';
 import { clamp } from './utils';
+import LazyCover from './LazyCover';
 
 interface MusicWallProps {
   tracks: Track[];
@@ -362,13 +363,9 @@ export default function MusicWall({
             >
               <div className="music-card__cover">
                 {track.cover ? (
-                  <img
+                  <LazyCover
                     src={track.cover}
                     alt={track.title}
-                    loading="lazy"
-                    decoding="async"
-                    draggable={false}
-                    referrerPolicy="no-referrer"
                   />
                 ) : null}
               </div>

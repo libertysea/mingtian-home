@@ -212,12 +212,33 @@
         const target = canvas || root;
         const rect = target?.getBoundingClientRect();
         const hasBox = Boolean(rect && rect.width > 20 && rect.height > 20);
-        const canvasReady = !canvas || (canvas.width > 0 && canvas.height > 0);
+        const canvasReady = Boolean(canvas && canvas.width > 0 && canvas.height > 0);
         const visible = Boolean(target && getComputedStyle(target).visibility !== 'hidden');
+        let hasRenderedPixels = false;
 
-        if (hasBox && canvasReady && visible) {
+        if (canvasReady) {
+          const gl = canvas.getContext('webgl2') || canvas.getContext('webgl');
+          if (gl) {
+            const sample = new Uint8Array(4);
+            const points = [
+              [0.5, 0.5], [0.5, 0.35], [0.5, 0.65],
+              [0.35, 0.55], [0.65, 0.55]
+            ];
+            hasRenderedPixels = points.some(([x, y]) => {
+              gl.readPixels(
+                Math.min(canvas.width - 1, Math.max(0, Math.floor(canvas.width * x))),
+                Math.min(canvas.height - 1, Math.max(0, Math.floor(canvas.height * y))),
+                1, 1, gl.RGBA, gl.UNSIGNED_BYTE, sample
+              );
+              return sample[3] > 0 && (sample[0] > 0 || sample[1] > 0 || sample[2] > 0);
+            });
+          }
+        }
+
+        if (hasBox && canvasReady && visible && hasRenderedPixels) {
           stableFrames += 1;
           if (stableFrames >= 3) {
+            window.dispatchEvent(new CustomEvent('about-card-first-frame'));
             resolve(true);
             return;
           }
@@ -315,12 +336,14 @@
     const group = groups[name];
     if (!group) return Promise.resolve(false);
 
-    const stylesPromise = Promise.all(group.styles.map(loadStyle));
-    const mediaPromise = revealMedia(group.root);
-    const promise = stylesPromise.then(() => group.scripts.reduce(
+    const musicBufferGate = Promise.race([
+      window.HomeMusicBufferReady || Promise.resolve(true),
+      delay(5000).then(() => false)
+    ]);
+    const promise = musicBufferGate.then(() => Promise.all(group.styles.map(loadStyle))).then(() => group.scripts.reduce(
       (chain, script) => chain.then(() => loadScript(script)),
       Promise.resolve(true)
-    )).then(() => mediaPromise);
+    )).then(() => revealMedia(group.root));
 
     loadedGroups.set(name, promise);
     return promise;
@@ -376,6 +399,9 @@
 
   criticalPromise.then(() => {
     startDeferredGroups();
-    startDeferredQueue();
+    Promise.race([
+      window.HomeMusicBufferReady || Promise.resolve(true),
+      delay(5000)
+    ]).then(startDeferredQueue);
   }, startDeferredGroups);
 })();

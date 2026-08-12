@@ -30,6 +30,7 @@ import {
 import { AnimatePresence, motion } from 'framer-motion';
 import { useEffect, useRef, useState, type ChangeEvent, type DragEvent } from 'react';
 import { createPortal } from 'react-dom';
+import LazyCover from './LazyCover';
 import type {
   AmbientEffect,
   BackgroundTheme,
@@ -142,7 +143,7 @@ export function LibraryPanel({
                     transition={{ duration: 0.18 }}
                   >
                     {track.cover ? (
-                      <img src={track.cover} alt="" loading="lazy" referrerPolicy="no-referrer" />
+                      <LazyCover src={track.cover} alt="" />
                     ) : (
                       <span className="music-library-item__placeholder"><Music2 aria-hidden="true" /></span>
                     )}

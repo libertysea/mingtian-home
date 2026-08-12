@@ -341,7 +341,7 @@ export default function MusicExperience({ onExit }: MusicExperienceProps) {
   useEffect(() => {
     const audio = window.SharedMusicAudio || new Audio();
     const sharedAudio = audio === window.SharedMusicAudio;
-    audio.preload = 'metadata';
+    audio.preload = 'auto';
     if (sharedAudio) setVolumeState(audio.volume);
     else audio.volume = volume;
     audioRef.current = audio;
