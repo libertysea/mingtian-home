@@ -260,13 +260,18 @@
   const renderDaily = (config) => {
     const daily = config.daily || {};
     const dailyBook = $('.daily-book');
-    setCssUrl(dailyBook, '--daily-book-binder-image', daily.book?.binder);
-    setCssUrl(dailyBook, '--daily-campus-left-bg', daily.campus?.background?.left);
-    setCssUrl(dailyBook, '--daily-campus-right-bg', daily.campus?.background?.right);
-    setCssUrl(dailyBook, '--daily-vibe-left-bg', daily.vibeCoding?.background?.left);
-    setCssUrl(dailyBook, '--daily-vibe-right-bg', daily.vibeCoding?.background?.right);
-    setCssUrl(dailyBook, '--daily-stock-left-bg', daily.stock?.background?.left);
-    setCssUrl(dailyBook, '--daily-stock-right-bg', daily.stock?.background?.right);
+    const dailyAssets = {
+      dailyBookBinder: daily.book?.binder,
+      dailyCampusLeftBg: daily.campus?.background?.left,
+      dailyCampusRightBg: daily.campus?.background?.right,
+      dailyVibeLeftBg: daily.vibeCoding?.background?.left,
+      dailyVibeRightBg: daily.vibeCoding?.background?.right,
+      dailyStockLeftBg: daily.stock?.background?.left,
+      dailyStockRightBg: daily.stock?.background?.right
+    };
+    Object.entries(dailyAssets).forEach(([key, value]) => {
+      if (dailyBook && value) dailyBook.dataset[key] = value;
+    });
     setText('.daily-title-date', daily.campus?.date);
     setText('.daily-title-main', daily.campus?.title);
     setText('.daily-title-tags', daily.campus?.tags);

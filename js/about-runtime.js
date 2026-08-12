@@ -586,6 +586,7 @@
     const portfolioObserver = new IntersectionObserver((entries) => {
       if (!entries.some((entry) => entry.isIntersecting)) return;
       portfolioObserver.disconnect();
+      window.SiteResourceLoader?.loadDailyPage?.(2);
       loadPortfolioRuntime();
     }, { rootMargin: '70% 0px', threshold: 0 });
 

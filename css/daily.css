@@ -207,13 +207,13 @@
     }
 
     .daily-book.is-computer-page .daily-left-page {
-      background-image: var(--daily-vibe-left-bg, url("../images/daily/daily-left-computer-skills-bg.png"));
+      background-image: var(--daily-vibe-left-bg, none);
       background-position: center;
       background-size: cover;
     }
 
     .daily-book.is-stock-page .daily-left-page {
-      background-image: var(--daily-stock-left-bg, url("../images/daily/daily-left-stock-line-bg.png"));
+      background-image: var(--daily-stock-left-bg, none);
       background-position: center;
       background-size: cover;
     }
@@ -1136,11 +1136,11 @@
     }
 
     .daily-book.is-computer-page .daily-right-page {
-      background-image: var(--daily-vibe-right-bg, url("../images/daily/daily-right-computer-page-bg.png"));
+      background-image: var(--daily-vibe-right-bg, none);
     }
 
     .daily-book.is-stock-page .daily-right-page {
-      background-image: var(--daily-stock-right-bg, url("../images/daily/daily-right-cloud-dashboard-bg.png"));
+      background-image: var(--daily-stock-right-bg, none);
     }
 
     .daily-book.is-computer-page .daily-right-page::before,

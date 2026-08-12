@@ -2,6 +2,7 @@
   const loadedStyles = new Map();
   const loadedScripts = new Map();
   const loadedGroups = new Map();
+  const loadedDailyPages = new Map();
   const deferredOrder = ['interests', 'blog', 'travel', 'daily'];
   let deferredQueueStarted = false;
   let deferredQueuePromise = null;
@@ -132,11 +133,75 @@
     fetch(src, { cache: 'force-cache' }).then((response) => response.ok, () => false)
   );
 
-  const preloadAboutCardAssets = () => Promise.all([
-    preloadImageUrl('images/about/about-card-front.png'),
-    preloadImageUrl('images/about/about-card-back.png'),
-    preloadFetchUrl('models/about-card.glb')
-  ]);
+  const dailyPageSelectors = {
+    1: [
+      '.daily-left-seal-sticker',
+      '.daily-left-card-sticker',
+      '.daily-left-coder-sticker',
+      '.daily-left-sticker',
+      '.daily-right-light-film',
+      '.daily-floating-study',
+      '.daily-right-card',
+      '.daily-page-arrow img'
+    ],
+    2: [
+      '.daily-left-vibe__comic',
+      '.daily-left-vibe__cloud',
+      '.daily-right-vibe-sticker'
+    ],
+    3: [
+      '.daily-left-stock-sticker',
+      '.daily-right-stock-sticker'
+    ]
+  };
+
+  const dailyPageBackgrounds = {
+    1: [
+      ['--daily-book-binder-image', 'dailyBookBinder'],
+      ['--daily-campus-left-bg', 'dailyCampusLeftBg'],
+      ['--daily-campus-right-bg', 'dailyCampusRightBg']
+    ],
+    2: [
+      ['--daily-vibe-left-bg', 'dailyVibeLeftBg'],
+      ['--daily-vibe-right-bg', 'dailyVibeRightBg']
+    ],
+    3: [
+      ['--daily-stock-left-bg', 'dailyStockLeftBg'],
+      ['--daily-stock-right-bg', 'dailyStockRightBg']
+    ]
+  };
+
+  const loadDailyPage = (page) => {
+    if (loadedDailyPages.has(page)) return loadedDailyPages.get(page);
+
+    const promise = Promise.resolve().then(() => {
+      const sourceBook = document.querySelector('#daily .daily-book:not(.daily-page-flip-state-preview)');
+      if (!sourceBook || !dailyPageSelectors[page]) return false;
+
+      dailyPageBackgrounds[page].forEach(([property, dataKey]) => {
+        const value = sourceBook.dataset[dataKey];
+        if (!value) return;
+        document.querySelectorAll('#daily .daily-book').forEach((book) => {
+          book.style.setProperty(property, `url("${resolveUrl(value)}")`);
+        });
+      });
+
+      const images = Array.from(document.querySelectorAll(
+        dailyPageSelectors[page].map((selector) => `#daily ${selector}`).join(',')
+      ));
+      return Promise.all(images.map((image) => {
+        const src = image.dataset.lazySrc;
+        if (src && !image.src) {
+          image.removeAttribute('data-lazy-src');
+          image.src = src;
+        }
+        return waitForImage(image);
+      }));
+    });
+
+    loadedDailyPages.set(page, promise);
+    return promise;
+  };
 
   const revealMedia = (root) => {
     const scope = typeof root === 'string' ? document.querySelector(root) : root;
@@ -258,13 +323,13 @@
     });
   };
 
-  const loadAboutCardCritical = () => {
-    const assetsPromise = preloadAboutCardAssets();
-    return getAboutRuntimeScripts().reduce(
+  const loadAboutCardRuntime = () => getAboutRuntimeScripts().reduce(
       (chain, spec) => chain.then(() => loadScript(spec.src, spec)),
       Promise.resolve(true)
-    ).then(async () => {
-      await assetsPromise;
+    );
+
+  const prepareAboutCardFirstFrame = (runtimePromise, assetsPromise) => (
+    Promise.all([runtimePromise, assetsPromise]).then(async () => {
       if (typeof window.__renderAboutCardRuntime === 'function') {
         window.__renderAboutCardRuntime();
       }
@@ -272,21 +337,65 @@
       await waitForNextFrame();
       document.documentElement.classList.add('about-card-critical-ready');
       return true;
-    });
-  };
+    })
+  );
 
-  const criticalPromise = Promise.all([
-    loadStyle('css/site-fonts.css'),
-    loadStyle('css/about-card-runtime.css'),
-    loadStyle('css/hero.css'),
-    loadStyle('css/about.css'),
-    loadStyle('css/navigation.css'),
-    loadStyle('css/music-orb.css'),
-    loadAboutCardCritical(),
-    waitForImage(document.querySelector('.site-nav__brand img')),
-    waitForImage(document.querySelector('.home-music-orb__disc img')),
-    document.fonts?.ready?.then(() => true, () => false) || Promise.resolve(false)
-  ]);
+  const aboutRuntimePromise = loadAboutCardRuntime();
+  const aboutFrontPromise = preloadImageUrl('images/about/about-card-front.png');
+  const aboutBackPromise = preloadImageUrl('images/about/about-card-back.png');
+  const aboutModelPromise = preloadFetchUrl('models/about-card.glb');
+  const aboutAssetsPromise = Promise.all([aboutFrontPromise, aboutBackPromise, aboutModelPromise]);
+  const aboutFirstFramePromise = prepareAboutCardFirstFrame(aboutRuntimePromise, aboutAssetsPromise);
+  const criticalTasks = [
+    { promise: loadStyle('css/site-fonts.css'), bytes: 4032 },
+    { promise: loadStyle('css/about-card-runtime.css'), bytes: 17561 },
+    { promise: loadStyle('css/hero.css'), bytes: 21131 },
+    { promise: loadStyle('css/about.css'), bytes: 37993 },
+    { promise: loadStyle('css/navigation.css'), bytes: 9795 },
+    { promise: loadStyle('css/music-orb.css'), bytes: 16473 },
+    { promise: aboutRuntimePromise, bytes: 3487386 },
+    { promise: aboutFrontPromise, bytes: 816998 },
+    { promise: aboutBackPromise, bytes: 683585 },
+    { promise: aboutModelPromise, bytes: 2421820 },
+    { promise: aboutFirstFramePromise, bytes: 65536 },
+    { promise: waitForVideo(document.getElementById('heroVideo')), bytes: 1361106 },
+    { promise: waitForImage(document.querySelector('.site-nav__brand img')), bytes: 983220 },
+    { promise: waitForImage(document.querySelector('.home-music-orb__disc img')), bytes: 19106 },
+    {
+      promise: document.fonts?.ready?.then(() => true, () => false) || Promise.resolve(false),
+      bytes: 622100
+    }
+  ];
+  const criticalProgress = {
+    completed: 0,
+    total: criticalTasks.length,
+    loadedBytes: 0,
+    totalBytes: criticalTasks.reduce((sum, task) => sum + task.bytes, 0)
+  };
+  const reportCriticalProgress = () => {
+    window.dispatchEvent(new CustomEvent('site:critical-progress', {
+      detail: {
+        ...criticalProgress,
+        progress: criticalProgress.totalBytes
+          ? criticalProgress.loadedBytes / criticalProgress.totalBytes
+          : 1
+      }
+    }));
+  };
+  const criticalPromise = Promise.all(criticalTasks.map((task) => Promise.resolve(task.promise).then(
+    (result) => {
+      criticalProgress.completed += 1;
+      criticalProgress.loadedBytes += task.bytes;
+      reportCriticalProgress();
+      return result;
+    },
+    () => {
+      criticalProgress.completed += 1;
+      criticalProgress.loadedBytes += task.bytes;
+      reportCriticalProgress();
+      return false;
+    }
+  )));
 
   const groups = {
     interests: {
@@ -340,10 +449,12 @@
       window.HomeMusicBufferReady || Promise.resolve(true),
       delay(5000).then(() => false)
     ]);
-    const promise = musicBufferGate.then(() => Promise.all(group.styles.map(loadStyle))).then(() => group.scripts.reduce(
+    const promise = musicBufferGate.then(() => Promise.all(group.styles.map(loadStyle))).then(() => (
+      name === 'daily' ? loadDailyPage(1) : true
+    )).then(() => group.scripts.reduce(
       (chain, script) => chain.then(() => loadScript(script)),
       Promise.resolve(true)
-    )).then(() => revealMedia(group.root));
+    )).then(() => name === 'daily' ? true : revealMedia(group.root));
 
     loadedGroups.set(name, promise);
     return promise;
@@ -380,12 +491,25 @@
 
       observer.observe(target);
     });
+
+    const daily = document.querySelector('#daily');
+    if (daily && 'IntersectionObserver' in window) {
+      const dailyEntryObserver = new IntersectionObserver((entries) => {
+        if (!entries.some((entry) => entry.isIntersecting)) return;
+        dailyEntryObserver.disconnect();
+        loadDailyPage(3);
+        if (window.matchMedia('(max-width: 760px)').matches) loadDailyPage(2);
+      }, { threshold: 0.1 });
+      dailyEntryObserver.observe(daily);
+    }
   };
 
   window.SiteResourceLoader = {
     loadGroup,
     startDeferredQueue,
     revealMedia,
+    loadDailyPage,
+    getCriticalProgress: () => ({ ...criticalProgress }),
     waitForCritical: () => criticalPromise
   };
 
